@@ -7,6 +7,17 @@ function ParseException(message) {
    this.name = "ParseException";
 }
 
+function format_date(date) {
+	var leading_zero = function(x) {
+		if (x < 10) {
+			return '0' + x;
+		} else {
+			return '' + x;
+		}
+	}
+	return leading_zero(date.day) + '.' + leading_zero(date.month) + '.' + date.year;
+}
+
 function parse_dates(v) {
 	var lines = v.split(/\n/);
 	return $.map(lines, function(line) {
@@ -78,13 +89,13 @@ function calc(input) {
 					'is_second_game_on_day': mu_index == 1,
 					'home_team': teams_by_char[matchup.home_team],
 					'away_team': teams_by_char[matchup.away_team],
-					'date_str': date.day + '.' + date.month + '.' + date.year,
+					'date_str': format_date(date),
 					'time_str': input.default_time,
 					'week_day': week_day
 				}
 			});
 			return $.extend({
-				'day_str': date.day + '.' + date.month + '.' + date.year,
+				'day_str': format_date(date),
 				'games': games,
 				'game_count': games.length,
 				'game_count_minus_one': games.length - 1
