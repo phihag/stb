@@ -39,6 +39,11 @@ input, textarea {
 	max-width: 1000px;
 	height: 2150px;
 }
+#output-files {
+	list-style-type: none;
+	margin: 0;
+	padding: 0 0 0 10px;
+}
 .outputs>* {
 	float: left;
 }

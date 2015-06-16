@@ -1,5 +1,3 @@
-write Spielplan
-	fix today
 print Spielplan
 implement xlsx
 xlsx icon

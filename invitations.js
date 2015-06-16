@@ -112,14 +112,18 @@ function on_change() {
 	var input = read_input();
 	var data = calc(input);
 
-	$('#output-invitations>*').remove();
-	$.each(input.teams, function(_, team) {
+	function _file_link(name, func) {
 		var li = $('<li>');
 		var a = $('<a>');
 		a.attr({'href': 'TODO'});
-		a.text('Heimspiele ' + team.name + '.xlsx');
+		a.text(name);
 		a.appendTo(li);
-		li.appendTo('#output-invitations');
+		li.appendTo('#output-files');
+	}
+	$('#output-files>*').remove();
+	_file_link('Spielplan_' + data.abbrev + '.html');
+	$.each(input.teams, function(_, team) {
+		_file_link('Heimspiele ' + team.name + '.xlsx');
 	});
 
 	if (!spielplan_template) {
