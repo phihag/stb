@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Spielplan {{league_name}} {{season_name}}</title>
+<style>
+body {
+	font-size: 18px;
+	font-family: 'Helvetica Neue', Helvetica, Arial;
+}
+
+
+.header {
+	font-size: 24px;
+	position: relative;
+	width: 100%; height: 51px;
+	margin: 0; padding: 0;
+	text-align: center;
+	display: relative;
+}
+.logo {position: absolute; left: 0; top: 0; height: 100%;}
+.overview {display: inline-flex; text-align: center; height: 100%;}
+.topright {
+	position: absolute; right: 0; top: 0;
+	height: 100%;
+	text-align: right;
+}
+
+table {
+	width: 100%;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	border-collapse: collapse;
+}
+table+.header{
+	page-break-before: always;
+}
+th {
+	padding: 5px 10px;
+	border: 1px solid black;
+}
+td {
+	padding: 5px 10px;
+	border: 1px solid black;
+}
+.versus {
+	min-width: 2em;
+	text-align: center;
+	border-right: none;
+	border-left: none;
+}
+.home_team {
+	text-align: left;
+	border-right: none;
+}
+.away_team {
+	text-align: left;
+	border-left: none;
+}
+
+
+.first_game_on_day td, .first_game_on_day th {
+	border-top: 3px solid black;
+}
+
+thead th {
+	font-weight: normal !important;
+	background: #ccffcc;
+	font-style: italic;
+}
+.weekday {
+	text-align: center;
+}
+th.num {
+	border-bottom: none;
+}
+th.day {
+	border-top: none;
+	font-weight: normal;
+	font-size: 80%;
+}
+th.day div {
+	transform: rotate(-90deg);
+	-webkit-transform: rotate(-90deg);
+}
+
+@media print {
+body {
+	font-size: 28px;
+}
+
+html {margin: 0; padding: 0;}
+body {
+	margin: 0;
+    padding: 0 1cm;
+}
+
+}
+</style>
+</head>
+<body>
+
+{{#rounds}}
+<div class="header">
+<img class="logo" src="blv-nrw.png" alt="BLV NRW"/>
+<div class="overview">{{league_name}}<br />{{season_name}}</div>
+<div class="topright"><span class="stb">{{stb}}</span><br /><span class="date">Stand {{today}}</span></div>
+</div>
+
+<table>
+<thead><tr>
+<th title="Spieltag / Verbandstermin">Spt./VT</th>
+<th class="weekday" title="Wochentag">WT</th>
+<th>Datum</th>
+<th>Zeit</th>
+<th class="home_team">Heim</th>
+<th class="versus"></th>
+<th class="away_team">Gast</th>
+</tr></thead>
+<tbody>
+{{#game_days}}
+{{#games}}
+<tr class="{{#is_first_game_on_day}}first_game_on_day{{/is_first_game_on_day}}">
+
+{{#is_first_game_on_day}}
+<th class="num">{{num_str}}</th>
+{{/is_first_game_on_day}}
+{{#is_second_game_on_day}}
+<th rowspan="{{game_count_minus_one}}" class="day">
+	<div>{{day_str}}</div>
+</th>
+{{/is_second_game_on_day}}
+
+<td class="weekday">{{week_day}}</td>
+<td>{{date_str}}</td>
+<td>{{time_str}}</td>
+<td class="home_team">{{#home_team}}{{name}}{{/home_team}}</td>
+<td class="versus">:</td>
+<td class="away_team">{{#away_team}}{{name}}{{/away_team}}</td>
+{{/games}}
+</tr>
+{{/game_days}}
+</tbody>
+
+</table>
+{{/rounds}}
+
+<p>
+Spt. = Spieltag<br/>
+VT = Verbandstermin bzw. Verbandsansetzung
+</p>
+
+</body>
+</html>

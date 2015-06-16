@@ -41,14 +41,18 @@ H 027 1.BC Beuel 3</textarea>
 	<label><span>Saison:</span><input id="season_name" /></label>
 	<label><span>Abkürzung:</span><input id="abbrev" /></label>
 	<label><span>StB:</span><input id="stb" /></label>
+	<label><span>Zeit:</span><input id="default_time" value="18:00" /></label>
 </fieldset>
 </div>
 
-<div id="output-plan"></div>
+<div class="outputs">
+<iframe id="output-spielplan"></iframe>
 
 <ul id="output-invitations"></ul>
+</div>
 
 <script src="libs/jquery.min.js"></script>
+<script src="libs/mustache.min.js"></script>
 <script src="invitations.js"></script>
 </body>
 </html>

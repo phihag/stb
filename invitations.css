@@ -32,3 +32,13 @@ input, textarea {
 	font-size: inherit;
 	padding: 4px 4px;
 }
+
+#output-spielplan {
+	border: none;
+	width: 100%;
+	max-width: 1000px;
+	height: 2150px;
+}
+.outputs>* {
+	float: left;
+}
