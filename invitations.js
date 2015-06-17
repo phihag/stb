@@ -108,22 +108,62 @@ function calc(input) {
 	return data;
 }
 
+function Workbook() {
+	if(!(this instanceof Workbook)) return new Workbook();
+	this.SheetNames = [];
+	this.Sheets = {};
+}
+
+function make_plan(team) {
+	var wb = new Workbook();
+	var ws = {};
+
+
+
+	
+	wb.SheetNames.push(team.name);
+	wb.Sheets[team.name] = ws;
+	return wb;
+}
+
+function write_plan(team, filename) {
+	var wb = make_plan(team);
+	var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+
+	function s2ab(s) {
+		var buf = new ArrayBuffer(s.length);
+		var view = new Uint8Array(buf);
+		for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+		return buf;
+	}
+	saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), filename);
+}
+
+var current_input;
 function on_change() {
-	var input = read_input();
-	var data = calc(input);
+	current_input = read_input();
+	var data = calc(current_input);
 
 	function _file_link(name, func) {
 		var li = $('<li>');
 		var a = $('<a>');
-		a.attr({'href': 'TODO'});
+		a.attr({'href': '#'});
+		a.on('click', function(e) {
+			e.preventDefault();
+			func();
+			return false;
+		});
 		a.text(name);
 		a.appendTo(li);
 		li.appendTo('#output-files');
 	}
 	$('#output-files>*').remove();
 	_file_link('Spielplan_' + data.abbrev + '.html');
-	$.each(input.teams, function(_, team) {
-		_file_link('Heimspiele ' + team.name + '.xlsx');
+	$.each(data.teams, function(_, team) {
+		var file_name = 'Heimspiele ' + team.name + '.xlsx';
+		_file_link(file_name, function() {
+			write_plan(team, file_name);
+		});
 	});
 
 	if (!spielplan_template) {
