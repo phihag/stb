@@ -407,13 +407,14 @@ function write_plan(team, filename) {
     var workbook = make_plan(team);
     var wbout = ExcelBuilder.createFile(workbook, {type: 'blob'});
 
-    function s2ab(s) {
-        var buf = new ArrayBuffer(s.length);
-        var view = new Uint8Array(buf);
-        for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-        return buf;
-    }
     saveAs(wbout, filename);
+}
+
+function write_overview(filename) {
+    var state = calc(current_input);
+    var spielplan_html = Mustache.render(spielplan_template, state);
+
+    saveAs(new Blob([spielplan_html], {type: "text/html;charset=utf-8"}), filename);
 }
 
 var current_input;
@@ -435,7 +436,10 @@ function on_change() {
         li.appendTo('#output-files');
     }
     $('#output-files>*').remove();
-    _file_link('Spielplan_' + state.abbrev + '.html');
+    var overview_fn = 'Spielplan_' + state.abbrev + '.html';
+    _file_link(overview_fn, function() {
+        write_overview(overview_fn);
+    });
     $.each(state.teams, function(_, team) {
         var file_name = 'Heimspiele ' + team.name + '.xlsx';
         _file_link(file_name, function() {
@@ -479,6 +483,7 @@ $.getJSON('presets.json', function(loaded_presets) {
         option.attr({value: preset_name});
         $('#load_preset').append(option);
     });
+    $('#load').submit();
 });
 
 $(function() {

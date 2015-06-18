@@ -1,4 +1,5 @@
 no iframe
+render Spielplan HTML
 print Spielplan
 render Spielplan PDF (with remote help?)
 download everything as zip
