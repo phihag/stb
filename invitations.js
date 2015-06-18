@@ -54,16 +54,13 @@ function parse_teams(v) {
     });
 }
 
+var _FIELDS = ['dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb', 'default_time'];
 function read_input() {
-    return {
-        "dates": parse_dates($('#dates').val()),
-        "teams": parse_teams($('#teams').val()),
-        "league_name": $('#league_name').val(),
-        "season_name": $('#season_name').val(),
-        "abbrev": $('#abbrev').val(),
-        "stb": $('#stb').val(),
-        "default_time": $('#default_time').val(),
-    }
+    var res = {};
+    $.each(_FIELDS, function(_, f) {
+        res[f] = $('#' + f).val();
+    });
+    return res;
 }
 
 function calc_home_games(team, state)  {
@@ -81,18 +78,20 @@ function calc_home_games(team, state)  {
 }
 
 function calc(input) {
-    var teams_by_char = {};
-    $.each(input.teams, function(_, team) {
-        teams_by_char[team.character] = team;
-    });
-
     var now = new Date();
     var state = $.extend({
-        'today': (now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear())
+        'today': (now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear()),
+        'dates': parse_dates(input.dates_in),
+        'teams': parse_teams(input.teams_in)
     }, input);
+
+    var teams_by_char = {};
+    $.each(state.teams, function(_, team) {
+        teams_by_char[team.character] = team;
+    });
     var rounds_dates = [
-        input.dates.slice(0, input.dates.length / 2),
-        input.dates.slice(input.dates.length / 2)
+        state.dates.slice(0, state.dates.length / 2),
+        state.dates.slice(state.dates.length / 2)
     ];
     state.rounds = $.map(rounds_dates, function(dates) {
         var game_days = $.map(dates, function(date) {
@@ -104,7 +103,7 @@ function calc(input) {
                     'home_team': teams_by_char[matchup.home_team],
                     'away_team': teams_by_char[matchup.away_team],
                     'date_str': format_date(date),
-                    'time_str': input.default_time,
+                    'time_str': state.default_time,
                     'week_day': week_day,
                     'daynum_str': date.num_str
                 }
@@ -353,7 +352,6 @@ function make_plan(team) {
     var content_format = stylesheet.createFormat($.extend(true, {}, content_formatdict));
     var content_formatdict_right = $.extend(true, {}, content_formatdict);
     content_formatdict_right.border.right = {color: 'FF000000', style: 'thin'};
-    console.log(content_formatdict_right);
     var content_format_right = stylesheet.createFormat($.extend(true, {}, content_formatdict_right));
     var content_formatdict_left = $.extend(true, {}, content_formatdict);
     content_formatdict_left.border.left = {color: 'FF000000', style: 'thin'};
@@ -459,6 +457,28 @@ var spielplan_template = null;
 $.get('spielplan.mustache', function(template) {
     spielplan_template = template;
     on_change();
+});
+
+var presets = null;
+$.getJSON('presets.json', function(loaded_presets) {
+    presets = loaded_presets;
+    $('#load').css({visibility: 'visible'});
+    $('#load').on('submit', function(e) {
+        e.preventDefault();
+        var preset = presets[$('#load_preset').val()];
+        $.each(_FIELDS, function(_, f) {
+            $('#' + f).val(preset[f]);
+        });
+        on_change();
+        return false;
+    });
+
+    $.each(Object.keys(presets), function(_, preset_name) {
+        var option = $('<option>');
+        option.text(preset_name);
+        option.attr({value: preset_name});
+        $('#load_preset').append(option);
+    });
 });
 
 $(function() {

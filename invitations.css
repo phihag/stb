@@ -33,6 +33,10 @@ input, textarea {
 	padding: 4px 4px;
 }
 
+#load {
+	margin: 10px 10px;
+}
+
 #output-spielplan {
 	border: none;
 	width: 100%;

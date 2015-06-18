@@ -1,6 +1,7 @@
+no iframe
 print Spielplan
-implement xlsx
-xlsx icon
-date changes
 render Spielplan PDF (with remote help?)
 download everything as zip
+
+xlsx/pdf/print icons
+date changes
