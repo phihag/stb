@@ -235,7 +235,7 @@ function make_plan(team) {
         {value: 'Heimspieltermine', metadata: {style: header_format.id}},
         '', '',
         {value: state.league_name, metadata: {style: header_format.id}},
-        '', '', '',
+        '', '', '', '', '',
         {value: state.season_name, metadata: {style: header_format.id}},
     ]);
     ws.mergeCells('A5', 'C5');
@@ -354,10 +354,16 @@ function make_plan(team) {
     var content_formatdict_right = $.extend(true, {}, content_formatdict);
     content_formatdict_right.border.right = {color: 'FF000000', style: 'thin'};
     console.log(content_formatdict_right);
-    var content_format_right = stylesheet.createFormat(content_formatdict_right);
+    var content_format_right = stylesheet.createFormat($.extend(true, {}, content_formatdict_right));
     var content_formatdict_left = $.extend(true, {}, content_formatdict);
     content_formatdict_left.border.left = {color: 'FF000000', style: 'thin'};
-    var content_format_left = stylesheet.createFormat(content_formatdict_left);
+    var content_format_left = stylesheet.createFormat($.extend(true, {}, content_formatdict_left));
+    var home_teamdict = $.extend(true, {}, content_formatdict_left);
+    home_teamdict.alignment.horizontal = 'left';
+    var home_team_format = stylesheet.createFormat($.extend(true, {}, home_teamdict));
+    var away_teamdict = $.extend(true, {}, content_formatdict_right);
+    away_teamdict.alignment.horizontal = 'left';
+    var away_team_format = stylesheet.createFormat($.extend(true, {}, away_teamdict));
 
     var home_games = calc_home_games(team, state);
     $.each(home_games, function(game_index, home_game) {
@@ -370,9 +376,9 @@ function make_plan(team) {
             {value: '', metadata: {style: content_format.id}},
             {value: '', metadata: {style: content_format.id}},
             {value: '', metadata: {style: content_format_right.id}},
-            {value: format_team_name(home_game.home_team), metadata: {style: content_format_right.id}},
+            {value: format_team_name(home_game.home_team), metadata: {style: home_team_format.id}},
             {value: '-', metadata: {style: content_format_right.id}},
-            {value: format_team_name(home_game.away_team), metadata: {style: content_format_right.id}},
+            {value: format_team_name(home_game.away_team), metadata: {style: away_team_format.id}},
             {value: '', metadata: {style: content_format.id}},
             {value: '', metadata: {style: content_format.id}},
             {value: '', metadata: {style: content_format_right.id}}
