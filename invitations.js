@@ -8,189 +8,462 @@ function ParseException(message) {
 }
 
 function format_date(date) {
-	var leading_zero = function(x) {
-		if (x < 10) {
-			return '0' + x;
-		} else {
-			return '' + x;
-		}
-	}
-	return leading_zero(date.day) + '.' + leading_zero(date.month) + '.' + date.year;
+    var leading_zero = function(x) {
+        if (x < 10) {
+            return '0' + x;
+        } else {
+            return '' + x;
+        }
+    }
+    return leading_zero(date.day) + '.' + leading_zero(date.month) + '.' + date.year;
 }
 
 function parse_dates(v) {
-	var lines = v.split(/\n/);
-	return $.map(lines, function(line) {
-		var m = line.match(/^([0-9]{2})\.([0-9]{2})\.([0-9]{4})\s+([0-9]+)\.\s*Spieltag((\s+[A-Z]\/[A-Z])+)$/);
-		if (!m) {
-			throw new ParseException('Zeile "' + line + '" nicht richtig formatiert');
-		}
-		var matchups = $.map(m[5].trim().split(/\s+/), function(matchup_str) {
-			var m = matchup_str.split("/");
-			return {
-				'home_team': m[0],
-				'away_team': m[1],
-			}
-		});
-		return {
-			'day': parseInt(m[1], 10),
-			'month': parseInt(m[2], 10),
-			'year': parseInt(m[3], 10),
-			'num_str': m[4],
-			'matchups': matchups
-		};
-	});
+    var lines = v.split(/\n/);
+    return $.map(lines, function(line) {
+        var m = line.match(/^([0-9]{2})\.([0-9]{2})\.([0-9]{4})\s+([0-9]+)\.\s*Spieltag((\s+[A-Z]\/[A-Z])+)$/);
+        if (!m) {
+            throw new ParseException('Zeile "' + line + '" nicht richtig formatiert');
+        }
+        var matchups = $.map(m[5].trim().split(/\s+/), function(matchup_str) {
+            var m = matchup_str.split("/");
+            return {
+                'home_team': m[0],
+                'away_team': m[1],
+            }
+        });
+        return {
+            'day': parseInt(m[1], 10),
+            'month': parseInt(m[2], 10),
+            'year': parseInt(m[3], 10),
+            'num_str': m[4],
+            'matchups': matchups
+        };
+    });
 }
 
 function parse_teams(v) {
-	var lines = v.split(/\n/);
-	return $.map(lines, function(line) {
-		var m = line.match(/^([A-Z])\s+([0-9]+)\s+(.+)$/);
-		return {
-			'character': m[1],
-			'club_id': m[2],
-			'name': m[3],
-		}
-	});
+    var lines = v.split(/\n/);
+    return $.map(lines, function(line) {
+        var m = line.match(/^([A-Z])\s+([0-9]+)\s+(.+)$/);
+        return {
+            'character': m[1],
+            'club_id': m[2],
+            'name': m[3],
+        }
+    });
 }
 
 function read_input() {
-	return {
-		"dates": parse_dates($('#dates').val()),
-		"teams": parse_teams($('#teams').val()),
-		"league_name": $('#league_name').val(),
-		"season_name": $('#season_name').val(),
-		"abbrev": $('#abbrev').val(),
-		"stb": $('#stb').val(),
-		"default_time": $('#default_time').val(),
-	}
+    return {
+        "dates": parse_dates($('#dates').val()),
+        "teams": parse_teams($('#teams').val()),
+        "league_name": $('#league_name').val(),
+        "season_name": $('#season_name').val(),
+        "abbrev": $('#abbrev').val(),
+        "stb": $('#stb').val(),
+        "default_time": $('#default_time').val(),
+    }
+}
+
+function calc_home_games(team, state)  {
+    var team_games = [];
+    $.each(state.rounds, function(_, round) {
+        $.each(round.game_days, function(_, game_day) {
+            $.each(game_day.games, function(_, game) {
+                if (game.home_team.name == team.name) {
+                    team_games.push(game);
+                }
+            });
+        });
+    });
+    return team_games;
 }
 
 function calc(input) {
-	var teams_by_char = {};
-	$.each(input.teams, function(_, team) {
-		teams_by_char[team.character] = team;
-	});
+    var teams_by_char = {};
+    $.each(input.teams, function(_, team) {
+        teams_by_char[team.character] = team;
+    });
 
-	var now = new Date();
-	var data = $.extend({
-		'today': (now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear())
-	}, input);
-	var rounds_dates = [
-		input.dates.slice(0, input.dates.length / 2),
-		input.dates.slice(input.dates.length / 2)
-	];
-	data.rounds = $.map(rounds_dates, function(dates) {
-		var game_days = $.map(dates, function(date) {
-			var games = $.map(date.matchups, function (matchup, mu_index) {
-				var week_day = WEEK_DAYS[(new Date(date.year, date.month-1, date.day)).getDay()];
-				return {
-					'is_first_game_on_day': mu_index == 0,
-					'is_second_game_on_day': mu_index == 1,
-					'home_team': teams_by_char[matchup.home_team],
-					'away_team': teams_by_char[matchup.away_team],
-					'date_str': format_date(date),
-					'time_str': input.default_time,
-					'week_day': week_day
-				}
-			});
-			return $.extend({
-				'day_str': format_date(date),
-				'games': games,
-				'game_count': games.length,
-				'game_count_minus_one': games.length - 1
-			}, date);
-		});
-		return {
-			'game_days': game_days
-		}
-	});
-	return data;
+    var now = new Date();
+    var state = $.extend({
+        'today': (now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear())
+    }, input);
+    var rounds_dates = [
+        input.dates.slice(0, input.dates.length / 2),
+        input.dates.slice(input.dates.length / 2)
+    ];
+    state.rounds = $.map(rounds_dates, function(dates) {
+        var game_days = $.map(dates, function(date) {
+            var games = $.map(date.matchups, function (matchup, mu_index) {
+                var week_day = WEEK_DAYS[(new Date(date.year, date.month-1, date.day)).getDay()];
+                return {
+                    'is_first_game_on_day': mu_index == 0,
+                    'is_second_game_on_day': mu_index == 1,
+                    'home_team': teams_by_char[matchup.home_team],
+                    'away_team': teams_by_char[matchup.away_team],
+                    'date_str': format_date(date),
+                    'time_str': input.default_time,
+                    'week_day': week_day,
+                    'daynum_str': date.num_str
+                }
+            });
+            return $.extend({
+                'num_str': date.num_str,
+                'day_str': format_date(date),
+                'games': games,
+                'game_count': games.length,
+                'game_count_minus_one': games.length - 1
+            }, date);
+        });
+        return {
+            'game_days': game_days
+        }
+    });
+    return state;
 }
 
-function Workbook() {
-	if(!(this instanceof Workbook)) return new Workbook();
-	this.SheetNames = [];
-	this.Sheets = {};
+function format_team_name(team) {
+    return '(' + team.club_id + ') ' + team.name;
 }
 
 function make_plan(team) {
-	var wb = new Workbook();
-	var ws = {};
+    var state = calc(current_input);
+
+    var workbook = ExcelBuilder.createWorkbook();
+    var ws = workbook.createWorksheet({name: team.name});
+    var stylesheet = workbook.getStyleSheet();
+
+    var data = [];
+
+    var right_border_format = stylesheet.createFormat({
+        border: {
+            right: {color: 'FF000000', style: 'thin'}
+        }
+    });
+
+    var team_name_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 14,
+        },
+        alignment: {
+            vertical: 'center'
+        },
+        border: {
+            bottom: {color: 'FF000000', style: 'thin'}
+        }
+    });
+    data.push([
+        '', '', {value: format_team_name(team), metadata: {style: team_name_format.id}}
+    ]);
+    ws.mergeCells('C1','G1');
+    ws.setRowInstructions(0, {height: 36});
+
+    var description_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 9,
+        },
+        alignment: {
+            vertical: 'center'
+        }
+    });
+    var description_format_right = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 9,
+        },
+        alignment: {
+            vertical: 'center',
+            horizontal: 'right'
+        }
+    });
+    var input_field_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 11,
+        },
+        alignment: {
+            vertical: 'center'
+        },
+        border: {
+            bottom: {color: 'FF000000', style: 'thin'}
+        }
+    });
+
+    data.push([
+        '', '', {value: '(Vereinsnummer) Vereinsname, Mannschaftsnummer', metadata: {style: description_format.id}},
+        '', '', '', '', '', '',
+        {value: 'Kontaktperson des Teams', metadata: {style: description_format_right.id}},
+        {value: '', metadata: {style:input_field_format.id}}
+    ]);
+    ws.mergeCells('C2', 'G2');
+    ws.mergeCells('K2', 'M2');
+    ws.setRowInstructions(1, {height: 20});
 
 
+    data.push([
+        '', '', '', '', '', '', '', '', '',
+        {value: 'E-Mail', metadata: {style: description_format_right.id}},
+        {value: '', metadata: {style:input_field_format.id}}
+    ]);
+    ws.mergeCells('K3', 'M3');
+    ws.setRowInstructions(2, {height: 20});
 
-	
-	wb.SheetNames.push(team.name);
-	wb.Sheets[team.name] = ws;
-	return wb;
+    data.push([
+        '', '', '', '', '', '', '', '', '',
+        {value: 'Telefon', metadata: {style: description_format_right.id}},
+        {value: '', metadata: {style:input_field_format.id}}
+    ]);
+    ws.mergeCells('K4', 'M4');
+    ws.setRowInstructions(3, {height: 20});
+    
+
+    var header_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 11,
+            bold: true
+        },
+        alignment: {
+            vertical: 'center'
+        },
+    });
+    data.push([
+        {value: 'Heimspieltermine', metadata: {style: header_format.id}},
+        '', '',
+        {value: state.league_name, metadata: {style: header_format.id}},
+        '', '', '',
+        {value: state.season_name, metadata: {style: header_format.id}},
+    ]);
+    ws.mergeCells('A5', 'C5');
+    ws.mergeCells('D5', 'G5');
+    ws.setRowInstructions(4, {height: 30});
+
+    data.push([]);
+    ws.setRowInstructions(5, {height: 26});
+
+    var title1_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 10
+        },
+        alignment: {
+            vertical: 'center',
+            horizontal: 'center'
+        },
+        border: {
+            top: {color: 'FF000000', style: 'thin'},
+            left: {color: 'FF000000', style: 'thin'},
+            right: {color: 'FF000000', style: 'thin'}
+        }
+    });
+    var longtext_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 9,
+            italic: true
+        },
+        alignment: {
+            vertical: 'center',
+            horizontal: 'center'
+        },
+        border: {
+            top: {color: 'FF000000', style: 'thin'},
+            left: {color: 'FF000000', style: 'thin'},
+            right: {color: 'FF000000', style: 'thin'},
+            bottom: {color: 'FF000000', style: 'thin'}
+        }
+    });
+    data.push([
+        {value: '', metadata: {style: title1_format.id}},
+        {value: 'Verbandstermin', metadata: {style: title1_format.id}}, '', '',
+        {value: 'endgültiger Termin', metadata: {style: title1_format.id}}, '', '',
+        {value: '', metadata: {style: title1_format.id}}, '', '',
+        {value: 'falls erforderlich:\nKenntnisnahme/Zustimmung\ndes Gastvereins liegt vor (ja/nein)', metadata: {style: longtext_format.id}},
+        '', {value: '', metadata: {style: right_border_format.id}}
+    ]);
+    ws.mergeCells('B7', 'D7');
+    ws.mergeCells('E7', 'G7');
+    ws.mergeCells('H7', 'J7');
+    ws.mergeCells('K7', 'M8');
+    ws.setRowInstructions(6, {height: 30});
+
+    var title2_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 10,
+            italic: true
+        },
+        alignment: {
+            vertical: 'center',
+            horizontal: 'center'
+        },
+        border: {
+            top: {color: 'FF000000', style: 'thin'},
+            bottom: {color: 'FF000000', style: 'thin'}
+        }
+    });
+    var title2_format_right = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 10,
+            italic: true
+        },
+        alignment: {
+            vertical: 'center',
+            horizontal: 'center'
+        },
+        border: {
+            top: {color: 'FF000000', style: 'thin'},
+            right: {color: 'FF000000', style: 'thin'},
+            bottom: {color: 'FF000000', style: 'thin'}
+        }
+    });
+    data.push([
+        {value: 'Spt.', metadata: {style: title2_format_right.id}},
+        {value: 'Wt', metadata: {style: title2_format.id}},
+        {value: 'Datum', metadata: {style: title2_format.id}},
+        {value: 'Zeit', metadata: {style: title2_format_right.id}},
+        {value: 'Wt', metadata: {style: title2_format.id}},
+        {value: 'Datum', metadata: {style: title2_format.id}},
+        {value: 'Zeit', metadata: {style: title2_format_right.id}},
+        {value: 'Heimverein', metadata: {style: title2_format.id}},
+        {value: '', metadata: {style: title2_format.id}},
+        {value: 'Gastverein', metadata: {style: title2_format_right.id}}
+    ]);
+
+
+    var content_formatdict = {
+        font: {
+            fontName: 'Arial',
+            size: 10
+        },
+        alignment: {
+            vertical: 'center',
+            horizontal: 'center'
+        },
+        border: {
+            top: {color: 'FF000000', style: 'thin'},
+            bottom: {color: 'FF000000', style: 'thin'}
+        }
+    };
+    var content_format = stylesheet.createFormat($.extend(true, {}, content_formatdict));
+    var content_formatdict_right = $.extend(true, {}, content_formatdict);
+    content_formatdict_right.border.right = {color: 'FF000000', style: 'thin'};
+    console.log(content_formatdict_right);
+    var content_format_right = stylesheet.createFormat(content_formatdict_right);
+    var content_formatdict_left = $.extend(true, {}, content_formatdict);
+    content_formatdict_left.border.left = {color: 'FF000000', style: 'thin'};
+    var content_format_left = stylesheet.createFormat(content_formatdict_left);
+
+    var home_games = calc_home_games(team, state);
+    $.each(home_games, function(game_index, home_game) {
+        var row_index = 8 + game_index;
+        data.push([
+            {value: home_game.daynum_str, metadata: {style: content_format_right.id}},
+            {value: home_game.week_day, metadata: {style: content_format_left.id}},
+            {value: home_game.date_str, metadata: {style: content_format.id}},
+            {value: home_game.time_str, metadata: {style: content_format_right.id}},
+            {value: '', metadata: {style: content_format.id}},
+            {value: '', metadata: {style: content_format.id}},
+            {value: '', metadata: {style: content_format_right.id}},
+            {value: format_team_name(home_game.home_team), metadata: {style: content_format_right.id}},
+            {value: '-', metadata: {style: content_format_right.id}},
+            {value: format_team_name(home_game.away_team), metadata: {style: content_format_right.id}},
+            {value: '', metadata: {style: content_format.id}},
+            {value: '', metadata: {style: content_format.id}},
+            {value: '', metadata: {style: content_format_right.id}}
+        ]);
+        ws.setRowInstructions(row_index, {height: 30});
+        ws.mergeCells('K' + (row_index + 1), 'M' + (row_index + 1));
+    });
+
+    ws.setColumns([
+        {width: 3.4},
+        {width: 3.4},
+        {width: 9.8},
+        {width: 5.8},
+        {width: 3.4},
+        {width: 9.8},
+        {width: 5.8},
+        {width: 25.0},
+        {width: 2.0},
+        {width: 25.0}
+    ]);
+
+    ws.setData(data);
+    workbook.addWorksheet(ws);
+    return workbook;
 }
 
 function write_plan(team, filename) {
-	var wb = make_plan(team);
-	var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+    var workbook = make_plan(team);
+    var wbout = ExcelBuilder.createFile(workbook, {type: 'blob'});
 
-	function s2ab(s) {
-		var buf = new ArrayBuffer(s.length);
-		var view = new Uint8Array(buf);
-		for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-		return buf;
-	}
-	saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), filename);
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+    saveAs(wbout, filename);
 }
 
 var current_input;
 function on_change() {
-	current_input = read_input();
-	var data = calc(current_input);
+    current_input = read_input();
+    var state = calc(current_input);
 
-	function _file_link(name, func) {
-		var li = $('<li>');
-		var a = $('<a>');
-		a.attr({'href': '#'});
-		a.on('click', function(e) {
-			e.preventDefault();
-			func();
-			return false;
-		});
-		a.text(name);
-		a.appendTo(li);
-		li.appendTo('#output-files');
-	}
-	$('#output-files>*').remove();
-	_file_link('Spielplan_' + data.abbrev + '.html');
-	$.each(data.teams, function(_, team) {
-		var file_name = 'Heimspiele ' + team.name + '.xlsx';
-		_file_link(file_name, function() {
-			write_plan(team, file_name);
-		});
-	});
+    function _file_link(name, func) {
+        var li = $('<li>');
+        var a = $('<a>');
+        a.attr({'href': '#'});
+        a.on('click', function(e) {
+            e.preventDefault();
+            func();
+            return false;
+        });
+        a.text(name);
+        a.appendTo(li);
+        li.appendTo('#output-files');
+    }
+    $('#output-files>*').remove();
+    _file_link('Spielplan_' + state.abbrev + '.html');
+    $.each(state.teams, function(_, team) {
+        var file_name = 'Heimspiele ' + team.name + '.xlsx';
+        _file_link(file_name, function() {
+            write_plan(team, file_name);
+        });
+    });
 
-	if (!spielplan_template) {
-		return;
-	}
-	var spielplan_html = Mustache.render(spielplan_template, data);
-	var iframe = $('#output-spielplan');
-	var iFrameDoc = iframe[0].contentDocument || iframe[0].contentWindow.document;
-	iFrameDoc.write(spielplan_html);
-	iFrameDoc.close();
+    if (!spielplan_template) {
+        return;
+    }
+    var spielplan_html = Mustache.render(spielplan_template, state);
+    var iframe = $('#output-spielplan');
+    var iFrameDoc = iframe[0].contentDocument || iframe[0].contentWindow.document;
+    iFrameDoc.write(spielplan_html);
+    iFrameDoc.close();
 }
 
 var spielplan_template = null;
 $.get('spielplan.mustache', function(template) {
-	spielplan_template = template;
-	on_change();
+    spielplan_template = template;
+    on_change();
 });
 
 $(function() {
-	var currentYear = new Date().getFullYear();
-	$('#season_name').val('Saison ' + currentYear + '/' + (currentYear+1));
-	on_change();
+    var currentYear = new Date().getFullYear();
+    $('#season_name').val('Saison ' + currentYear + '/' + (currentYear+1));
+    on_change();
 
-	$('#dates').on('input', on_change);
-	$('#teams').on('input', on_change);
-	$('#league_name').on('input', on_change);
-	$('#season_name').on('input', on_change);
-	$('#abbrev').on('input', on_change);
-	$('#stb').on('input', on_change);
+    $('#dates').on('input', on_change);
+    $('#teams').on('input', on_change);
+    $('#league_name').on('input', on_change);
+    $('#season_name').on('input', on_change);
+    $('#abbrev').on('input', on_change);
+    $('#stb').on('input', on_change);
 });
