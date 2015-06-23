@@ -1,8 +1,8 @@
+dump json as separate file
+dump json in HTML
 no iframe
-render Spielplan HTML
 print Spielplan
 render Spielplan PDF (with remote help?)
-download everything as zip
 
 xlsx/pdf/print icons
 date changes

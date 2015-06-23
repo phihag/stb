@@ -26,7 +26,8 @@ label+label {
 	margin-top: 10px;
 }
 label>span {
-	min-width: 7em;
+	display: inline-block;
+	min-width: 6em;
 }
 input, textarea {
 	font-size: inherit;
@@ -47,6 +48,9 @@ input, textarea {
 	list-style-type: none;
 	margin: 0;
 	padding: 0 0 0 10px;
+}
+#output-files>li+li {
+	margin: 5px 0 0 0;
 }
 .outputs>* {
 	float: left;

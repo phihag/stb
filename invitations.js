@@ -46,6 +46,9 @@ function parse_teams(v) {
     var lines = v.split(/\n/);
     return $.map(lines, function(line) {
         var m = line.match(/^([A-Z])\s+([0-9]+)\s+(.+)$/);
+        if (!m) {
+            return {};
+        }
         return {
             'character': m[1],
             'club_id': m[2],
@@ -136,6 +139,12 @@ function make_plan(team) {
 
     var data = [];
 
+    var right_top_border_format = stylesheet.createFormat({
+        border: {
+            top: {color: 'FF000000', style: 'thin'},
+            right: {color: 'FF000000', style: 'thin'}
+        }
+    });
     var right_border_format = stylesheet.createFormat({
         border: {
             right: {color: 'FF000000', style: 'thin'}
@@ -155,7 +164,11 @@ function make_plan(team) {
         }
     });
     data.push([
-        '', '', {value: format_team_name(team), metadata: {style: team_name_format.id}}
+        '', '', {value: format_team_name(team), metadata: {style: team_name_format.id}},
+        {value: '', metadata: {style: team_name_format.id}}, // D
+        {value: '', metadata: {style: team_name_format.id}}, // E
+        {value: '', metadata: {style: team_name_format.id}}, // F
+        {value: '', metadata: {style: team_name_format.id}} // G
     ]);
     ws.mergeCells('C1','G1');
     ws.setRowInstructions(0, {height: 36});
@@ -196,9 +209,11 @@ function make_plan(team) {
         '', '', {value: '(Vereinsnummer) Vereinsname, Mannschaftsnummer', metadata: {style: description_format.id}},
         '', '', '', '', '', '',
         {value: 'Kontaktperson des Teams', metadata: {style: description_format_right.id}},
+        {value: '', metadata: {style:input_field_format.id}},
+        {value: '', metadata: {style:input_field_format.id}},
         {value: '', metadata: {style:input_field_format.id}}
     ]);
-    ws.mergeCells('C2', 'G2');
+    ws.mergeCells('C2', 'H2');
     ws.mergeCells('K2', 'M2');
     ws.setRowInstructions(1, {height: 20});
 
@@ -206,6 +221,8 @@ function make_plan(team) {
     data.push([
         '', '', '', '', '', '', '', '', '',
         {value: 'E-Mail', metadata: {style: description_format_right.id}},
+        {value: '', metadata: {style:input_field_format.id}},
+        {value: '', metadata: {style:input_field_format.id}},
         {value: '', metadata: {style:input_field_format.id}}
     ]);
     ws.mergeCells('K3', 'M3');
@@ -214,6 +231,8 @@ function make_plan(team) {
     data.push([
         '', '', '', '', '', '', '', '', '',
         {value: 'Telefon', metadata: {style: description_format_right.id}},
+        {value: '', metadata: {style:input_field_format.id}},
+        {value: '', metadata: {style:input_field_format.id}},
         {value: '', metadata: {style:input_field_format.id}}
     ]);
     ws.mergeCells('K4', 'M4');
@@ -267,7 +286,8 @@ function make_plan(team) {
         },
         alignment: {
             vertical: 'center',
-            horizontal: 'center'
+            horizontal: 'center',
+            wrapText: true
         },
         border: {
             top: {color: 'FF000000', style: 'thin'},
@@ -278,11 +298,18 @@ function make_plan(team) {
     });
     data.push([
         {value: '', metadata: {style: title1_format.id}},
-        {value: 'Verbandstermin', metadata: {style: title1_format.id}}, '', '',
-        {value: 'endgültiger Termin', metadata: {style: title1_format.id}}, '', '',
-        {value: '', metadata: {style: title1_format.id}}, '', '',
+        {value: 'Verbandstermin', metadata: {style: title1_format.id}},
+        {value: '', metadata: {style: title1_format.id}},
+        {value: '', metadata: {style: title1_format.id}},
+        {value: 'endgültiger Termin', metadata: {style: title1_format.id}},
+        {value: '', metadata: {style: title1_format.id}},
+        {value: '', metadata: {style: title1_format.id}},
+        {value: '', metadata: {style: title1_format.id}},
+        {value: '', metadata: {style: title1_format.id}},
+        {value: '', metadata: {style: title1_format.id}},
         {value: 'falls erforderlich:\nKenntnisnahme/Zustimmung\ndes Gastvereins liegt vor (ja/nein)', metadata: {style: longtext_format.id}},
-        '', {value: '', metadata: {style: right_border_format.id}}
+        {value: '', metadata: {style: longtext_format.id}},
+        {value: '', metadata: {style: right_top_border_format.id}}
     ]);
     ws.mergeCells('B7', 'D7');
     ws.mergeCells('E7', 'G7');
@@ -331,7 +358,10 @@ function make_plan(team) {
         {value: 'Zeit', metadata: {style: title2_format_right.id}},
         {value: 'Heimverein', metadata: {style: title2_format.id}},
         {value: '', metadata: {style: title2_format.id}},
-        {value: 'Gastverein', metadata: {style: title2_format_right.id}}
+        {value: 'Gastverein', metadata: {style: title2_format_right.id}},
+        {value: '', metadata: {style: title2_format.id}},
+        {value: '', metadata: {style: title2_format.id}},
+        {value: '', metadata: {style: right_border_format.id}}
     ]);
 
 
@@ -375,7 +405,7 @@ function make_plan(team) {
             {value: '', metadata: {style: content_format.id}},
             {value: '', metadata: {style: content_format_right.id}},
             {value: format_team_name(home_game.home_team), metadata: {style: home_team_format.id}},
-            {value: '-', metadata: {style: content_format_right.id}},
+            {value: '-', metadata: {style: content_format.id}},
             {value: format_team_name(home_game.away_team), metadata: {style: away_team_format.id}},
             {value: '', metadata: {style: content_format.id}},
             {value: '', metadata: {style: content_format.id}},
@@ -403,18 +433,9 @@ function make_plan(team) {
     return workbook;
 }
 
-function write_plan(team, filename) {
-    var workbook = make_plan(team);
-    var wbout = ExcelBuilder.createFile(workbook, {type: 'blob'});
-
-    saveAs(wbout, filename);
-}
-
-function write_overview(filename) {
+function make_overview() {
     var state = calc(current_input);
-    var spielplan_html = Mustache.render(spielplan_template, state);
-
-    saveAs(new Blob([spielplan_html], {type: "text/html;charset=utf-8"}), filename);
+    return Mustache.render(spielplan_template, state);
 }
 
 var current_input;
@@ -438,13 +459,32 @@ function on_change() {
     $('#output-files>*').remove();
     var overview_fn = 'Spielplan_' + state.abbrev + '.html';
     _file_link(overview_fn, function() {
-        write_overview(overview_fn);
+        saveAs(
+            new Blob([make_overview()], {type: "text/html;charset=utf-8"}),
+            overview_fn);
     });
     $.each(state.teams, function(_, team) {
         var file_name = 'Heimspiele ' + team.name + '.xlsx';
         _file_link(file_name, function() {
-            write_plan(team, file_name);
+            saveAs(
+                ExcelBuilder.createFile(make_plan(team), {type: 'blob'}),
+                file_name);
         });
+    });
+    var data_fn = state.abbrev + '.json';
+    _file_link(data_fn, function() {
+        saveAs(new Blob([JSON.Stringify(current_input)], {type: "application/json;charset=utf-8"}), data_fn)
+    });
+    _file_link('Alle Dateien als zip', function() {
+        var zip = new JSZip();
+        zip.file(overview_fn, make_overview(), {binary: false});
+        $.each(state.teams, function(_, team) {
+            var file_name = 'Heimspiele ' + team.name + '.xlsx';
+            var contents = ExcelBuilder.createFile(make_plan(team), {type: 'base64'});
+            zip.file(file_name, contents, {binary: true, base64: true});
+        });
+        var zip_content = zip.generate({type:"blob"});
+        saveAs(zip_content, 'Spielpläne ' + state.abbrev + ".zip");
     });
 
     if (!spielplan_template) {
