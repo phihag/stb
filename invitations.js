@@ -107,7 +107,7 @@ function calc(input) {
                     'home_team': teams_by_char[matchup.home_team],
                     'away_team': teams_by_char[matchup.away_team],
                     'date_str': format_date(date),
-                    'time_str': '10:00' if week_day_num == 0 else '18:00',
+                    'time_str': ((week_day_num == 0) ? '10:00' : '18:00'),
                     'week_day': week_day,
                     'daynum_str': date.num_str
                 }
