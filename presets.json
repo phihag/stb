@@ -5,7 +5,9 @@
     "league_name": "Regionalliga West",
     "season_name": "Saison 2015/2016",
     "abbrev": "RL_1516",
-    "stb": "Michael Pütz"
+    "stb": "Michael Pütz",
+    "default_time": "18:00",
+    "lastday_time": "11:00"
   },
 	"NRW-Oberliga Süd 2015/2016": {
     "dates_in": "29.08.2015 1. Spieltag A/H B/G C/F D/E\n05.09.2015 2. Spieltag G/A F/B E/C D/H\n12.09.2015 3. Spieltag A/F B/E C/D H/G\n26.09.2015 4. Spieltag E/A D/B F/H C/G\n31.10.2015 5. Spieltag A/D B/C H/E G/F\n07.11.2015 6. Spieltag C/A B/H D/G E/F\n21.11.2015 7. Spieltag A/B H/C F/D G/E\n05.12.2015 8. Spieltag H/A G/B F/C E/D\n12.12.2015 9. Spieltag B/A C/H D/F E/G\n19.12.2015 10. Spieltag A/C H/B G/D F/E\n23.01.2016 11. Spieltag D/A C/B E/H F/G\n30.01.2016 12. Spieltag A/E B/D H/F G/C\n20.02.2016 13. Spieltag F/A E/B D/C G/H\n28.02.2016 14. Spieltag A/G B/F C/E H/D",
@@ -13,7 +15,9 @@
     "league_name": "NRW-Oberliga Süd",
     "season_name": "Saison 2015/2016",
     "abbrev": "OLS_1516",
-    "stb": "Philipp Hagemeister"
+    "stb": "Philipp Hagemeister",
+    "default_time": "18:00",
+    "lastday_time": "11:00"
   },
   "NRW-Oberliga Nord 2015/2016": {
     "dates_in": "29.08.2015 1. Spieltag A/H B/G C/F D/E\n05.09.2015 2. Spieltag G/A F/B E/C D/H\n12.09.2015 3. Spieltag A/F B/E C/D H/G\n26.09.2015 4. Spieltag E/A D/B F/H C/G\n31.10.2015 5. Spieltag A/D B/C H/E G/F\n07.11.2015 6. Spieltag C/A B/H D/G E/F\n21.11.2015 7. Spieltag A/B H/C F/D G/E\n05.12.2015 8. Spieltag H/A G/B F/C E/D\n12.12.2015 9. Spieltag B/A C/H D/F E/G\n19.12.2015 10. Spieltag A/C H/B G/D F/E\n23.01.2016 11. Spieltag D/A C/B E/H F/G\n30.01.2016 12. Spieltag A/E B/D H/F G/C\n20.02.2016 13. Spieltag F/A E/B D/C G/H\n28.02.2016 14. Spieltag A/G B/F C/E H/D",
@@ -21,6 +25,8 @@
     "league_name": "NRW-Oberliga Nord",
     "season_name": "Saison 2015/2016",
     "abbrev": "OLN_1516",
-    "stb": "Helmut Wieneke"
+    "stb": "Helmut Wieneke",
+    "default_time": "18:00",
+    "lastday_time": "11:00"
   }
 }

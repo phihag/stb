@@ -57,7 +57,7 @@ function parse_teams(v) {
     });
 }
 
-var _FIELDS = ['dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb'];
+var _FIELDS = ['dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb', 'default_time', 'lastday_time'];
 function read_input() {
     var res = {};
     $.each(_FIELDS, function(_, f) {
@@ -96,18 +96,18 @@ function calc(input) {
         state.dates.slice(0, state.dates.length / 2),
         state.dates.slice(state.dates.length / 2)
     ];
-    state.rounds = $.map(rounds_dates, function(dates) {
-        var game_days = $.map(dates, function(date) {
+    state.rounds = $.map(rounds_dates, function(dates, round_index) {
+        var game_days = $.map(dates, function(date, date_index) {
+            var is_last_day = (round_index == rounds_dates.length - 1) && (date_index == dates.length - 1);
             var games = $.map(date.matchups, function (matchup, mu_index) {
-                var week_day_num = (new Date(date.year, date.month-1, date.day)).getDay();
-                var week_day = WEEK_DAYS[week_day_num];
+                var week_day = WEEK_DAYS[(new Date(date.year, date.month-1, date.day)).getDay()];
                 return {
                     'is_first_game_on_day': mu_index == 0,
                     'is_second_game_on_day': mu_index == 1,
                     'home_team': teams_by_char[matchup.home_team],
                     'away_team': teams_by_char[matchup.away_team],
                     'date_str': format_date(date),
-                    'time_str': ((week_day_num == 0) ? '10:00' : '18:00'),
+                    'time_str': (is_last_day ? state.lastday_time : state.default_time),
                     'week_day': week_day,
                     'daynum_str': date.num_str
                 }
