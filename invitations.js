@@ -434,6 +434,90 @@ function make_plan(team) {
     return workbook;
 }
 
+function make_xlsx_overview() {
+    var state = calc(current_input);
+
+    var workbook = ExcelBuilder.createWorkbook();
+    var ws = workbook.createWorksheet({name: state.league_name + ' ' + state.season_name});
+    var stylesheet = workbook.getStyleSheet();
+
+    var data = [];
+
+    var header_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 12,
+            bold: true
+        },
+        alignment: {
+            vertical: 'center',
+            horizontal: 'center'
+        },
+        fill: {
+            type: 'pattern',
+            patternType: 'solid',
+            fgColor: 'FFCCFFCC'
+        },
+        border: {
+            right: {color: 'FF000000', style: 'thin'},
+            bottom: {color: 'FF000000', style: 'thin'}
+        }
+    });
+    var content_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 12,
+        },
+        alignment: {
+            vertical: 'top',
+            horizontal: 'left'
+        },
+        border: {
+            right: {color: 'FF000000', style: 'thin'},
+            bottom: {color: 'FF000000', style: 'thin'}
+        }
+    });
+
+
+    data.push([
+        {value: 'Spieltag', metadata: {style: header_format.id}},
+        {value: 'WT', metadata: {style: header_format.id}},
+        {value: 'Datum', metadata: {style: header_format.id}},
+        {value: 'Zeit', metadata: {style: header_format.id}},
+        {value: 'Heim', metadata: {style: header_format.id}},
+        {value: 'Gast', metadata: {style: header_format.id}},
+    ]);
+    ws.setRowInstructions(0, {height: 20});
+
+    $.each(state.rounds, function(_, round) {
+        $.each(round.game_days, function(_, game_day) {
+            $.each(game_day.games, function(idx, game) {
+                data.push([
+                    {value: (idx == 0) ? ('' + game_day.day) : '', metadata: {style: content_format}},
+                ]);
+            });
+            console.log(round.game_days);
+        });
+    });
+
+    ws.setColumns([
+        {width: 20},
+        {width: 20},
+        {width: 20},
+        {width: 5.8},
+        {width: 3.4},
+        {width: 9.8},
+        {width: 5.8},
+        {width: 25.0},
+        {width: 2.0},
+        {width: 25.0}
+    ]);
+
+    ws.setData(data);
+    workbook.addWorksheet(ws);
+    return workbook;
+}
+
 function make_overview() {
     var state = calc(current_input);
     return Mustache.render(spielplan_template, state);
@@ -464,6 +548,12 @@ function on_change() {
             new Blob([make_overview()], {type: "text/html;charset=utf-8"}),
             overview_fn);
     });
+    var xlsx_overview_fn = 'Spielplan_' + state.abbrev + '.xlsx';
+    _file_link(xlsx_overview_fn, function() {
+        saveAs(
+            ExcelBuilder.createFile(make_xlsx_overview(), {type: 'blob'}),
+            xlsx_overview_fn);
+    });
     $.each(state.teams, function(_, team) {
         var file_name = 'Heimspiele ' + team.name + '.xlsx';
         _file_link(file_name, function() {
@@ -479,6 +569,8 @@ function on_change() {
     _file_link('Alle Dateien als zip', function() {
         var zip = new JSZip();
         zip.file(overview_fn, make_overview(), {binary: false});
+        var overview_xlsx = ExcelBuilder.createFile(make_xlsx_overview(), {type: 'blob'});
+        zip.file(xlsx_overview_fn, overview_xlsx, {binary: true, base64: true});
         $.each(state.teams, function(_, team) {
             var file_name = 'Heimspiele ' + team.name + '.xlsx';
             var contents = ExcelBuilder.createFile(make_plan(team), {type: 'base64'});
