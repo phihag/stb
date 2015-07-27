@@ -57,7 +57,7 @@ function parse_teams(v) {
     });
 }
 
-var _FIELDS = ['dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb', 'default_time'];
+var _FIELDS = ['dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb'];
 function read_input() {
     var res = {};
     $.each(_FIELDS, function(_, f) {
@@ -99,14 +99,15 @@ function calc(input) {
     state.rounds = $.map(rounds_dates, function(dates) {
         var game_days = $.map(dates, function(date) {
             var games = $.map(date.matchups, function (matchup, mu_index) {
-                var week_day = WEEK_DAYS[(new Date(date.year, date.month-1, date.day)).getDay()];
+                var week_day_num = (new Date(date.year, date.month-1, date.day)).getDay();
+                var week_day = WEEK_DAYS[week_day_num];
                 return {
                     'is_first_game_on_day': mu_index == 0,
                     'is_second_game_on_day': mu_index == 1,
                     'home_team': teams_by_char[matchup.home_team],
                     'away_team': teams_by_char[matchup.away_team],
                     'date_str': format_date(date),
-                    'time_str': state.default_time,
+                    'time_str': '10:00' if week_day_num == 0 else '18:00',
                     'week_day': week_day,
                     'daynum_str': date.num_str
                 }
