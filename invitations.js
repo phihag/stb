@@ -141,18 +141,17 @@ function calc(input) {
 
             $.each(date.matchups, function (mu_index, matchup) {
                 var game = {
-                    'is_first_game_on_day': true,
-                    'is_second_game_on_day': false,
                     'home_team': teams_by_char[matchup.home_team],
                     'away_team': teams_by_char[matchup.away_team],
                     'daynum_str': date.num_str,
+                    'game_num': all_games.length,
 
                     'original_date': date,
                     'original_date_str': format_date(date),
                     'original_time_str': (is_last_day ? state.lastday_time : state.default_time),
                     'original_week_day': week_day(date),
                 };
-                var adj = state.adjournments[all_games.length];
+                var adj = state.adjournments[game.game_num];
                 if (adj) {
                     game.adjourned = true;
                     game.date = adj.date;
@@ -175,10 +174,63 @@ function calc(input) {
             });
         });
 
-        // TODO calculate number of games per day etc.
-        // TODO sort games by date
+        var sorted_games = games.slice();
+        sorted_games.sort(function(g1, g2) {
+            // Compare by date
+            var d1_repr = iso8601(g1.date);
+            var d2_repr = iso8601(g2.date);
+            if (d1_repr > d2_repr) {
+                return 1;
+            }
+            if (d1_repr < d2_repr) {
+                return -1;
+            }
+
+            // Compare by time
+            if (g1.time_str > g2.time_str) {
+                return 1;
+            }
+            if (g1.time_str < g2.time_str) {
+                return -1;
+            }
+
+            // Compare by game number
+            if (g1.game_num > g2.game_num) {
+                return 1;
+            }
+            if (g1.game_num < g2.game_num) {
+                return -1;
+            }
+            return 0;
+        });
+
+        var today = null;
+        var games_today = [];
+        var endofday = function() {
+            $.each(games_today, function(idx, game) {
+                game.is_all_games = parseInt(state.teams.length / 2) == games_today.length;
+                game.is_multigame_day = games_today.length > 1;
+                game.is_first_game_on_day = idx == 0;
+                game.is_second_game_on_day = idx == 1;
+                game.game_count = games_today.length;
+                game.game_count_minus_one = games_today.length - 1;
+            });
+        }
+        $.each(sorted_games, function(_, game) {
+            var d = iso8601(game.date);
+            if (d == today) {
+                games_today.push(game);
+                return;
+            }
+            endofday();
+            games_today = [game];
+            today = d;
+        });
+        endofday();
+
         return {
-            'games': games
+            'games': games,
+            'sorted_games': sorted_games,
         }
     });
     return state;
@@ -606,12 +658,12 @@ function adjournments_update_display(state) {
     // Update "add" display
     var list_node = $('#adjournment_add [name="game"]');
     list_node.empty();
-    $.each(games, function(idx, game) {
-        if (adjourned_games[idx]) {
+    $.each(games, function(_, game) {
+        if (adjourned_games[game.game_num]) {
             return;
         }
         var n = document.createElement('option');
-        n.setAttribute('value', idx);
+        n.setAttribute('value', game.game_num);
         $(n).text(
             game.home_team.name + ' - ' + game.away_team.name +
             ' (' + game.original_date_str + ' ' + game.original_time_str + ')');

@@ -1,9 +1,6 @@
-show weekdays in adjournments list
-html: sort by date
-html: join SpT/VT if it's on the same day
-
 import adjournments from excel
 store adjournments permanently (at least on client)
+
 compare adjournments to turnier.de
 
 dump json in HTML

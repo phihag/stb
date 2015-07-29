@@ -63,6 +63,9 @@ td {
 .first_game_on_day td, .first_game_on_day th {
 	border-top: 3px solid black;
 }
+.is_multigame_day {
+	border-bottom: none;
+}
 .adjourned {
 	font-weight: bold;
 }
@@ -80,7 +83,7 @@ th.day {
 	font-weight: normal;
 	font-size: 80%;
 }
-th.day div {
+th.day div.is_all_games {
 	transform: rotate(-90deg);
 	-webkit-transform: rotate(-90deg);
 }
@@ -119,15 +122,15 @@ body {
 <th class="away_team">Gast</th>
 </tr></thead>
 <tbody>
-{{#games}}
+{{#sorted_games}}
 <tr class="{{#is_first_game_on_day}}first_game_on_day{{/is_first_game_on_day}}">
 
 {{#is_first_game_on_day}}
-<th class="num">{{daynum_str}}</th>
+<th class="num{{#is_multigame_day}} is_multigame_day{{/is_multigame_day}}">{{daynum_str}}</th>
 {{/is_first_game_on_day}}
 {{#is_second_game_on_day}}
 <th rowspan="{{game_count_minus_one}}" class="day">
-	<div>{{day_str}}</div>
+	<div class="{{#is_all_games}}is_all_games{{/is_all_games}}">{{date_str}}</div>
 </th>
 {{/is_second_game_on_day}}
 
@@ -138,7 +141,7 @@ body {
 <td class="versus">:</td>
 <td class="away_team">{{#away_team}}{{name}}{{/away_team}}</td>
 </tr>
-{{/games}}
+{{/sorted_games}}
 
 </tbody>
 
