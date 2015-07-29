@@ -15,12 +15,28 @@ function _leading_zero(x) {
     }
 }
 
+function week_day(date) {
+    return WEEK_DAYS[(new Date(date.year, date.month-1, date.day)).getDay()];
+}
+
 function iso8601(date) {
     return date.year + '-' + _leading_zero(date.month) + '-' + _leading_zero(date.day);
 }
 
 function format_date(date) {
     return _leading_zero(date.day) + '.' + _leading_zero(date.month) + '.' + date.year;
+}
+
+function parse_iso8601(s) {
+    var m = s.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/);
+    if (!m) {
+        throw new ParseException('Nicht ISO8601: ' + s);
+    }
+    return {
+        'year': parseInt(m[1]),
+        'month': parseInt(m[2]),
+        'day': parseInt(m[3])
+    };
 }
 
 function parse_dates(v) {
@@ -82,10 +98,8 @@ function calc_home_games(team, state)  {
 function calc_games(state) {
     var games = [];
     $.each(state.rounds, function(_, round) {
-        $.each(round.game_days, function(_, game_day) {
-            $.each(game_day.games, function(_, game) {
-                games.push(game);
-            });
+        $.each(round.games, function(_, game) {
+            games.push(game);
         });
     });
     return games;
@@ -105,6 +119,11 @@ function calc(input) {
         return state;
     }
 
+    var adjourned_games = {};
+    $.each(state.adjournments, function(_, a) {
+        adjourned_games[a.game_id] = a;
+    });
+
     var teams_by_char = {};
     $.each(state.teams, function(_, team) {
         teams_by_char[team.character] = team;
@@ -113,33 +132,53 @@ function calc(input) {
         state.dates.slice(0, state.dates.length / 2),
         state.dates.slice(state.dates.length / 2)
     ];
+    var all_games = [];
     state.rounds = $.map(rounds_dates, function(dates, round_index) {
-        var game_days = $.map(dates, function(date, date_index) {
+        var games = [];
+
+        $.each(dates, function(date_index, date) {
             var is_last_day = (round_index == rounds_dates.length - 1) && (date_index == dates.length - 1);
-            var games = $.map(date.matchups, function (matchup, mu_index) {
-                var week_day = WEEK_DAYS[(new Date(date.year, date.month-1, date.day)).getDay()];
-                return {
-                    'is_first_game_on_day': mu_index == 0,
-                    'is_second_game_on_day': mu_index == 1,
+
+            $.each(date.matchups, function (mu_index, matchup) {
+                var game = {
+                    'is_first_game_on_day': true,
+                    'is_second_game_on_day': false,
                     'home_team': teams_by_char[matchup.home_team],
                     'away_team': teams_by_char[matchup.away_team],
-                    'date_str': format_date(date),
-                    'day': date,
-                    'time_str': (is_last_day ? state.lastday_time : state.default_time),
-                    'week_day': week_day,
-                    'daynum_str': date.num_str
+                    'daynum_str': date.num_str,
+
+                    'original_date': date,
+                    'original_date_str': format_date(date),
+                    'original_time_str': (is_last_day ? state.lastday_time : state.default_time),
+                    'original_week_day': week_day(date),
+                };
+                var adj = state.adjournments[all_games.length];
+                if (adj) {
+                    game.adjourned = true;
+                    game.date = adj.date;
+                    game.date_str = format_date(game.date);
+                    game.time_str = adj.time;
+                    game.week_day = week_day(game.date);
+                } else {
+                    game.adjourned = false;
+                    game.date = game.original_date;
+                    game.date_str = game.original_date_str;
+                    game.time_str = game.original_time_str;
+                    game.week_day = game.original_week_day;
                 }
+                game.adjourned_date = game.original_date_str != game.date_str;
+                game.adjourned_weekday = game.original_week_day != game.week_day;
+                game.adjourned_time = game.original_time_str != game.time_str;
+
+                games.push(game);
+                all_games.push(game);
             });
-            return $.extend({
-                'num_str': date.num_str,
-                'day_str': format_date(date),
-                'games': games,
-                'game_count': games.length,
-                'game_count_minus_one': games.length - 1
-            }, date);
         });
+
+        // TODO calculate number of games per day etc.
+        // TODO sort games by date
         return {
-            'game_days': game_days
+            'games': games
         }
     });
     return state;
@@ -561,7 +600,7 @@ function adjournments_update_display(state) {
 
     var adjourned_games = {};
     $.each(state.adjournments, function(_, a) {
-        adjourned_games[a.game_id] = true;
+        adjourned_games[a.game_id] = a;
     });
 
     // Update "add" display
@@ -573,7 +612,9 @@ function adjournments_update_display(state) {
         }
         var n = document.createElement('option');
         n.setAttribute('value', idx);
-        $(n).text(game.home_team.name + ' - ' + game.away_team.name + ' (' + game.date_str + ' ' + game.time_str + ')');
+        $(n).text(
+            game.home_team.name + ' - ' + game.away_team.name +
+            ' (' + game.original_date_str + ' ' + game.original_time_str + ')');
         list_node.append(n);
     });
 
@@ -591,9 +632,22 @@ function adjournments_update_display(state) {
         var game = games[adj.game_id];
         node.text(
             game.home_team.name + ' - ' + game.away_team.name + ' ' +
-            game.date_str + ' ' + game.time_str + ' → ' +
-            adj.date + ' ' + adj.time);
+            format_date(game.original_date) + ' ' + game.original_time_str + ' → ' +
+            week_day(adj.date) + ' ' + format_date(adj.date) + ' ' + adj.time);
         lst.append(node);
+
+        var remove_btn = $('<button>');
+        remove_btn.text('-');
+        remove_btn.on('click', function() {
+            for (var i = 0;i < current_adjournments.length;i++) {
+                if (current_adjournments[i].game_id == adj.game_id) {
+                    current_adjournments.splice(i, 1);
+                    on_change();
+                    return;
+                }
+            }
+        });
+        node.append(remove_btn);
     });
 
     adjournment_add_on_input();
@@ -610,7 +664,7 @@ function adjournment_add_on_input() {
         return;
     }
     var g = games[parseInt(game_id_str)];
-    $('#adjournment_add [name="date"]').val(iso8601(g.day));
+    $('#adjournment_add [name="date"]').val(iso8601(g.original_date));
     $('#adjournment_add [name="time"]').val(g.time_str);
 }
 
@@ -618,7 +672,7 @@ function adjournment_add(e) {
     e.preventDefault();
     current_adjournments.push({
         game_id: $('#adjournment_add [name="game"]').val(),
-        date: $('#adjournment_add [name="date"]').val(),
+        date: parse_iso8601($('#adjournment_add [name="date"]').val()),
         time: $('#adjournment_add [name="time"]').val(),
     });
     on_change();
