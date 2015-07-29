@@ -1,4 +1,4 @@
-allow changes
+support date changes
 import changes from excel
 store changes permanently (at least on client)
 
@@ -6,6 +6,9 @@ dump json in HTML
 no iframe
 print Spielplan
 render Spielplan PDF (with remote help?)
+Spielplan als XLSX (-> Miles)
 
 xlsx/pdf/print icons
 date changes
+xlsx: conditional formatting for changes
+xlsx: automatically calculate week day, both original and new
