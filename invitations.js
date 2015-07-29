@@ -103,7 +103,9 @@ function parse_teams(v) {
 }
 
 var current_adjournments = [];
-var _FIELDS = ['dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb', 'default_time', 'lastday_time'];
+var _FIELDS = [
+    'dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb',
+    'default_time', 'lastday_time', 'kroton_url'];
 function read_input() {
     var res = {};
     $.each(_FIELDS, function(_, f) {
@@ -999,6 +1001,9 @@ $(function() {
     $('#season_name').on('input', on_change);
     $('#abbrev').on('input', on_change);
     $('#stb').on('input', on_change);
+    $('#default_time').on('input', on_change);
+    $('#lastday_time').on('input', on_change);
+    $('#kroton_url').on('input', on_change);
     $('#adjournment_add').on('submit', adjournment_add);
     $('#adjournment_add [name="game"]').on('input', adjournment_add_on_input);
     $('#adjournment_import [name="files"]').on('change', adjournment_import);
