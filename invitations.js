@@ -320,6 +320,7 @@ function make_plan(team) {
             horizontal: 'right'
         }
     });
+    var str_numfmt = stylesheet.createNumberFormatter('@');
     var input_field_format = stylesheet.createFormat({
         font: {
             fontName: 'Arial',
@@ -332,6 +333,7 @@ function make_plan(team) {
             bottom: {color: 'FF000000', style: 'thin'}
         },
         protection: {'locked': false},
+        format: str_numfmt.id,
     });
 
     data.push([
