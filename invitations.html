@@ -41,11 +41,15 @@
 </fieldset>
 
 <fieldset>
-<form action"#" method="post" id="adjournment_add"><select size="1" name="game" required="required"></select> <input type="date" name="date" style="width: 10em;" required="required" /> <input type="text" name="time" size="2" pattern="^[0-9]{1,2}:(?:00|15|30|45)$" required="required" /><button>Hinzufügen</button></form>
+<form action="#" method="post" id="adjournment_add"><select size="1" name="game" required="required"></select> <input type="date" name="date" style="width: 10em;" required="required" /> <input type="text" name="time" size="2" pattern="^[0-9]{1,2}:(?:00|15|30|45)$" required="required" /><button>Hinzufügen</button></form>
 <div id="adjournment_list_container">
 <span class="adjournment_list_empty">Bisher keine Verlegungen</span>
 <ul class="adjournment_list"></ul>
 </div>
+
+<form action="#" method="post" id="adjournment_import">
+<label>Importieren: <input type="file" name="files" multiple="multiple" value="Import" /></label>
+</form>
 </fieldset>
 
 </div>
@@ -61,6 +65,7 @@
 <script src="libs/FileSaver.min.js"></script>
 <script src="libs/excel-builder.dist.min.js"></script>
 <script src="libs/jszip.min.js"></script>
+<script src="libs/xlsx.core.min.js"></script>
 <script src="invitations.js"></script>
 </body>
 </html>

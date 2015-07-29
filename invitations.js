@@ -7,11 +7,23 @@ function ParseException(message) {
    this.name = "ParseException";
 }
 
+function error(msg) {
+    console.error(msg);
+}
+
 function _leading_zero(x) {
     if (x < 10) {
         return '0' + x;
     } else {
         return '' + x;
+    }
+}
+
+function _filter_array_inplace(ar, func) {
+    for (var i = ar.length - 1;i >= 0;i--) {
+        if (! func(ar[i])) {
+            ar.splice(i, 1);
+        }
     }
 }
 
@@ -36,6 +48,18 @@ function parse_iso8601(s) {
         'year': parseInt(m[1]),
         'month': parseInt(m[2]),
         'day': parseInt(m[3])
+    };
+}
+
+function parse_date(s) {
+    var m = s.match(/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/);
+    if (!m) {
+        return parse_iso8601(s);
+    }
+    return {
+        'day': parseInt(m[1]),
+        'month': parseInt(m[2]),
+        'year': parseInt(m[3]),
     };
 }
 
@@ -105,6 +129,43 @@ function calc_games(state) {
     return games;
 }
 
+function _compare_date(d1, d2) {
+    var d1_repr = iso8601(d1);
+    var d2_repr = iso8601(d2);
+    if (d1_repr > d2_repr) {
+        return 1;
+    }
+    if (d1_repr < d2_repr) {
+        return -1;
+    }
+    return 0;
+}
+
+function _unify_team_name(name) {
+    var res = name.replace(/^\s*\([0-9]+\)\s+/, '');
+    res = res.replace(/\s/g, '');
+    res = res.replace(/\./g, '');
+    res = res.toLowerCase();
+    return res;
+}
+
+
+function find_game(state, home_name, away_name) {
+    var home_name_search = _unify_team_name(home_name);
+    var away_name_search = _unify_team_name(away_name);
+    for (var i = 0;i < state.rounds.length;i++) {
+        var games = state.rounds[i].games;
+        for (var j = 0;j < games.length;j++) {
+            var game = games[j];
+            if ((_unify_team_name(game.home_team.name) == home_name_search) &&
+                    (_unify_team_name(game.away_team.name) == away_name_search)) {
+                return game;
+            }
+        }
+    }
+    return undefined;
+}
+
 function calc(input) {
     var now = new Date();
     var state = $.extend({
@@ -121,7 +182,7 @@ function calc(input) {
 
     var adjourned_games = {};
     $.each(state.adjournments, function(_, a) {
-        adjourned_games[a.game_id] = a;
+        adjourned_games[a.game_num] = a;
     });
 
     var teams_by_char = {};
@@ -151,7 +212,7 @@ function calc(input) {
                     'original_time_str': (is_last_day ? state.lastday_time : state.default_time),
                     'original_week_day': week_day(date),
                 };
-                var adj = state.adjournments[game.game_num];
+                var adj = adjourned_games[game.game_num];
                 if (adj) {
                     game.adjourned = true;
                     game.date = adj.date;
@@ -177,13 +238,9 @@ function calc(input) {
         var sorted_games = games.slice();
         sorted_games.sort(function(g1, g2) {
             // Compare by date
-            var d1_repr = iso8601(g1.date);
-            var d2_repr = iso8601(g2.date);
-            if (d1_repr > d2_repr) {
-                return 1;
-            }
-            if (d1_repr < d2_repr) {
-                return -1;
+            var cmp = _compare_date(g1.date, g2.date);
+            if (cmp != 0) {
+                return cmp;
             }
 
             // Compare by time
@@ -659,7 +716,7 @@ function adjournments_update_display(state) {
 
     var adjourned_games = {};
     $.each(state.adjournments, function(_, a) {
-        adjourned_games[a.game_id] = a;
+        adjourned_games[a.game_num] = a;
     });
 
     // Update "add" display
@@ -688,7 +745,7 @@ function adjournments_update_display(state) {
     lst.empty();
     $.each(state.adjournments, function(_, adj) {
         var node = $('<li>');
-        var game = games[adj.game_id];
+        var game = games[adj.game_num];
         node.text(
             game.home_team.name + ' - ' + game.away_team.name + ' ' +
             format_date(game.original_date) + ' ' + game.original_time_str + ' → ' +
@@ -699,7 +756,7 @@ function adjournments_update_display(state) {
         remove_btn.text('-');
         remove_btn.on('click', function() {
             for (var i = 0;i < current_adjournments.length;i++) {
-                if (current_adjournments[i].game_id == adj.game_id) {
+                if (current_adjournments[i].game_num == adj.game_num) {
                     current_adjournments.splice(i, 1);
                     on_change();
                     return;
@@ -718,11 +775,11 @@ function adjournment_add_on_input() {
     if (games.length == 0) {
         return;
     }
-    var game_id_str = $('#adjournment_add [name="game"]').val();
-    if (game_id_str === '') {
+    var game_num_str = $('#adjournment_add [name="game"]').val();
+    if (game_num_str === '') {
         return;
     }
-    var g = games[parseInt(game_id_str)];
+    var g = games[parseInt(game_num_str)];
     $('#adjournment_add [name="date"]').val(iso8601(g.original_date));
     $('#adjournment_add [name="time"]').val(g.time_str);
 }
@@ -730,12 +787,108 @@ function adjournment_add_on_input() {
 function adjournment_add(e) {
     e.preventDefault();
     current_adjournments.push({
-        game_id: $('#adjournment_add [name="game"]').val(),
+        game_num: $('#adjournment_add [name="game"]').val(),
         date: parse_iso8601($('#adjournment_add [name="date"]').val()),
         time: $('#adjournment_add [name="time"]').val(),
     });
     on_change();
     return false;
+}
+
+function _jsxlsx_decode_date(workbook, cell) {
+    if (!cell) {
+        return null;
+    }
+    var date1904 = workbook.WBProps ? workbook.WBProps.date1904 : false;
+    if (cell.t == 's') {
+        return parse_date(cell.w);
+    }
+    var date_obj = XLSX.SSF.parse_date_code(cell.v, {date1904: date1904});
+    return {
+        day: date_obj.d,
+        month: date_obj.m,
+        year: date_obj.y,
+    }
+}
+
+function _jsxlsx_decode_time(cell) {
+    if (!cell) {
+        return null;
+    }
+    var res = ("" + cell.w);
+    res = res.replace(/^([0-9]{2})\.([0-9]{2})$/, function(_, h, m) {
+        return h + ':' + m;
+    });
+    return res;
+}
+
+function adjournment_import(e) {
+    var state = calc(current_input);
+    var games = calc_games(state);
+
+    var files = e.target.files;
+    for (var i = 0;i < files.length;i++) {
+        var f = files[i];
+        var reader = new FileReader();
+        var name = f.name;
+        reader.onload = function(e) {
+            var data = e.target.result;
+
+            var workbook = XLSX.read(data, {type: 'binary'});
+            var ws = workbook.Sheets[workbook.SheetNames[0]];
+
+            // E9 - G15
+            var row_start = 8;
+            for (var row = row_start;row < row_start + state.teams.length + 10;row++) {
+                var home_name_cell = ws[XLSX.utils.encode_cell({c:7, r:row})];
+                var away_name_cell = ws[XLSX.utils.encode_cell({c:9, r:row})];
+                if (!home_name_cell || !away_name_cell) {
+                    continue;
+                }
+                var home_name = home_name_cell.w;
+                var away_name = away_name_cell.w;
+                if (!home_name || !away_name) {
+                    continue;
+                }
+
+                if (row == row_start) {
+                    _filter_array_inplace(current_adjournments, function(adj) {
+                        var g = games[parseInt(adj.game_num)];
+                        return _unify_team_name(g.home_team.name) != _unify_team_name(home_name);
+                    });
+                }
+
+                var date_cell = ws[XLSX.utils.encode_cell({c:5, r:row})];
+                var date = _jsxlsx_decode_date(workbook, date_cell);
+                if (!date) {
+                    continue;
+                }
+                var time_cell = ws[XLSX.utils.encode_cell({c:6, r:row})];
+                var time = _jsxlsx_decode_time(time_cell);
+
+                var game = find_game(state, home_name, away_name);
+                if (!game) {
+                    error('Spiel ' + home_name + ' vs ' + away_name + ' konnte nicht gefunden werden.');
+                    continue;
+                }
+
+                if ((_compare_date(date, game.original_date) == 0) && (time == game.time_str)) {
+                    continue;
+                }
+
+                var adj = {
+                    game_num: game.game_num,
+                    date: date,
+                    time: time,
+                };
+                current_adjournments.push(adj);
+            }
+
+            on_change();
+        };
+        reader.readAsBinaryString(f);
+    }
+    $('#adjournment_import')[0].reset();
 }
 
 var current_input;
@@ -848,4 +1001,5 @@ $(function() {
     $('#stb').on('input', on_change);
     $('#adjournment_add').on('submit', adjournment_add);
     $('#adjournment_add [name="game"]').on('input', adjournment_add_on_input);
+    $('#adjournment_import [name="files"]').on('change', adjournment_import);
 });

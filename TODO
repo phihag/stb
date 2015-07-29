@@ -1,7 +1,7 @@
-import adjournments from excel
-store adjournments permanently (at least on client)
-
+fix adjournment display
 compare adjournments to turnier.de
+store adjournments permanently
+sort adjournments by original date or team or so?
 
 dump json in HTML
 no iframe
@@ -13,3 +13,4 @@ xlsx/pdf/print icons
 xlsx: conditional formatting for adjournments
 xlsx: automatically calculate week day, both original and new
 break for adjournments to original date
+check date when importing

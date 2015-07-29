@@ -9,6 +9,7 @@ force-install-libs:
 	wget https://raw.githubusercontent.com/eligrey/FileSaver.js/master/FileSaver.min.js -O libs/FileSaver.min.js
 	wget https://raw.githubusercontent.com/Stuk/jszip/master/dist/jszip.min.js -O libs/jszip.min.js
 	wget https://raw.githubusercontent.com/beatgammit/base64-js/master/lib/b64.js -O libs/b64.js
+	wget https://raw.githubusercontent.com/SheetJS/js-xlsx/master/dist/xlsx.core.min.js -O libs/xlsx.core.min.js
 	touch libs/.completed
 
 clean:
