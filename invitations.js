@@ -502,10 +502,15 @@ function make_plan(team) {
         },
     };
     var content_format = _xlsx_make_style(stylesheet, content_format_dict);
-    var content_format_changeable = _xlsx_make_style(stylesheet, content_format_dict,
-        {protection: {'locked': false}});
-    var content_format_changeable_right = _xlsx_make_style(stylesheet, content_format_dict,
-        {protection: {'locked': false}, border: {right: {color: 'FF000000', style: 'thin'}}});
+    var content_format_changeable = _xlsx_make_style(stylesheet, content_format_dict, {
+        protection: {'locked': false},
+        format: str_numfmt.id,
+    });
+    var content_format_changeable_right = _xlsx_make_style(stylesheet, content_format_dict, {
+        protection: {'locked': false},
+        border: {right: {color: 'FF000000', style: 'thin'}},
+        format: str_numfmt.id,
+    });
 
     var content_formatdict_right = $.extend(true, {}, content_format_dict);
     content_formatdict_right.border.right = {color: 'FF000000', style: 'thin'};
