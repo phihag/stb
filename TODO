@@ -1,6 +1,7 @@
-support date changes
-import changes from excel
-store changes permanently (at least on client)
+support adjournments
+import adjournments from excel
+store adjournments permanently (at least on client)
+compare adjournments to turnier.de
 
 dump json in HTML
 no iframe
@@ -9,6 +10,6 @@ render Spielplan PDF (with remote help?)
 Spielplan als XLSX (-> Miles)
 
 xlsx/pdf/print icons
-date changes
-xlsx: conditional formatting for changes
+xlsx: conditional formatting for adjournments
 xlsx: automatically calculate week day, both original and new
+break for adjournments to original date

@@ -7,15 +7,20 @@ function ParseException(message) {
    this.name = "ParseException";
 }
 
-function format_date(date) {
-    var leading_zero = function(x) {
-        if (x < 10) {
-            return '0' + x;
-        } else {
-            return '' + x;
-        }
+function _leading_zero(x) {
+    if (x < 10) {
+        return '0' + x;
+    } else {
+        return '' + x;
     }
-    return leading_zero(date.day) + '.' + leading_zero(date.month) + '.' + date.year;
+}
+
+function iso8601(date) {
+    return date.year + '-' + _leading_zero(date.month) + '-' + _leading_zero(date.day);
+}
+
+function format_date(date) {
+    return _leading_zero(date.day) + '.' + _leading_zero(date.month) + '.' + date.year;
 }
 
 function parse_dates(v) {
@@ -57,27 +62,33 @@ function parse_teams(v) {
     });
 }
 
+var current_adjournments = [];
 var _FIELDS = ['dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb', 'default_time', 'lastday_time'];
 function read_input() {
     var res = {};
     $.each(_FIELDS, function(_, f) {
         res[f] = $('#' + f).val();
     });
+    res.adjournments = current_adjournments;
     return res;
 }
 
 function calc_home_games(team, state)  {
-    var team_games = [];
+    return $.grep(calc_games(state), function(game) {
+        return game.home_team.name == team.name;
+    });
+}
+
+function calc_games(state) {
+    var games = [];
     $.each(state.rounds, function(_, round) {
         $.each(round.game_days, function(_, game_day) {
             $.each(game_day.games, function(_, game) {
-                if (game.home_team.name == team.name) {
-                    team_games.push(game);
-                }
+                games.push(game);
             });
         });
     });
-    return team_games;
+    return games;
 }
 
 function calc(input) {
@@ -85,8 +96,14 @@ function calc(input) {
     var state = $.extend({
         'today': (now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear()),
         'dates': parse_dates(input.dates_in),
-        'teams': parse_teams(input.teams_in)
+        'teams': parse_teams(input.teams_in),
+        'adjournments': input.adjournments,
     }, input);
+
+    if (state.teams.length < 2) {
+        state.rounds = [];
+        return state;
+    }
 
     var teams_by_char = {};
     $.each(state.teams, function(_, team) {
@@ -107,6 +124,7 @@ function calc(input) {
                     'home_team': teams_by_char[matchup.home_team],
                     'away_team': teams_by_char[matchup.away_team],
                     'date_str': format_date(date),
+                    'day': date,
                     'time_str': (is_last_day ? state.lastday_time : state.default_time),
                     'week_day': week_day,
                     'daynum_str': date.num_str
@@ -538,6 +556,75 @@ function make_overview() {
     return Mustache.render(spielplan_template, state);
 }
 
+function adjournments_update_display(state) {
+    var games = calc_games(state);
+
+    var adjourned_games = {};
+    $.each(state.adjournments, function(_, a) {
+        adjourned_games[a.game_id] = true;
+    });
+
+    // Update "add" display
+    var list_node = $('#adjournment_add [name="game"]');
+    list_node.empty();
+    $.each(games, function(idx, game) {
+        if (adjourned_games[idx]) {
+            return;
+        }
+        var n = document.createElement('option');
+        n.setAttribute('value', idx);
+        $(n).text(game.home_team.name + ' - ' + game.away_team.name + ' (' + game.date_str + ' ' + game.time_str + ')');
+        list_node.append(n);
+    });
+
+    var none = $('#adjournment_list_container .adjournment_list_empty');
+    if (state.adjournments.length == 0) {
+        none.show();
+    } else {
+        none.hide();
+    }
+
+    var lst = $('#adjournment_list_container .adjournment_list');
+    lst.empty();
+    $.each(state.adjournments, function(_, adj) {
+        var node = $('<li>');
+        var game = games[adj.game_id];
+        node.text(
+            game.home_team.name + ' - ' + game.away_team.name + ' ' +
+            game.date_str + ' ' + game.time_str + ' → ' +
+            adj.date + ' ' + adj.time);
+        lst.append(node);
+    });
+
+    adjournment_add_on_input();
+}
+
+function adjournment_add_on_input() {
+    var state = calc(current_input);
+    var games = calc_games(state);
+    if (games.length == 0) {
+        return;
+    }
+    var game_id_str = $('#adjournment_add [name="game"]').val();
+    if (game_id_str === '') {
+        return;
+    }
+    var g = games[parseInt(game_id_str)];
+    $('#adjournment_add [name="date"]').val(iso8601(g.day));
+    $('#adjournment_add [name="time"]').val(g.time_str);
+}
+
+function adjournment_add(e) {
+    e.preventDefault();
+    current_adjournments.push({
+        game_id: $('#adjournment_add [name="game"]').val(),
+        date: $('#adjournment_add [name="date"]').val(),
+        time: $('#adjournment_add [name="time"]').val(),
+    });
+    on_change();
+    return false;
+}
+
 var current_input;
 function on_change() {
     current_input = read_input();
@@ -595,14 +682,15 @@ function on_change() {
         saveAs(zip_content, 'Spielpläne ' + state.abbrev + ".zip");
     });
 
-    if (!spielplan_template) {
-        return;
+    if (spielplan_template) {
+        var spielplan_html = Mustache.render(spielplan_template, state);
+        var iframe = $('#output-spielplan');
+        var iFrameDoc = iframe[0].contentDocument || iframe[0].contentWindow.document;
+        iFrameDoc.write(spielplan_html);
+        iFrameDoc.close();
     }
-    var spielplan_html = Mustache.render(spielplan_template, state);
-    var iframe = $('#output-spielplan');
-    var iFrameDoc = iframe[0].contentDocument || iframe[0].contentWindow.document;
-    iFrameDoc.write(spielplan_html);
-    iFrameDoc.close();
+
+    adjournments_update_display(state);
 }
 
 var spielplan_template = null;
@@ -645,4 +733,6 @@ $(function() {
     $('#season_name').on('input', on_change);
     $('#abbrev').on('input', on_change);
     $('#stb').on('input', on_change);
+    $('#adjournment_add').on('submit', adjournment_add);
+    $('#adjournment_add [name="game"]').on('input', adjournment_add_on_input);
 });

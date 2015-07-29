@@ -39,6 +39,15 @@
 	<label><span>Zeit:</span><input id="default_time" value="18:00" /></label>
 	<label><span>Zeit Finaltag:</span><input id="lastday_time" value="18:00" /></label>
 </fieldset>
+
+<fieldset>
+<form action"#" method="post" id="adjournment_add"><select size="1" name="game" required="required"></select> <input type="date" name="date" style="width: 10em;" required="required" /> <input type="text" name="time" size="2" pattern="^[0-9]{1,2}:(?:00|15|30|45)$" required="required" /><button>Hinzufügen</button></form>
+<div id="adjournment_list_container">
+<span class="adjournment_list_empty">Bisher keine Verlegungen</span>
+<ul class="adjournment_list"></ul>
+</div>
+</fieldset>
+
 </div>
 
 <div class="outputs">

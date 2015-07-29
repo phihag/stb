@@ -55,3 +55,7 @@ input, textarea {
 .outputs>* {
 	float: left;
 }
+
+.adjournment_none {
+	font-style: italic;
+}
