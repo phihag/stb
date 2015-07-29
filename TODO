@@ -1,11 +1,10 @@
-store adjournments permanently
 sort adjournments by original date or team or so?
+Spielplan als XLSX (-> Miles)
 
 dump json in HTML
 no iframe
 print Spielplan
 render Spielplan PDF (with remote help?)
-Spielplan als XLSX (-> Miles)
 
 xlsx/pdf/print icons
 xlsx: conditional formatting for adjournments

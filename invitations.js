@@ -944,7 +944,9 @@ function on_change() {
     });
     var data_fn = state.abbrev + '.json';
     _file_link(data_fn, function() {
-        saveAs(new Blob([JSON.Stringify(current_input)], {type: "application/json;charset=utf-8"}), data_fn)
+        saveAs(new Blob(
+            [JSON.stringify(current_input, undefined, 2)],
+            {type: "application/json;charset=utf-8"}), data_fn)
     });
     _file_link('Alle Dateien als zip', function() {
         var zip = new JSZip();
