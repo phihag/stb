@@ -131,12 +131,27 @@ function format_team_name(team) {
     return '(' + team.club_id + ') ' + team.name;
 }
 
+function _xlsx_make_style(stylesheet, orig_dict, changes_dict) {
+    var d = {};
+    if (changes_dict) {
+        $.extend(true, d, orig_dict, changes_dict)
+    } else {
+        $.extend(true, d, orig_dict);
+    }
+    return stylesheet.createFormat(d);
+}
+
 function make_plan(team) {
     var state = calc(current_input);
 
     var workbook = ExcelBuilder.createWorkbook();
     var ws = workbook.createWorksheet({name: team.name});
+    ws.sheetProtection = true;
     var stylesheet = workbook.getStyleSheet();
+
+    ws.sheetProtection = {
+        'sheet': '1'
+    };
 
     var data = [];
 
@@ -144,12 +159,14 @@ function make_plan(team) {
         border: {
             top: {color: 'FF000000', style: 'thin'},
             right: {color: 'FF000000', style: 'thin'}
-        }
+        },
+        protection: {'locked': false},
     });
     var right_border_format = stylesheet.createFormat({
         border: {
             right: {color: 'FF000000', style: 'thin'}
-        }
+        },
+        protection: {'locked': false},
     });
 
     var team_name_format = stylesheet.createFormat({
@@ -162,7 +179,8 @@ function make_plan(team) {
         },
         border: {
             bottom: {color: 'FF000000', style: 'thin'}
-        }
+        },
+        protection: {'locked': false},
     });
     data.push([
         '', '', {value: format_team_name(team), metadata: {style: team_name_format.id}},
@@ -203,7 +221,8 @@ function make_plan(team) {
         },
         border: {
             bottom: {color: 'FF000000', style: 'thin'}
-        }
+        },
+        protection: {'locked': false},
     });
 
     data.push([
@@ -254,11 +273,14 @@ function make_plan(team) {
         {value: 'Heimspieltermine', metadata: {style: header_format.id}},
         '', '',
         {value: state.league_name, metadata: {style: header_format.id}},
-        '', '', '', '', '',
+        '', '', '',
+        {value: 'StB: ' + state.stb, metadata: {style: header_format.id}},
+        '',
         {value: state.season_name, metadata: {style: header_format.id}},
     ]);
     ws.mergeCells('A5', 'C5');
     ws.mergeCells('D5', 'G5');
+    ws.mergeCells('H5', 'I5');
     ws.setRowInstructions(4, {height: 30});
 
     data.push([]);
@@ -318,7 +340,7 @@ function make_plan(team) {
     ws.mergeCells('K7', 'M8');
     ws.setRowInstructions(6, {height: 30});
 
-    var title2_format = stylesheet.createFormat({
+    var title2_format_dict = {
         font: {
             fontName: 'Arial',
             size: 10,
@@ -332,23 +354,12 @@ function make_plan(team) {
             top: {color: 'FF000000', style: 'thin'},
             bottom: {color: 'FF000000', style: 'thin'}
         }
-    });
-    var title2_format_right = stylesheet.createFormat({
-        font: {
-            fontName: 'Arial',
-            size: 10,
-            italic: true
-        },
-        alignment: {
-            vertical: 'center',
-            horizontal: 'center'
-        },
-        border: {
-            top: {color: 'FF000000', style: 'thin'},
-            right: {color: 'FF000000', style: 'thin'},
-            bottom: {color: 'FF000000', style: 'thin'}
-        }
-    });
+    };
+    var title2_format = stylesheet.createFormat($.extend(true, {}, title2_format_dict));
+    var title2_format_right_dict = $.extend(true, {}, title2_format_dict);
+    title2_format_right_dict.border.right = {color: 'FF000000', style: 'thin'};
+    var title2_format_right = stylesheet.createFormat(title2_format_right_dict);
+
     data.push([
         {value: 'Spt.', metadata: {style: title2_format_right.id}},
         {value: 'Wt', metadata: {style: title2_format.id}},
@@ -365,8 +376,7 @@ function make_plan(team) {
         {value: '', metadata: {style: right_border_format.id}}
     ]);
 
-
-    var content_formatdict = {
+    var content_format_dict = {
         font: {
             fontName: 'Arial',
             size: 10
@@ -378,13 +388,18 @@ function make_plan(team) {
         border: {
             top: {color: 'FF000000', style: 'thin'},
             bottom: {color: 'FF000000', style: 'thin'}
-        }
+        },
     };
-    var content_format = stylesheet.createFormat($.extend(true, {}, content_formatdict));
-    var content_formatdict_right = $.extend(true, {}, content_formatdict);
+    var content_format = _xlsx_make_style(stylesheet, content_format_dict);
+    var content_format_changeable = _xlsx_make_style(stylesheet, content_format_dict,
+        {protection: {'locked': false}});
+    var content_format_changeable_right = _xlsx_make_style(stylesheet, content_format_dict,
+        {protection: {'locked': false}, border: {right: {color: 'FF000000', style: 'thin'}}});
+
+    var content_formatdict_right = $.extend(true, {}, content_format_dict);
     content_formatdict_right.border.right = {color: 'FF000000', style: 'thin'};
     var content_format_right = stylesheet.createFormat($.extend(true, {}, content_formatdict_right));
-    var content_formatdict_left = $.extend(true, {}, content_formatdict);
+    var content_formatdict_left = $.extend(true, {}, content_format_dict);
     content_formatdict_left.border.left = {color: 'FF000000', style: 'thin'};
     var content_format_left = stylesheet.createFormat($.extend(true, {}, content_formatdict_left));
     var home_teamdict = $.extend(true, {}, content_formatdict_left);
@@ -402,15 +417,15 @@ function make_plan(team) {
             {value: home_game.week_day, metadata: {style: content_format_left.id}},
             {value: home_game.date_str, metadata: {style: content_format.id}},
             {value: home_game.time_str, metadata: {style: content_format_right.id}},
-            {value: '', metadata: {style: content_format.id}},
-            {value: '', metadata: {style: content_format.id}},
-            {value: '', metadata: {style: content_format_right.id}},
+            {value: '', metadata: {style: content_format_changeable.id}},
+            {value: '', metadata: {style: content_format_changeable.id}},
+            {value: '', metadata: {style: content_format_changeable_right.id}},
             {value: format_team_name(home_game.home_team), metadata: {style: home_team_format.id}},
             {value: '-', metadata: {style: content_format.id}},
             {value: format_team_name(home_game.away_team), metadata: {style: away_team_format.id}},
-            {value: '', metadata: {style: content_format.id}},
-            {value: '', metadata: {style: content_format.id}},
-            {value: '', metadata: {style: content_format_right.id}}
+            {value: '', metadata: {style: content_format_changeable.id}},
+            {value: '', metadata: {style: content_format_changeable.id}},
+            {value: '', metadata: {style: content_format_changeable_right.id}}
         ]);
         ws.setRowInstructions(row_index, {height: 30});
         ws.mergeCells('K' + (row_index + 1), 'M' + (row_index + 1));

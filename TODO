@@ -1,3 +1,7 @@
+allow changes
+import changes from excel
+store changes permanently (at least on client)
+
 dump json in HTML
 no iframe
 print Spielplan
