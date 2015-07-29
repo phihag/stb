@@ -1,5 +1,3 @@
-delete adjournments in UI
-reflect adjournments in Excel export
 show weekdays in adjournments list
 html: sort by date
 html: join SpT/VT if it's on the same day

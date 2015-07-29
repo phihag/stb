@@ -471,12 +471,12 @@ function make_plan(team) {
         var row_index = 8 + game_index;
         data.push([
             {value: home_game.daynum_str, metadata: {style: content_format_right.id}},
-            {value: home_game.week_day, metadata: {style: content_format_left.id}},
-            {value: home_game.date_str, metadata: {style: content_format.id}},
-            {value: home_game.time_str, metadata: {style: content_format_right.id}},
-            {value: '', metadata: {style: content_format_changeable.id}},
-            {value: '', metadata: {style: content_format_changeable.id}},
-            {value: '', metadata: {style: content_format_changeable_right.id}},
+            {value: home_game.original_week_day, metadata: {style: content_format_left.id}},
+            {value: home_game.original_date_str, metadata: {style: content_format.id}},
+            {value: home_game.original_time_str, metadata: {style: content_format_right.id}},
+            {value: (home_game.adjourned ? home_game.week_day : ''), metadata: {style: content_format_changeable.id}},
+            {value: (home_game.adjourned ? home_game.date_str : ''), metadata: {style: content_format_changeable.id}},
+            {value: (home_game.adjourned ? home_game.time_str : ''), metadata: {style: content_format_changeable_right.id}},
             {value: format_team_name(home_game.home_team), metadata: {style: home_team_format.id}},
             {value: '-', metadata: {style: content_format.id}},
             {value: format_team_name(home_game.away_team), metadata: {style: away_team_format.id}},
