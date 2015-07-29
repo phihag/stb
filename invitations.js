@@ -872,7 +872,7 @@ function adjournment_import(e) {
                     continue;
                 }
 
-                if ((_compare_date(date, game.original_date) == 0) && (time == game.time_str)) {
+                if ((_compare_date(date, game.original_date) == 0) && (time == game.original_time_str)) {
                     continue;
                 }
 
