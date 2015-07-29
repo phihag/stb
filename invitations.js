@@ -748,10 +748,20 @@ function adjournments_update_display(state) {
     $.each(state.adjournments, function(_, adj) {
         var node = $('<li>');
         var game = games[adj.game_num];
-        node.text(
+        var label = (
             game.home_team.name + ' - ' + game.away_team.name + ' ' +
             format_date(game.original_date) + ' ' + game.original_time_str + ' → ' +
             week_day(adj.date) + ' ' + format_date(adj.date) + ' ' + adj.time);
+        if (game.online_url) {
+            node.text((game.is_online_different ? '✖' : '✔') + ' ');
+
+            var a = $('<a>');
+            node.append(a);
+            a.text(label);
+            a.attr({href: game.online_url});
+        } else {
+            node.text(label);
+        }
         lst.append(node);
 
         var remove_btn = $('<button>');
@@ -961,6 +971,42 @@ function on_change() {
     adjournments_update_display(state);
 }
 
+function adjournment_compare_online() {
+    var state = calc(current_input);
+
+    $.ajax('get_kroton_adjournments.php', {
+        dataType: 'json',
+        method: 'GET',
+        data: {
+            base_url: state.kroton_url,
+        }
+    }).done(function(json_doc) {
+        var online_games = json_doc.games;
+        $.each(online_games, function(_, online_game) {
+            var local_game = find_game(state, online_game.home_team_name, online_game.away_team_name);
+            if (! local_game) {
+                error('Spiel ' + online_game.home_team_name + ' vs ' + online_game.away_team_name + ' kann lokal nicht gefunden werden!');
+                return;
+            }
+
+            var online_date = parse_date(online_game.date);
+            local_game.online_url = online_game.url;
+            local_game.is_online_different = (_compare_date(online_date, local_game.date) != 0) || (online_game.time != local_game.time_str);
+
+            if ((! local_game.adjourned) && (local_game.is_online_different)) {
+                current_adjournments.push({
+                    game_num: local_game.game_num,
+                    date: local_game.date,
+                    time: local_game.time_str,
+                });
+            }
+        });
+        adjournments_update_display(state);
+    }).fail(function() {
+        error('Could not get online data!');
+    });
+}
+
 var spielplan_template = null;
 $.get('spielplan.mustache', function(template) {
     spielplan_template = template;
@@ -977,6 +1023,7 @@ $.getJSON('presets.json', function(loaded_presets) {
         $.each(_FIELDS, function(_, f) {
             $('#' + f).val(preset[f]);
         });
+        current_adjournments = preset.adjournments;
         on_change();
         return false;
     });
@@ -1007,4 +1054,5 @@ $(function() {
     $('#adjournment_add').on('submit', adjournment_add);
     $('#adjournment_add [name="game"]').on('input', adjournment_add_on_input);
     $('#adjournment_import [name="files"]').on('change', adjournment_import);
+    $('#adjournment_compare_online').on('click', adjournment_compare_online);
 });
