@@ -18,12 +18,13 @@ span.datatable_percent {
 }
 
 .box {
-	padding: 0 1em 1em 1em;
+	padding: 0 2em 1em 1em;
 	display: inline-block;
 }
 
 .label {
 	font-style: italic;
+	text-align: center;
 }
 
 h2 {

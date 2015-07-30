@@ -93,7 +93,6 @@ function analyze(contents) {
     analyze_players(players);
     analyze_played_disciplines(players);
     analyze_doubles(players);
-    analyze_tournaments(players);
 }
 
 function _make_boxes(num) {
@@ -202,7 +201,7 @@ function _2d_table(box, headers, rows, label, include_percent) {
         row.cells.forEach(function(cell) {
             var cell_node = $('<td>');
             cell_node.text(cell.value);
-            if (include_percent) {
+            if (cell.percent !== undefined) {
                 var percent_node = $('<span class="datatable_percent">');
                 percent_node.text('' + cell.percent + '%');
                 cell_node.append(percent_node);
@@ -325,7 +324,7 @@ function analyze_played_disciplines(players) {
     }];
 
     var data = _classify(players, CLASSIFICATIONS);
-    _table(boxes[0], data, 'Spieler');
+    _table(boxes[0], data, 'Spieler/innen');
 
     data = _classify(players, CLASSIFICATIONS, function(test_result, player, classification) {
         return test_result;
@@ -432,27 +431,35 @@ function calc_doubles_stats(players) {
         for (var tournament_index = 0;tournament_index <= max_tournament_index;tournament_index++) {
             var tournament_id = 'T' + (tournament_index+1);
             var stats = _setdefault(doubles_stats, tournament_id, {
-                'Mixed': 0,
-                'Doppel': 0,
-                'Beides': 0,
+                'Nur Einzel': 0,
+                'Nur Mixed': 0,
+                'Nur Doppel': 0,
+                'Doppel & Mixed': 0,
+                'Einzel & Mixed': 0,
             });
 
-            var played_doubles, played_mixed;
+            var played_singles, played_doubles, played_mixed;
             if (player.gender == 'M') {
+                played_singles = played_in['t' + tournament_index + '_' + 'HE'];
                 played_doubles = played_in['t' + tournament_index + '_' + 'HD'];
                 played_mixed = played_in['t' + tournament_index + '_' + 'MH'];
             } else {
+                played_singles = played_in['t' + tournament_index + '_' + 'DE'];
                 played_doubles = played_in['t' + tournament_index + '_' + 'DD'];
                 played_mixed = played_in['t' + tournament_index + '_' + 'MD'];
             }
 
             if (played_doubles && played_mixed) {
-                stats['Beides']++;
+                stats['Doppel & Mixed']++;
             } else if (played_doubles) {
-                stats['Doppel']++;
+                stats['Nur Doppel']++;
             } else if (played_mixed) {
-                console.log(player);
-                stats['Mixed']++;
+                stats['Nur Mixed']++;
+            }
+            if (played_singles && played_mixed) {
+                stats['Einzel & Mixed']++;
+            } else if (played_singles) {
+                stats['Nur Einzel']++;
             }
         }
     });
@@ -464,23 +471,32 @@ function calc_doubles_stats(players) {
 function analyze_doubles(players) {
     var dstats = calc_doubles_stats(players);
     $('#output').append($('<h2>Disziplinen am Wochenende</h2>'));
- 
-    var rows = [];
-    for (var tournament_id in dstats) {
-        var stats = dstats[tournament_id];
-        rows.push({
-            header: tournament_id,
-            cells: [
-                {value: stats['Doppel']},
-                {value: stats['Mixed']},
-                {value: stats['Beides']},
-            ]
-        });
-    }
-    var heading = ['Nur Doppel', 'Nur Mixed', 'Mixed und Doppel'];
+    var boxes = _make_boxes(2);
 
-    var boxes = _make_boxes(1);
-    _2d_table(boxes[0], heading, rows, null, true);
+    function _analyze_doubles_table(box, cell_keys, label) {
+        var rows = [];
+        for (var tournament_id in dstats) {
+            var stats = dstats[tournament_id];
+            var cells = cell_keys.map(function(ck) {
+                return {value: stats[ck]};
+            });
+            rows.push({
+                header: tournament_id,
+                cells: cells
+            });
+        }
+
+        _2d_table(box, cell_keys, rows, label, true);
+    }
+    
+    _analyze_doubles_table(
+        boxes[0],
+        ['Nur Doppel', 'Nur Mixed', 'Doppel & Mixed'],
+        'Bisher');
+    _analyze_doubles_table(
+        boxes[1],
+        ['Nur Einzel', 'Nur Mixed', 'Einzel & Mixed'],
+        'Vorschlag');
 }
 
 function download(url, callback) {
