@@ -8,4 +8,8 @@ invitations.js
 spielplan.mustache
 get_kroton_adjournments.php
 
+analyze.html
+analyze.css
+analyze.js
+
 !.git
