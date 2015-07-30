@@ -11,6 +11,32 @@ function error(msg) {
     console.error(msg);
 }
 
+function _read_file(f, callback) {
+    var reader = new FileReader();
+    if (reader.readAsBinaryString) {
+        reader.onload = function(e) {
+            var data = e.target.result;
+            callback(data);
+        }
+        reader.readAsBinaryString(f);
+        return;
+    }
+
+    // old IE
+    reader.onload = function(e) {
+        var buffer = e.target.result;
+        var data = "";
+        var bytes = new Uint8Array(buffer);
+        var length = bytes.byteLength;
+        for (var i = 0; i < length; i++) {
+            data += String.fromCharCode(bytes[i]);
+        }
+        callback(data);
+    }
+    reader.readAsArrayBuffer(f);
+    return;
+}
+
 function _leading_zero(x) {
     if (x < 10) {
         return '0' + x;
@@ -867,11 +893,7 @@ function adjournment_import(e) {
     var files = e.target.files;
     for (var i = 0;i < files.length;i++) {
         var f = files[i];
-        var reader = new FileReader();
-        var name = f.name;
-        reader.onload = function(e) {
-            var data = e.target.result;
-
+        _read_file(f, function(data) {
             var workbook = XLSX.read(data, {type: 'binary'});
             var ws = workbook.Sheets[workbook.SheetNames[0]];
 
@@ -923,8 +945,7 @@ function adjournment_import(e) {
             }
 
             on_change();
-        };
-        reader.readAsBinaryString(f);
+        });
     }
     $('#adjournment_import')[0].reset();
 }
