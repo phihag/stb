@@ -90,7 +90,11 @@ function analyze(contents) {
     var players = read_data(contents);
     $('#output').empty();
 
+    analyze_players(players);
     analyze_played_disciplines(players);
+    analyze_tournaments(players);
+    analyze_doubles(players);
+    analyze_scenarios(players);
 }
 
 function _make_boxes(num) {
@@ -156,9 +160,9 @@ function _table(box, data, label) {
         var percent = $('<td class="datatable_percent">');
         percent.text(d.percent + '%');
         percent.appendTo(tr);
-        var label = $('<th>');
-        label.text(d.label);
-        label.appendTo(tr);
+        var label_node = $('<th>');
+        label_node.text(d.label);
+        label_node.appendTo(tr);
         tbody.append(tr);
     });
     $(box).append(table);
@@ -169,6 +173,44 @@ function _table(box, data, label) {
         $(box).append(l);
     }
 }
+
+function _2d_table(box, headers, rows, label) {
+    var table = $('<table class="datatable">');
+    if (headers) {
+        var thead = $('<thead>');
+        table.append(thead);
+        var thead_tr = $('<tr>');
+        thead.append(thead_tr);
+        thead_tr.append('<th/>');
+        headers.forEach(function(h) {
+            var th = $('<th>');
+            th.text(h);
+            thead_tr.append(th);
+        });
+    }
+    var tbody = $('<tbody>');
+    table.append(tbody);
+    rows.forEach(function(row) {
+        var tr = $('<tr>');
+        tbody.append(tr);
+        var th = $('<th>');
+        th.text(row.header);
+        tr.append(th);
+        row.cells.forEach(function(cell) {
+            var cell_node = $('<td>');
+            cell_node.text(cell.value);
+            cell_node.appendTo(tr);
+        });
+    });
+    $(box).append(table);
+
+    if (label) {
+        var l = $('<div class="label">');
+        l.text(label);
+        $(box).append(l);
+    }
+}
+
 
 function _calc_percent(data) {
     var sum = 0;
@@ -281,9 +323,136 @@ function analyze_played_disciplines(players) {
         return test_result;
     });
     _table(boxes[1], data, 'Teilnahmen');
-
-
 };
+
+function _setdefault(obj, key, value) {
+    if (obj[key] === undefined) {
+        obj[key] = value;
+    }
+    return obj[key];
+}
+
+function _get(obj, key, def) {
+    if (obj[key] === undefined) {
+        return def;
+    }
+    return obj[key];
+}
+
+function _count(obj, key) {
+    if (obj[key] === undefined) {
+        obj[key] = 0;
+    }
+    obj[key]++;
+}
+
+function calc_disciplines_by_tournament(players) {
+    var tournaments = {};
+    players.forEach(function(player) {
+        for (var d in player.disciplines) {
+            player.disciplines[d].forEach(function(rank, index) {
+                var t = _setdefault(tournaments, 'T' + (index+1), {});
+                if (rank > 0) {
+                    _count(t, d);
+                }
+            });
+        }
+    });
+    return tournaments;
+}
+
+function analyze_players(players) {
+    var players_by_gender = {
+        'M': 0,
+        'F': 0,
+    };
+    players.forEach(function (p) {
+        players_by_gender[p.gender]++;
+    });
+
+    $('#output').append($('<h2>Spieler/innen</h2>'));
+    var boxes = _make_boxes(1);
+    var data = [{
+        label: 'Herren',
+        value: players_by_gender['M']
+    }, {
+        label: 'Damen',
+        value: players_by_gender['F']
+    }];
+    _table(boxes[0], data);
+}
+
+function analyze_tournaments(players) {
+    $('#output').append($('<h2>Wie sähen die Meldungen pro Turnier aus?</h2>'));
+    var by_tournament = calc_disciplines_by_tournament(players);
+    var boxes = _make_boxes(1);
+
+    var rows = [];
+    for (var tournament_name in by_tournament) {
+        var disciplines_map = by_tournament[tournament_name];
+        var cells = [
+            {value: _get(disciplines_map, 'HE', 0) + _get(disciplines_map, 'DE', 0)},
+            {value: _get(disciplines_map, 'MH', 0) + _get(disciplines_map, 'MD', 0)},
+            {value: _get(disciplines_map, 'HD', 0) + _get(disciplines_map, 'DD', 0)}
+        ];
+        cells.push({value: cells[0].value + cells[1].value});
+        cells.push({value: cells[1].value + cells[2].value});
+        rows.push({
+            header: tournament_name,
+            cells: cells
+        });
+    }
+
+    _2d_table(
+        boxes[0],
+        ['Einzel', 'Mixed', 'Doppel', 'E+M', 'M+D'],
+        rows);
+}
+
+function calc_doubles_stats(players) {
+    var doubles_stats = {};
+    players.forEach(function(player) {
+        var played_in = {};
+        for (var d in player.disciplines) {
+            player.disciplines[d].forEach(function(rank, index) {
+                var discs = _setdefault(played_in, 'T' + (index+1), []);
+                discs.push(d);
+            });
+        }
+        for (var tournament_id in played_in) {
+            var stats = _setdefault(doubles_stats, tournament_id, {
+                'Mixed': 0,
+                'Doppel': 0,
+                'Beides': 0
+            });
+            var t = played_in[tournament_id];
+
+            var played_doubles = (t.indexOf('HD') >= 0) || (t.indexOf('DD') >= 0);
+            var played_mixed = (t.indexOf('MH') >= 0) || (t.indexOf('MD') >= 0);
+            if (played_doubles && played_mixed) {
+                stats['Beides']++;
+            } else if (played_doubles) {
+                stats['Doppel']++;
+            } else if (played_mixed) {
+                stats['Mixed']++;
+            }
+
+        }
+    });
+    return doubles_stats;
+}
+
+
+function analyze_doubles(players) {
+    var dstats = calc_doubles_stats(players);
+    $('#output').append($('<h2>Wie sieht ein durchschnittliches Wochenende aus?</h2>'));
+ 
+
+}
+
+function analyze_scenarios(players) {
+    return;
+}
 
 function download(url, callback) {
     var req = new XMLHttpRequest();

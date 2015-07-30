@@ -17,3 +17,12 @@
 .label {
 	font-style: italic;
 }
+
+h2 {
+	margin-top: 6px;
+	margin-bottom: 5px;
+}
+h3 {
+	margin-top: 6px;
+	margin-bottom: 5px;
+}
