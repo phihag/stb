@@ -415,39 +415,62 @@ function calc_doubles_stats(players) {
         var played_in = {};
         for (var d in player.disciplines) {
             player.disciplines[d].forEach(function(rank, index) {
-                var discs = _setdefault(played_in, 'T' + (index+1), []);
-                discs.push(d);
+                played_in['t' + index + '_' + d] = rank > 0;
             });
         }
-        for (var tournament_id in played_in) {
+
+        for (var tournament_index = 0;tournament_index <= 3;tournament_index++) {
+            var tournament_id = 'T' + (tournament_index+1);
             var stats = _setdefault(doubles_stats, tournament_id, {
                 'Mixed': 0,
                 'Doppel': 0,
-                'Beides': 0
+                'Beides': 0,
             });
-            var t = played_in[tournament_id];
 
-            var played_doubles = (t.indexOf('HD') >= 0) || (t.indexOf('DD') >= 0);
-            var played_mixed = (t.indexOf('MH') >= 0) || (t.indexOf('MD') >= 0);
+            var played_doubles, played_mixed;
+            if (player.gender == 'M') {
+                played_doubles = played_in['t' + tournament_index + '_' + 'HD'];
+                played_mixed = played_in['t' + tournament_index + '_' + 'MH'];
+            } else {
+                played_doubles = played_in['t' + tournament_index + '_' + 'DD'];
+                played_mixed = played_in['t' + tournament_index + '_' + 'MD'];
+            }
+
             if (played_doubles && played_mixed) {
                 stats['Beides']++;
             } else if (played_doubles) {
                 stats['Doppel']++;
             } else if (played_mixed) {
+                console.log(player);
                 stats['Mixed']++;
             }
-
         }
     });
+
     return doubles_stats;
 }
 
 
 function analyze_doubles(players) {
     var dstats = calc_doubles_stats(players);
-    $('#output').append($('<h2>Wie sieht ein durchschnittliches Wochenende aus?</h2>'));
+    $('#output').append($('<h2>Disziplinen am Wochenende</h2>'));
  
+    var rows = [];
+    for (var tournament_id in dstats) {
+        var stats = dstats[tournament_id];
+        rows.push({
+            header: tournament_id,
+            cells: [
+                {value: stats['Doppel']},
+                {value: stats['Mixed']},
+                {value: stats['Beides']},
+            ]
+        });
+    }
+    var heading = ['Nur Doppel', 'Nur Mixed', 'Mixed und Doppel'];
 
+    var boxes = _make_boxes(1);
+    _2d_table(boxes[0], heading, rows);
 }
 
 function analyze_scenarios(players) {
