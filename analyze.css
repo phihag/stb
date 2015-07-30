@@ -11,6 +11,11 @@
 .datatable_percent {
 	color: #888;
 }
+span.datatable_percent {
+	min-width: 2.5em;
+	text-align: right;
+	display: inline-block;
+}
 
 .box {
 	padding: 0 1em 1em 1em;

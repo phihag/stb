@@ -92,9 +92,8 @@ function analyze(contents) {
 
     analyze_players(players);
     analyze_played_disciplines(players);
-    analyze_tournaments(players);
     analyze_doubles(players);
-    analyze_scenarios(players);
+    analyze_tournaments(players);
 }
 
 function _make_boxes(num) {
@@ -174,7 +173,7 @@ function _table(box, data, label) {
     }
 }
 
-function _2d_table(box, headers, rows, label) {
+function _2d_table(box, headers, rows, label, include_percent) {
     var table = $('<table class="datatable">');
     if (headers) {
         var thead = $('<thead>');
@@ -191,6 +190,10 @@ function _2d_table(box, headers, rows, label) {
     var tbody = $('<tbody>');
     table.append(tbody);
     rows.forEach(function(row) {
+        if (include_percent) {
+            _calc_percent(row.cells);
+        }
+
         var tr = $('<tr>');
         tbody.append(tr);
         var th = $('<th>');
@@ -199,6 +202,11 @@ function _2d_table(box, headers, rows, label) {
         row.cells.forEach(function(cell) {
             var cell_node = $('<td>');
             cell_node.text(cell.value);
+            if (include_percent) {
+                var percent_node = $('<span class="datatable_percent">');
+                percent_node.text('' + cell.percent + '%');
+                cell_node.append(percent_node);
+            }
             cell_node.appendTo(tr);
         });
     });
@@ -470,11 +478,7 @@ function analyze_doubles(players) {
     var heading = ['Nur Doppel', 'Nur Mixed', 'Mixed und Doppel'];
 
     var boxes = _make_boxes(1);
-    _2d_table(boxes[0], heading, rows);
-}
-
-function analyze_scenarios(players) {
-    return;
+    _2d_table(boxes[0], heading, rows, null, true);
 }
 
 function download(url, callback) {
