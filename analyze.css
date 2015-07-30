@@ -1,0 +1,19 @@
+.datatable tbody tr th {
+	text-align: left;
+	font-weight: inherit;
+}
+.datatable tbody tr td {
+	text-align: right;
+}
+.datatable_percent {
+	color: #888;
+}
+
+.box {
+	padding: 0 1em 1em 1em;
+	display: inline-block;
+}
+
+.label {
+	font-style: italic;
+}
