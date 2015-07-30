@@ -420,14 +420,16 @@ function analyze_tournaments(players) {
 function calc_doubles_stats(players) {
     var doubles_stats = {};
     players.forEach(function(player) {
+        var max_tournament_index = 0;
         var played_in = {};
         for (var d in player.disciplines) {
             player.disciplines[d].forEach(function(rank, index) {
                 played_in['t' + index + '_' + d] = rank > 0;
+                max_tournament_index = index;
             });
         }
 
-        for (var tournament_index = 0;tournament_index <= 3;tournament_index++) {
+        for (var tournament_index = 0;tournament_index <= max_tournament_index;tournament_index++) {
             var tournament_id = 'T' + (tournament_index+1);
             var stats = _setdefault(doubles_stats, tournament_id, {
                 'Mixed': 0,
