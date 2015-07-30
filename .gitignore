@@ -2,3 +2,4 @@ libs
 .upload_config.json
 
 *.xlsx
+.~lock*
