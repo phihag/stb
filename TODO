@@ -1,7 +1,3 @@
-sort adjournments by original date or team or so?
-Spielplan als XLSX (-> Miles)
-
-dump json in HTML
 no iframe
 print Spielplan
 render Spielplan PDF (with remote help?)
@@ -10,4 +6,3 @@ xlsx/pdf/print icons
 xlsx: conditional formatting for adjournments
 xlsx: automatically calculate week day, both original and new
 break for adjournments to original date
-check date when importing

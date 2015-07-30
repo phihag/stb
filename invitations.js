@@ -177,6 +177,8 @@ function calc(input) {
         'adjournments': input.adjournments,
     }, input);
 
+    state.input_base64 = btoa(JSON.stringify(input));
+
     if (state.teams.length < 2) {
         state.rounds = [];
         return state;
@@ -653,24 +655,35 @@ function make_xlsx_overview() {
             bottom: {color: 'FF000000', style: 'thin'}
         }
     });
-    var content_format = stylesheet.createFormat({
+    var content_format_dict = {
         font: {
             fontName: 'Arial',
             size: 12,
         },
         alignment: {
-            vertical: 'top',
+            vertical: 'center',
             horizontal: 'left'
         },
         border: {
             right: {color: 'FF000000', style: 'thin'},
             bottom: {color: 'FF000000', style: 'thin'}
         }
+    };
+    var content_format = _xlsx_make_style(stylesheet, content_format_dict);
+    var content_format_bold = _xlsx_make_style(stylesheet, content_format_dict, {
+        font: {bold: true}
+    });
+    var content_format_center = _xlsx_make_style(stylesheet, content_format_dict, {
+        alignment: {horizontal: 'center'}
+    });
+    var content_format_center_bold = _xlsx_make_style(stylesheet, content_format_dict, {
+        font: {bold: true},
+        alignment: {horizontal: 'center'}
     });
 
 
     data.push([
-        {value: 'Spieltag', metadata: {style: header_format.id}},
+        {value: 'Spt', metadata: {style: header_format.id}},
         {value: 'WT', metadata: {style: header_format.id}},
         {value: 'Datum', metadata: {style: header_format.id}},
         {value: 'Zeit', metadata: {style: header_format.id}},
@@ -680,27 +693,39 @@ function make_xlsx_overview() {
     ws.setRowInstructions(0, {height: 20});
 
     $.each(state.rounds, function(_, round) {
-        $.each(round.game_days, function(_, game_day) {
-            $.each(game_day.games, function(idx, game) {
-                data.push([
-                    {value: (idx == 0) ? ('' + game_day.day) : '', metadata: {style: content_format}},
-                ]);
+        $.each(round.sorted_games, function(_, game) {
+            data.push([
+                {value: ('' + game.daynum_str), metadata: {
+                    style: content_format_center.id
+                }},
+                {value: game.week_day, metadata: {
+                    style: game.adjourned_weekday ? content_format_center_bold.id : content_format_center.id
+                }},
+                {value: game.date_str, metadata: {
+                    style: game.adjourned_date ? content_format_center_bold.id : content_format_center.id
+                }},
+                {value: game.time_str, metadata: {
+                    style: game.adjourned_time ? content_format_center_bold.id : content_format_center.id
+                }},
+                {value: game.home_team.name, metadata: {style: content_format.id}},
+                {value: game.away_team.name, metadata: {style: content_format.id}},
+            ]);
+            if (game.is_multigame_day && game.is_first_game_on_day) {
+                ws.mergeCells('A' + data.length, 'A' + (data.length + game.game_count - 1));
+            }
+            ws.setRowInstructions(data.length - 1, {
+                height: 25,
             });
-            console.log(round.game_days);
         });
     });
 
     ws.setColumns([
+        {width: 5},
+        {width: 5},
+        {width: 12},
+        {width: 7},
         {width: 20},
         {width: 20},
-        {width: 20},
-        {width: 5.8},
-        {width: 3.4},
-        {width: 9.8},
-        {width: 5.8},
-        {width: 25.0},
-        {width: 2.0},
-        {width: 25.0}
     ]);
 
     ws.setData(data);
