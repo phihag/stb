@@ -1,8 +1,7 @@
+fix IE
+
+xlsx: conditional formatting for adjournments
+xlsx: automatically calculate week day, both original and new
 no iframe
 print Spielplan
 render Spielplan PDF (with remote help?)
-
-xlsx/pdf/print icons
-xlsx: conditional formatting for adjournments
-xlsx: automatically calculate week day, both original and new
-break for adjournments to original date

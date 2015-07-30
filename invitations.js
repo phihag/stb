@@ -630,7 +630,8 @@ function make_xlsx_overview() {
     var state = calc(current_input);
 
     var workbook = ExcelBuilder.createWorkbook();
-    var ws = workbook.createWorksheet({name: state.league_name + ' ' + state.season_name});
+    var ws_name = state.abbrev;
+    var ws = workbook.createWorksheet({name: ws_name});
     var stylesheet = workbook.getStyleSheet();
 
     var data = [];
@@ -722,10 +723,10 @@ function make_xlsx_overview() {
     ws.setColumns([
         {width: 5},
         {width: 5},
-        {width: 12},
+        {width: 13},
         {width: 7},
-        {width: 20},
-        {width: 20},
+        {width: 22},
+        {width: 22},
     ]);
 
     ws.setData(data);
