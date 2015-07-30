@@ -200,7 +200,11 @@ function _2d_table(box, headers, rows, label, include_percent) {
         tr.append(th);
         row.cells.forEach(function(cell) {
             var cell_node = $('<td>');
-            cell_node.text(cell.value);
+            if (cell.str_value) {
+                cell_node.text(cell.str_value);
+            } else {
+                cell_node.text(cell.value);
+            }
             if (cell.percent !== undefined) {
                 var percent_node = $('<span class="datatable_percent">');
                 percent_node.text('' + cell.percent + '%');
@@ -471,6 +475,7 @@ function calc_doubles_stats(players) {
 function analyze_doubles(players) {
     var dstats = calc_doubles_stats(players);
     $('#output').append($('<h2>Disziplinen am Wochenende</h2>'));
+    $('#output').append($('<p><span class="datatable_percent">Graue</span> Prozentzahlen: Relativ zu allen Spieler/innen<br/>Schwarze Prozentzahlen: relativ nur zu Mixed</p>'))
     var boxes = _make_boxes(2);
 
     function _analyze_doubles_table(box, cell_keys, label) {
@@ -478,7 +483,18 @@ function analyze_doubles(players) {
         for (var tournament_id in dstats) {
             var stats = dstats[tournament_id];
             var cells = cell_keys.map(function(ck) {
-                return {value: stats[ck]};
+                var res = {value: stats[ck]};
+                if (ck.indexOf('&') >= 0) {
+                    var sum = 0;
+                    cell_keys.forEach(function(sum_ck) {
+                        if (sum_ck.indexOf('Mixed') >= 0) {
+                            sum += stats[sum_ck];
+                        }
+                    });
+                    res.str_value = '' + res.value + ' (' + parseInt(100 * res.value / sum) + '%)';
+                }
+
+                return res;
             });
             rows.push({
                 header: tournament_id,
