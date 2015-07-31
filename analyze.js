@@ -373,23 +373,26 @@ function calc_disciplines_by_tournament(players) {
 }
 
 function analyze_players(players) {
-    var players_by_gender = {
-        'M': 0,
-        'F': 0,
-    };
-    players.forEach(function (p) {
-        players_by_gender[p.gender]++;
-    });
+    var CLASSIFICATIONS = [{
+        label: 'Herren',
+        test: (function(p) {
+            return p.gender == 'M';
+        })
+    }, {
+        label: 'Damen',
+        test: (function(p) {
+            return p.gender == 'F';
+        })
+    }, {
+        label: 'Unbekannt',
+        test: (function(p) {
+            return (p.gender != 'M') && (p.gender != 'F');
+        })
+    }];
+    var data = _classify(players, CLASSIFICATIONS);
 
     $('#output').append($('<h2>Spieler/innen</h2>'));
     var boxes = _make_boxes(1);
-    var data = [{
-        label: 'Herren',
-        value: players_by_gender['M']
-    }, {
-        label: 'Damen',
-        value: players_by_gender['F']
-    }];
     _table(boxes[0], data);
 }
 
