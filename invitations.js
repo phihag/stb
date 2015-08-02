@@ -1077,6 +1077,7 @@ $.getJSON('presets.json', function(loaded_presets) {
         return false;
     });
 
+    $('#load_preset').empty();
     $.each(Object.keys(presets), function(_, preset_name) {
         var option = $('<option>');
         option.text(preset_name);
@@ -1103,5 +1104,8 @@ $(function() {
     $('#adjournment_add').on('submit', adjournment_add);
     $('#adjournment_add [name="game"]').on('input', adjournment_add_on_input);
     $('#adjournment_import [name="files"]').on('change', adjournment_import);
+    $('#import_button').on('click', function() {
+        $('#adjournment_import [name="files"]').click();
+    });
     $('#adjournment_compare_online').on('click', adjournment_compare_online);
 });

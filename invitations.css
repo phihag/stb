@@ -59,3 +59,7 @@ input, textarea {
 .adjournment_none {
 	font-style: italic;
 }
+.import_file_wrapper {
+	display: none;
+}
+.inline_form {display: inline-block;}
