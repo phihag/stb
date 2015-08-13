@@ -9,6 +9,7 @@ function ParseException(message) {
 
 function error(msg) {
     console.error(msg);
+    alert(msg);
 }
 
 function _read_file(f, callback) {
@@ -840,7 +841,7 @@ function adjournment_add_on_input() {
         return;
     }
     var game_num_str = $('#adjournment_add [name="game"]').val();
-    if (game_num_str === '') {
+    if ((game_num_str === '') || (game_num_str === null)) {
         return;
     }
     var g = games[parseInt(game_num_str)];
@@ -1020,7 +1021,7 @@ function on_change() {
     adjournments_update_display(state);
 }
 
-function adjournment_compare_online() {
+function _download_online(on_done) {
     var state = calc(current_input);
 
     $.ajax('get_kroton_adjournments.php', {
@@ -1038,21 +1039,34 @@ function adjournment_compare_online() {
                 return;
             }
 
-            var online_date = parse_date(online_game.date);
             local_game.online_url = online_game.url;
-            local_game.is_online_different = (_compare_date(online_date, local_game.date) != 0) || (online_game.time != local_game.time_str);
+            local_game.online_date = online_game.date;
+            local_game.online_time = online_game.time;
+        });
+        on_done(state);
+    }).fail(function() {
+        error('Could not get online data!');
+    });
+}
 
-            if ((! local_game.adjourned) && (local_game.is_online_different)) {
+function adjournment_compare_online() {
+    _download_online(function(state) {
+        var games = calc_games(state);
+        $.each(games, function(_, g) {
+            g.is_online_different = (
+                (_compare_date(g.online_date, g.date) != 0) ||
+                (g.online_time != g.time_str)
+            );
+
+            if ((! g.adjourned) && (g.is_online_different)) {
                 current_adjournments.push({
-                    game_num: local_game.game_num,
-                    date: local_game.date,
-                    time: local_game.time_str,
+                    game_num: g.game_num,
+                    date: g.date,
+                    time: g.time_str,
                 });
             }
         });
         adjournments_update_display(state);
-    }).fail(function() {
-        error('Could not get online data!');
     });
 }
 
@@ -1108,4 +1122,5 @@ $(function() {
         $('#adjournment_import [name="files"]').click();
     });
     $('#adjournment_compare_online').on('click', adjournment_compare_online);
+    $('#adjournment_import_online').on('click', adjournment_import_online);
 });
