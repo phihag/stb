@@ -766,8 +766,8 @@ function make_xlsx_overview() {
         {width: 5},
         {width: 13},
         {width: 7},
-        {width: 22},
-        {width: 22},
+        {width: 25},
+        {width: 25},
     ]);
 
     ws.setData(data);
