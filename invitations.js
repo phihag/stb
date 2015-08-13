@@ -12,6 +12,20 @@ function error(msg) {
     alert(msg);
 }
 
+function _add_progress(button) {
+    var progress = $('<img class="progress" title="Kontaktiere Server ..." />');
+    progress.attr({
+        src: 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=='
+    });
+    button.insertBefore(progress[0], button.firstChild);
+    button.setAttribute('disabled', 'disabled');
+}
+
+function _remove_progress(button) {
+    $(button).children('.progress').remove();
+    button.removeAttribute('disabled');
+}
+
 function _read_file(f, callback) {
     var reader = new FileReader();
     if (reader.readAsBinaryString) {
@@ -1021,9 +1035,10 @@ function on_change() {
     adjournments_update_display(state);
 }
 
-function _download_online(on_done) {
+function _download_online(on_done, btn) {
     var state = calc(current_input);
 
+    _add_progress(btn);
     $.ajax('get_kroton_adjournments.php', {
         dataType: 'json',
         method: 'GET',
@@ -1031,6 +1046,8 @@ function _download_online(on_done) {
             base_url: state.kroton_url,
         }
     }).done(function(json_doc) {
+        _remove_progress(btn);
+
         var online_games = json_doc.games;
         $.each(online_games, function(_, online_game) {
             var local_game = find_game(state, online_game.home_team_name, online_game.away_team_name);
@@ -1045,11 +1062,12 @@ function _download_online(on_done) {
         });
         on_done(state);
     }).fail(function() {
+        _remove_progress(btn);
         error('Could not get online data!');
     });
 }
 
-function adjournment_compare_online() {
+function adjournment_compare_online(e) {
     _download_online(function(state) {
         var games = calc_games(state);
         $.each(games, function(_, g) {
@@ -1067,10 +1085,10 @@ function adjournment_compare_online() {
             }
         });
         adjournments_update_display(state);
-    });
+    }, e.target);
 }
 
-function adjournment_import_online() {
+function adjournment_import_online(e) {
     _download_online(function(state) {
         // Empty all current adjournments
         current_adjournments.splice(0, current_adjournments.length);
@@ -1093,7 +1111,7 @@ function adjournment_import_online() {
         });
 
         adjournments_update_display(state);
-    });
+    }, e.target);
 }
 
 

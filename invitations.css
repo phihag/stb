@@ -63,3 +63,16 @@ input, textarea {
 	display: none;
 }
 .inline_form {display: inline-block;}
+
+button {
+	position: relative;
+}
+button .progress {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 32px;
+	width: 32px;
+	margin-top: -16px;
+	margin-left: -16px;
+}
