@@ -46,7 +46,7 @@ $res = \array_map(function($line) use ($url_prefix) {
 			'month' => \intval($line['date_month']),
 			'year' => \intval($line['date_year']),
 		],
-		'time' => $line['time'],
+		'time_str' => $line['time'],
 		'home_team_name' => $line['home_team_name'],
 		'away_team_name' => $line['away_team_name'],
 		'url' => $url_prefix . $line['urlpath']

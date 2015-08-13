@@ -805,7 +805,7 @@ function adjournments_update_display(state) {
             game.home_team.name + ' - ' + game.away_team.name + ' ' +
             format_date(game.original_date) + ' ' + game.original_time_str + ' → ' +
             week_day(adj.date) + ' ' + format_date(adj.date) + ' ' + adj.time);
-        if (game.online_url) {
+        if (game.is_online_different !== undefined) {
             node.text((game.is_online_different ? '✖' : '✔') + ' ');
 
             var a = $('<a>');
@@ -1041,7 +1041,7 @@ function _download_online(on_done) {
 
             local_game.online_url = online_game.url;
             local_game.online_date = online_game.date;
-            local_game.online_time = online_game.time;
+            local_game.online_time_str = online_game.time_str;
         });
         on_done(state);
     }).fail(function() {
@@ -1055,7 +1055,7 @@ function adjournment_compare_online() {
         $.each(games, function(_, g) {
             g.is_online_different = (
                 (_compare_date(g.online_date, g.date) != 0) ||
-                (g.online_time != g.time_str)
+                (g.online_time_str != g.time_str)
             );
 
             if ((! g.adjourned) && (g.is_online_different)) {
@@ -1069,6 +1069,33 @@ function adjournment_compare_online() {
         adjournments_update_display(state);
     });
 }
+
+function adjournment_import_online() {
+    _download_online(function(state) {
+        // Empty all current adjournments
+        current_adjournments.splice(0, current_adjournments.length);
+        state.adjournments = current_adjournments;
+
+        var games = calc_games(state);
+        $.each(games, function(_, g) {
+            var is_online_different = (
+                (_compare_date(g.online_date, g.original_date) != 0) ||
+                (g.online_time_str != g.original_time_str)
+            );
+
+            if (is_online_different) {
+                current_adjournments.push({
+                    game_num: g.game_num,
+                    date: g.online_date,
+                    time: g.online_time_str,
+                });
+            }
+        });
+
+        adjournments_update_display(state);
+    });
+}
+
 
 var spielplan_template = null;
 $.get('spielplan.mustache', function(template) {

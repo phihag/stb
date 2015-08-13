@@ -1,9 +1,10 @@
-import from turnier.de
+remove font size declaration in print mode
+
+indicate downloading status
 bump Spielplan.xlsx width
 change to Michael's layout (yellow Verbandsansetzung, sort by game num)
 support HRT
 compare HRT to online
-remove font size declaration in print mode
 
 xlsx: automatically calculate week day, both original and new
 xlsx: wrap text in comment field
@@ -12,3 +13,5 @@ xlsx: conditional formatting for adjournments
 no iframe
 print Spielplan
 render Spielplan PDF (with remote help?)
+
+mail Helmut/Michael
