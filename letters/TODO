@@ -1,0 +1,13 @@
+set up basics
+	database
+	template with email address on questions
+parse PDF
+generate new PDF with templates
+import StBs with email address
+allow stbs to log in
+import clubs from blv
+import season from turnier.de, include StBs & teams
+start implementing OGs
+
+mailto: link (disguised as button)
+Mail Manuel Lappe&Michael Storch
