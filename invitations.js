@@ -360,10 +360,6 @@ function make_plan(team) {
     ws.sheetProtection = true;
     var stylesheet = workbook.getStyleSheet();
 
-    ws.sheetProtection = {
-        'sheet': '1'
-    };
-
     var data = [];
 
     var right_top_border_format = stylesheet.createFormat({
