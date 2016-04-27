@@ -1,21 +1,21 @@
-"use strict";
+'use strict';
 
 var WEEK_DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
 function ParseException(message) {
    this.message = message;
-   this.name = "ParseException";
+   this.name = 'ParseException';
 }
 
 function error(msg) {
-    console.error(msg);
+    console.error(msg); // eslint-disable-line no-console
     alert(msg);
 }
 
 function _add_progress(button) {
     var progress = $('<img class="progress" title="Kontaktiere Server ..." />');
     progress.attr({
-        src: 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=='
+        src: 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==',
     });
     button.insertBefore(progress[0], button.firstChild);
     button.setAttribute('disabled', 'disabled');
@@ -32,7 +32,7 @@ function _read_file(f, callback) {
         reader.onload = function(e) {
             var data = e.target.result;
             callback(data);
-        }
+        };
         reader.readAsBinaryString(f);
         return;
     }
@@ -40,14 +40,14 @@ function _read_file(f, callback) {
     // old IE
     reader.onload = function(e) {
         var buffer = e.target.result;
-        var data = "";
+        var data = '';
         var bytes = new Uint8Array(buffer);
         var length = bytes.byteLength;
         for (var i = 0; i < length; i++) {
             data += String.fromCharCode(bytes[i]);
         }
         callback(data);
-    }
+    };
     reader.readAsArrayBuffer(f);
     return;
 }
@@ -88,7 +88,7 @@ function parse_iso8601(s) {
     return {
         'year': parseInt(m[1]),
         'month': parseInt(m[2]),
-        'day': parseInt(m[3])
+        'day': parseInt(m[3]),
     };
 }
 
@@ -112,18 +112,18 @@ function parse_dates(v) {
             throw new ParseException('Zeile "' + line + '" nicht richtig formatiert');
         }
         var matchups = $.map(m[5].trim().split(/\s+/), function(matchup_str) {
-            var m = matchup_str.split("/");
+            var m = matchup_str.split('/');
             return {
                 'home_team': m[0],
                 'away_team': m[1],
-            }
+            };
         });
         return {
             'day': parseInt(m[1], 10),
             'month': parseInt(m[2], 10),
             'year': parseInt(m[3], 10),
             'num_str': m[4],
-            'matchups': matchups
+            'matchups': matchups,
         };
     });
 }
@@ -139,7 +139,7 @@ function parse_teams(v) {
             'character': m[1],
             'club_id': m[2],
             'name': m[3],
-        }
+        };
     });
 }
 
@@ -236,7 +236,7 @@ function calc(input) {
     });
     var rounds_dates = [
         state.dates.slice(0, state.dates.length / 2),
-        state.dates.slice(state.dates.length / 2)
+        state.dates.slice(state.dates.length / 2),
     ];
     var all_games = [];
     state.rounds = $.map(rounds_dates, function(dates, round_index) {
@@ -317,7 +317,7 @@ function calc(input) {
                 game.game_count = games_today.length;
                 game.game_count_minus_one = games_today.length - 1;
             });
-        }
+        };
         $.each(sorted_games, function(_, game) {
             var d = iso8601(game.date);
             if (d == today) {
@@ -333,7 +333,7 @@ function calc(input) {
         return {
             'games': games,
             'sorted_games': sorted_games,
-        }
+        };
     });
     return state;
 }
@@ -345,7 +345,7 @@ function format_team_name(team) {
 function _xlsx_make_style(stylesheet, orig_dict, changes_dict) {
     var d = {};
     if (changes_dict) {
-        $.extend(true, d, orig_dict, changes_dict)
+        $.extend(true, d, orig_dict, changes_dict);
     } else {
         $.extend(true, d, orig_dict);
     }
@@ -365,13 +365,13 @@ function make_plan(team) {
     var right_top_border_format = stylesheet.createFormat({
         border: {
             top: {color: 'FF000000', style: 'thin'},
-            right: {color: 'FF000000', style: 'thin'}
+            right: {color: 'FF000000', style: 'thin'},
         },
         protection: {'locked': false},
     });
     var right_border_format = stylesheet.createFormat({
         border: {
-            right: {color: 'FF000000', style: 'thin'}
+            right: {color: 'FF000000', style: 'thin'},
         },
         protection: {'locked': false},
     });
@@ -382,10 +382,10 @@ function make_plan(team) {
             size: 14,
         },
         alignment: {
-            vertical: 'center'
+            vertical: 'center',
         },
         border: {
-            bottom: {color: 'FF000000', style: 'thin'}
+            bottom: {color: 'FF000000', style: 'thin'},
         },
         protection: {'locked': false},
     });
@@ -394,7 +394,7 @@ function make_plan(team) {
         {value: '', metadata: {style: team_name_format.id}}, // D
         {value: '', metadata: {style: team_name_format.id}}, // E
         {value: '', metadata: {style: team_name_format.id}}, // F
-        {value: '', metadata: {style: team_name_format.id}} // G
+        {value: '', metadata: {style: team_name_format.id}}, // G
     ]);
     ws.mergeCells('C1','G1');
     ws.setRowInstructions(0, {height: 36});
@@ -405,8 +405,8 @@ function make_plan(team) {
             size: 9,
         },
         alignment: {
-            vertical: 'center'
-        }
+            vertical: 'center',
+        },
     });
     var description_format_right = stylesheet.createFormat({
         font: {
@@ -415,8 +415,8 @@ function make_plan(team) {
         },
         alignment: {
             vertical: 'center',
-            horizontal: 'right'
-        }
+            horizontal: 'right',
+        },
     });
     var str_numfmt = stylesheet.createNumberFormatter('@');
     var input_field_format = stylesheet.createFormat({
@@ -425,10 +425,10 @@ function make_plan(team) {
             size: 11,
         },
         alignment: {
-            vertical: 'center'
+            vertical: 'center',
         },
         border: {
-            bottom: {color: 'FF000000', style: 'thin'}
+            bottom: {color: 'FF000000', style: 'thin'},
         },
         protection: {'locked': false},
         format: str_numfmt.id,
@@ -440,7 +440,7 @@ function make_plan(team) {
         {value: 'Kontaktperson des Teams', metadata: {style: description_format_right.id}},
         {value: '', metadata: {style:input_field_format.id}},
         {value: '', metadata: {style:input_field_format.id}},
-        {value: '', metadata: {style:input_field_format.id}}
+        {value: '', metadata: {style:input_field_format.id}},
     ]);
     ws.mergeCells('C2', 'H2');
     ws.mergeCells('K2', 'M2');
@@ -452,7 +452,7 @@ function make_plan(team) {
         {value: 'E-Mail', metadata: {style: description_format_right.id}},
         {value: '', metadata: {style:input_field_format.id}},
         {value: '', metadata: {style:input_field_format.id}},
-        {value: '', metadata: {style:input_field_format.id}}
+        {value: '', metadata: {style:input_field_format.id}},
     ]);
     ws.mergeCells('K3', 'M3');
     ws.setRowInstructions(2, {height: 20});
@@ -462,7 +462,7 @@ function make_plan(team) {
         {value: 'Telefon', metadata: {style: description_format_right.id}},
         {value: '', metadata: {style:input_field_format.id}},
         {value: '', metadata: {style:input_field_format.id}},
-        {value: '', metadata: {style:input_field_format.id}}
+        {value: '', metadata: {style:input_field_format.id}},
     ]);
     ws.mergeCells('K4', 'M4');
     ws.setRowInstructions(3, {height: 20});
@@ -472,10 +472,10 @@ function make_plan(team) {
         font: {
             fontName: 'Arial',
             size: 11,
-            bold: true
+            bold: true,
         },
         alignment: {
-            vertical: 'center'
+            vertical: 'center',
         },
     });
     data.push([
@@ -498,35 +498,35 @@ function make_plan(team) {
     var title1_format = stylesheet.createFormat({
         font: {
             fontName: 'Arial',
-            size: 10
-        },
-        alignment: {
-            vertical: 'center',
-            horizontal: 'center'
-        },
-        border: {
-            top: {color: 'FF000000', style: 'thin'},
-            left: {color: 'FF000000', style: 'thin'},
-            right: {color: 'FF000000', style: 'thin'}
-        }
-    });
-    var longtext_format = stylesheet.createFormat({
-        font: {
-            fontName: 'Arial',
-            size: 9,
-            italic: true
+            size: 10,
         },
         alignment: {
             vertical: 'center',
             horizontal: 'center',
-            wrapText: true
         },
         border: {
             top: {color: 'FF000000', style: 'thin'},
             left: {color: 'FF000000', style: 'thin'},
             right: {color: 'FF000000', style: 'thin'},
-            bottom: {color: 'FF000000', style: 'thin'}
-        }
+        },
+    });
+    var longtext_format = stylesheet.createFormat({
+        font: {
+            fontName: 'Arial',
+            size: 9,
+            italic: true,
+        },
+        alignment: {
+            vertical: 'center',
+            horizontal: 'center',
+            wrapText: true,
+        },
+        border: {
+            top: {color: 'FF000000', style: 'thin'},
+            left: {color: 'FF000000', style: 'thin'},
+            right: {color: 'FF000000', style: 'thin'},
+            bottom: {color: 'FF000000', style: 'thin'},
+        },
     });
     data.push([
         {value: '', metadata: {style: title1_format.id}},
@@ -541,7 +541,7 @@ function make_plan(team) {
         {value: '', metadata: {style: title1_format.id}},
         {value: 'falls erforderlich:\nKenntnisnahme/Zustimmung\ndes Gastvereins liegt vor (ja/nein)', metadata: {style: longtext_format.id}},
         {value: '', metadata: {style: longtext_format.id}},
-        {value: '', metadata: {style: right_top_border_format.id}}
+        {value: '', metadata: {style: right_top_border_format.id}},
     ]);
     ws.mergeCells('B7', 'D7');
     ws.mergeCells('E7', 'G7');
@@ -553,16 +553,16 @@ function make_plan(team) {
         font: {
             fontName: 'Arial',
             size: 10,
-            italic: true
+            italic: true,
         },
         alignment: {
             vertical: 'center',
-            horizontal: 'center'
+            horizontal: 'center',
         },
         border: {
             top: {color: 'FF000000', style: 'thin'},
-            bottom: {color: 'FF000000', style: 'thin'}
-        }
+            bottom: {color: 'FF000000', style: 'thin'},
+        },
     };
     var title2_format = stylesheet.createFormat($.extend(true, {}, title2_format_dict));
     var title2_format_right_dict = $.extend(true, {}, title2_format_dict);
@@ -582,21 +582,21 @@ function make_plan(team) {
         {value: 'Gastverein', metadata: {style: title2_format_right.id}},
         {value: '', metadata: {style: title2_format.id}},
         {value: '', metadata: {style: title2_format.id}},
-        {value: '', metadata: {style: right_border_format.id}}
+        {value: '', metadata: {style: right_border_format.id}},
     ]);
 
     var content_format_dict = {
         font: {
             fontName: 'Arial',
-            size: 10
+            size: 10,
         },
         alignment: {
             vertical: 'center',
-            horizontal: 'center'
+            horizontal: 'center',
         },
         border: {
             top: {color: 'FF000000', style: 'thin'},
-            bottom: {color: 'FF000000', style: 'thin'}
+            bottom: {color: 'FF000000', style: 'thin'},
         },
     };
     var content_format = _xlsx_make_style(stylesheet, content_format_dict);
@@ -639,7 +639,7 @@ function make_plan(team) {
             {value: format_team_name(home_game.away_team), metadata: {style: away_team_format.id}},
             {value: '', metadata: {style: content_format_changeable.id}},
             {value: '', metadata: {style: content_format_changeable.id}},
-            {value: '', metadata: {style: content_format_changeable_right.id}}
+            {value: '', metadata: {style: content_format_changeable_right.id}},
         ]);
         ws.setRowInstructions(row_index, {height: 30});
         ws.mergeCells('K' + (row_index + 1), 'M' + (row_index + 1));
@@ -655,7 +655,7 @@ function make_plan(team) {
         {width: 5.8},
         {width: 25.0},
         {width: 2.0},
-        {width: 25.0}
+        {width: 25.0},
     ]);
 
     ws.setData(data);
@@ -677,21 +677,21 @@ function make_xlsx_overview() {
         font: {
             fontName: 'Arial',
             size: 12,
-            bold: true
+            bold: true,
         },
         alignment: {
             vertical: 'center',
-            horizontal: 'center'
+            horizontal: 'center',
         },
         fill: {
             type: 'pattern',
             patternType: 'solid',
-            fgColor: 'FFCCFFCC'
+            fgColor: 'FFCCFFCC',
         },
         border: {
             right: {color: 'FF000000', style: 'thin'},
-            bottom: {color: 'FF000000', style: 'thin'}
-        }
+            bottom: {color: 'FF000000', style: 'thin'},
+        },
     });
     var content_format_dict = {
         font: {
@@ -700,23 +700,20 @@ function make_xlsx_overview() {
         },
         alignment: {
             vertical: 'center',
-            horizontal: 'left'
+            horizontal: 'left',
         },
         border: {
             right: {color: 'FF000000', style: 'thin'},
-            bottom: {color: 'FF000000', style: 'thin'}
-        }
+            bottom: {color: 'FF000000', style: 'thin'},
+        },
     };
     var content_format = _xlsx_make_style(stylesheet, content_format_dict);
-    var content_format_bold = _xlsx_make_style(stylesheet, content_format_dict, {
-        font: {bold: true}
-    });
     var content_format_center = _xlsx_make_style(stylesheet, content_format_dict, {
-        alignment: {horizontal: 'center'}
+        alignment: {horizontal: 'center'},
     });
     var content_format_center_bold = _xlsx_make_style(stylesheet, content_format_dict, {
         font: {bold: true},
-        alignment: {horizontal: 'center'}
+        alignment: {horizontal: 'center'},
     });
 
 
@@ -734,16 +731,16 @@ function make_xlsx_overview() {
         $.each(round.sorted_games, function(_, game) {
             data.push([
                 {value: ('' + game.daynum_str), metadata: {
-                    style: content_format_center.id
+                    style: content_format_center.id,
                 }},
                 {value: game.week_day, metadata: {
-                    style: game.adjourned_weekday ? content_format_center_bold.id : content_format_center.id
+                    style: game.adjourned_weekday ? content_format_center_bold.id : content_format_center.id,
                 }},
                 {value: game.date_str, metadata: {
-                    style: game.adjourned_date ? content_format_center_bold.id : content_format_center.id
+                    style: game.adjourned_date ? content_format_center_bold.id : content_format_center.id,
                 }},
                 {value: game.time_str, metadata: {
-                    style: game.adjourned_time ? content_format_center_bold.id : content_format_center.id
+                    style: game.adjourned_time ? content_format_center_bold.id : content_format_center.id,
                 }},
                 {value: game.home_team.name, metadata: {style: content_format.id}},
                 {value: game.away_team.name, metadata: {style: content_format.id}},
@@ -883,14 +880,14 @@ function _jsxlsx_decode_date(workbook, cell) {
         day: date_obj.d,
         month: date_obj.m,
         year: date_obj.y,
-    }
+    };
 }
 
 function _jsxlsx_decode_time(cell) {
     if (!cell) {
         return null;
     }
-    var res = ("" + cell.w);
+    var res = ('' + cell.w);
     res = res.replace(/^([0-9]{2})\.([0-9]{2})$/, function(_, h, m) {
         return h + ':' + m;
     });
@@ -983,7 +980,7 @@ function on_change() {
     var overview_fn = 'Spielplan_' + state.abbrev + '.html';
     _file_link(overview_fn, function() {
         saveAs(
-            new Blob([make_overview()], {type: "text/html;charset=utf-8"}),
+            new Blob([make_overview()], {type: 'text/html;charset=utf-8'}),
             overview_fn);
     });
     var xlsx_overview_fn = 'Spielplan_' + state.abbrev + '.xlsx';
@@ -1004,7 +1001,7 @@ function on_change() {
     _file_link(data_fn, function() {
         saveAs(new Blob(
             [JSON.stringify(current_input, undefined, 2)],
-            {type: "application/json;charset=utf-8"}), data_fn)
+            {type: 'application/json;charset=utf-8'}), data_fn);
     });
     _file_link('Alle Dateien als zip', function() {
         var zip = new JSZip();
@@ -1016,8 +1013,8 @@ function on_change() {
             var contents = ExcelBuilder.createFile(make_plan(team), {type: 'base64'});
             zip.file(file_name, contents, {binary: true, base64: true});
         });
-        var zip_content = zip.generate({type:"blob"});
-        saveAs(zip_content, 'Spielpläne ' + state.abbrev + ".zip");
+        var zip_content = zip.generate({type: 'blob'});
+        saveAs(zip_content, 'Spielpläne ' + state.abbrev + '.zip');
     });
 
     if (spielplan_template) {
@@ -1040,7 +1037,7 @@ function _download_online(on_done, btn) {
         method: 'GET',
         data: {
             base_url: state.kroton_url,
-        }
+        },
     }).done(function(json_doc) {
         _remove_progress(btn);
 

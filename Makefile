@@ -1,3 +1,7 @@
+JSFILES=invitations.js
+
+default: lint
+
 install-libs:
 	test -e libs/.completed || $(MAKE) force-install-libs
 
@@ -12,7 +16,12 @@ force-install-libs:
 	wget https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js -O libs/d3.min.js
 	touch libs/.completed
 
+lint: eslint
+
+eslint:
+	eslint ${JSFILES}
+
 clean:
 	rm -rf -- libs
 
-.PHONY: install-libs force-install-libs
+.PHONY: default lint eslint install-libs force-install-libs
