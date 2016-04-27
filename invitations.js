@@ -72,6 +72,10 @@ function week_day(date) {
     return WEEK_DAYS[(new Date(date.year, date.month-1, date.day)).getDay()];
 }
 
+function is_sunday(date) {
+    return (new Date(date.year, date.month-1, date.day)).getDay() === 0;
+}
+
 function iso8601(date) {
     return date.year + '-' + _leading_zero(date.month) + '-' + _leading_zero(date.day);
 }
@@ -146,7 +150,7 @@ function parse_teams(v) {
 var current_adjournments = [];
 var _FIELDS = [
     'dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb',
-    'default_time', 'lastday_time', 'kroton_url'];
+    'default_time', 'sunday_time', 'kroton_url'];
 function read_input() {
     var res = {};
     $.each(_FIELDS, function(_, f) {
@@ -239,12 +243,10 @@ function calc(input) {
         state.dates.slice(state.dates.length / 2),
     ];
     var all_games = [];
-    state.rounds = $.map(rounds_dates, function(dates, round_index) {
+    state.rounds = $.map(rounds_dates, function(dates) {
         var games = [];
 
         $.each(dates, function(date_index, date) {
-            var is_last_day = (round_index == rounds_dates.length - 1) && (date_index == dates.length - 1);
-
             $.each(date.matchups, function (mu_index, matchup) {
                 var game = {
                     'home_team': teams_by_char[matchup.home_team],
@@ -254,7 +256,7 @@ function calc(input) {
 
                     'original_date': date,
                     'original_date_str': format_date(date),
-                    'original_time_str': (is_last_day ? state.lastday_time : state.default_time),
+                    'original_time_str': (is_sunday(date) ? state.sunday_time : state.default_time),
                     'original_week_day': week_day(date),
                 };
                 var adj = adjourned_games[game.game_num];
@@ -1123,7 +1125,6 @@ function _find(ar, func) {
 }
 
 var presets = null;
-console.log('LOADING');
 $.ajax({
     dataType: 'json',
     url: 'presets.json',
@@ -1134,10 +1135,8 @@ $.ajax({
             e.preventDefault();
             var key2load = $('#load_preset').val();
             var preset = _find(presets, function(a_preset) {
-                console.log('cmping', a_preset.key, 'to searched', key2load);
                 return a_preset.key == key2load;
             });
-            console.log('preset', preset);
             $.each(_FIELDS, function(_, f) {
                 $('#' + f).val(preset[f]);
             });
@@ -1148,15 +1147,14 @@ $.ajax({
 
         $('#load_preset').empty();
         $.each(presets, function(_, preset) {
-            console.log('initing preset: ', preset);
             var option = $('<option>');
             option.text(preset.key);
             option.attr({value: preset.key});
             $('#load_preset').append(option);
         });
         $('#load').submit();
-    }, error: function(e) {
-        console.log('error: ', e, arguments);
+    }, error: function() {
+        error('Cannot download JSON');
     },
 });
 
@@ -1172,7 +1170,7 @@ $(function() {
     $('#abbrev').on('input', on_change);
     $('#stb').on('input', on_change);
     $('#default_time').on('input', on_change);
-    $('#lastday_time').on('input', on_change);
+    $('#sunday_time').on('input', on_change);
     $('#kroton_url').on('input', on_change);
     $('#adjournment_add').on('submit', adjournment_add);
     $('#adjournment_add [name="game"]').on('input', adjournment_add_on_input);

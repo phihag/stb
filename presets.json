@@ -8,7 +8,7 @@
     "abbrev": "RL_1617",
     "stb": "Michael Pütz",
     "default_time": "18:00",
-    "lastday_time": "11:00",
+    "sunday_time": "11:00",
     "adjournments": [],
     "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=1"
   },
@@ -21,7 +21,7 @@
     "abbrev": "OLN_1617",
     "stb": "Helmut Wieneke",
     "default_time": "18:00",
-    "lastday_time": "11:00",
+    "sunday_time": "11:00",
     "adjournments": [],
     "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=2"
   },
@@ -34,7 +34,7 @@
     "abbrev": "OLS_1617",
     "stb": "Philipp Hagemeister",
     "default_time": "18:00",
-    "lastday_time": "11:00",
+    "sunday_time": "11:00",
     "adjournments": [],
     "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=3"
   },
@@ -47,7 +47,7 @@
     "abbrev": "RL_1516",
     "stb": "Michael Pütz",
     "default_time": "18:00",
-    "lastday_time": "11:00",
+    "sunday_time": "11:00",
     "adjournments": [],
     "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=1"
   },
@@ -60,7 +60,7 @@
     "abbrev": "OLN_1516",
     "stb": "Helmut Wieneke",
     "default_time": "18:00",
-    "lastday_time": "11:00",
+    "sunday_time": "11:00",
     "adjournments": [],
     "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=2"
   },
@@ -73,7 +73,7 @@
     "abbrev": "OLS_1516",
     "stb": "Philipp Hagemeister",
     "default_time": "18:00",
-    "lastday_time": "11:00",
+    "sunday_time": "11:00",
     "adjournments": [],
     "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=3"
   }
