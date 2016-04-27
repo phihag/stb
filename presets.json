@@ -1,18 +1,45 @@
-{
-  
-	"NRW-Oberliga Süd 2015/2016": {
-    "dates_in": "29.08.2015 1. Spieltag A/H B/G C/F D/E\n05.09.2015 2. Spieltag G/A F/B E/C D/H\n12.09.2015 3. Spieltag A/F B/E C/D H/G\n26.09.2015 4. Spieltag E/A D/B F/H C/G\n31.10.2015 5. Spieltag A/D B/C H/E G/F\n07.11.2015 6. Spieltag C/A B/H D/G E/F\n21.11.2015 7. Spieltag A/B H/C F/D G/E\n05.12.2015 8. Spieltag H/A G/B F/C E/D\n12.12.2015 9. Spieltag B/A C/H D/F E/G\n19.12.2015 10. Spieltag A/C H/B G/D F/E\n23.01.2016 11. Spieltag D/A C/B E/H F/G\n30.01.2016 12. Spieltag A/E B/D H/F G/C\n20.02.2016 13. Spieltag F/A E/B D/C G/H\n28.02.2016 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 283 Brühler TV 1\nB 324 BC Hohenlimburg 3\nC 33 1.CfB Köln 1\nD 628 TV Refrath 3\nE 628 TV Refrath 4\nF 034 FC Langenfeld 2\nG 324 BC Hohenlimburg 2\nH 027 1.BC Beuel 3",
+[
+  {
+    "key": "Regionalliga West 2016/2017",
+    "dates_in": "10.09.2016 1. Spieltag A/H B/G C/F D/E\n24.09.2016 2. Spieltag G/A F/B E/C D/H\n01.10.2016 3. Spieltag A/F B/E C/D H/G\n02.10.2016 4. Spieltag E/A D/B F/H C/G\n29.10.2016 5. Spieltag A/D B/C H/E G/F\n12.11.2016 6. Spieltag C/A B/H D/G E/F\n26.11.2016 7. Spieltag A/B H/C F/D G/E\n17.12.2016 8. Spieltag H/A G/B F/C E/D\n28.01.2017 9. Spieltag B/A C/H D/F E/G\n11.02.2017 10. Spieltag A/C H/B G/D F/E\n12.02.2017 11. Spieltag D/A C/B E/H F/G\n11.03.2017 12. Spieltag A/E B/D H/F G/C\n12.03.2017 13. Spieltag F/A E/B D/C G/H\n26.03.2017 14. Spieltag A/G B/F C/E H/D",
+    "teams_in": "A 324 BC Hohenlimburg 1\nB 48 1. BV Mülheim 2\nC 27 1. BC Beuel 2\nD 63 BV RW Wesel 1\nE 277 Bottroper BG 1\nF 283 Brühler TV 1\nG 121 TV Witzhelden 1\nH 177 Gladbecker FC 1",
+    "league_name": "Regionalliga West",
+    "season_name": "Saison 2016/2017",
+    "abbrev": "RL_1617",
+    "stb": "Michael Pütz",
+    "default_time": "18:00",
+    "lastday_time": "11:00",
+    "adjournments": [],
+    "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=1"
+  },
+  {
+    "key": "NRW-Oberliga Nord 2016/2017",
+    "dates_in": "10.09.2016 1. Spieltag A/H B/G C/F D/E\n24.09.2016 2. Spieltag G/A F/B E/C D/H\n01.10.2016 3. Spieltag A/F B/E C/D H/G\n02.10.2016 4. Spieltag E/A D/B F/H C/G\n29.10.2016 5. Spieltag A/D B/C H/E G/F\n12.11.2016 6. Spieltag C/A B/H D/G E/F\n26.11.2016 7. Spieltag A/B H/C F/D G/E\n17.12.2016 8. Spieltag H/A G/B F/C E/D\n28.01.2017 9. Spieltag B/A C/H D/F E/G\n11.02.2017 10. Spieltag A/C H/B G/D F/E\n12.02.2017 11. Spieltag D/A C/B E/H F/G\n11.03.2017 12. Spieltag A/E B/D H/F G/C\n12.03.2017 13. Spieltag F/A E/B D/C G/H\n26.03.2017 14. Spieltag A/G B/F C/E H/D",
+    "teams_in": "A 286 Spvgg.Sterkrade-N. 1\nB 461 GSV Fröndenberg 1\nC 893 BC Phönix Hövelhof 1\nD 63 BV RW Wesel 2\nE 48 1. BV Mülheim 3\nF 146 SCU Lüdinghausen 2\nG 286 Spvgg.Sterkrade-N. 2\nH 286 Spvgg.Sterkrade-N. 3",
+    "league_name": "NRW-Oberliga Nord",
+    "season_name": "Saison 2016/2017",
+    "abbrev": "OLN_1617",
+    "stb": "Helmut Wieneke",
+    "default_time": "18:00",
+    "lastday_time": "11:00",
+    "adjournments": [],
+    "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=2"
+  },
+  {
+    "key": "NRW-Oberliga Süd 2016/2017",
+    "dates_in": "10.09.2016 1. Spieltag A/H B/G C/F D/E\n24.09.2016 2. Spieltag G/A F/B E/C D/H\n01.10.2016 3. Spieltag A/F B/E C/D H/G\n02.10.2016 4. Spieltag E/A D/B F/H C/G\n29.10.2016 5. Spieltag A/D B/C H/E G/F\n12.11.2016 6. Spieltag C/A B/H D/G E/F\n26.11.2016 7. Spieltag A/B H/C F/D G/E\n17.12.2016 8. Spieltag H/A G/B F/C E/D\n28.01.2017 9. Spieltag B/A C/H D/F E/G\n11.02.2017 10. Spieltag A/C H/B G/D F/E\n12.02.2017 11. Spieltag D/A C/B E/H F/G\n11.03.2017 12. Spieltag A/E B/D H/F G/C\n12.03.2017 13. Spieltag F/A E/B D/C G/H\n26.03.2017 14. Spieltag A/G B/F C/E H/D",
+    "teams_in": "A 628 TV Refrath 3\nB 33 1.CfB Köln 1\nC 611 DJK VfL 19 Willich 1\nD 942 1. BC Siegen 1\nE 324 BC Hohenlimburg 2\nF 671 DJK Teut. St. Tönis 1\nG 2 STC BW Solingen 2\nH 628 TV Refrath 4",
     "league_name": "NRW-Oberliga Süd",
-    "season_name": "Saison 2015/2016",
-    "abbrev": "OLS_1516",
+    "season_name": "Saison 2016/2017",
+    "abbrev": "OLS_1617",
     "stb": "Philipp Hagemeister",
     "default_time": "18:00",
     "lastday_time": "11:00",
     "adjournments": [],
-    "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=3"
+    "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=3"
   },
-  "Regionalliga West 2015/2016": {
+  {
+    "key": "Regionalliga West 2015/2016",
     "dates_in": "29.08.2015 1. Spieltag A/H B/G C/F D/E\n05.09.2015 2. Spieltag G/A F/B E/C D/H\n12.09.2015 3. Spieltag A/F B/E C/D H/G\n26.09.2015 4. Spieltag E/A D/B F/H C/G\n31.10.2015 5. Spieltag A/D B/C H/E G/F\n07.11.2015 6. Spieltag C/A B/H D/G E/F\n21.11.2015 7. Spieltag A/B H/C F/D G/E\n05.12.2015 8. Spieltag H/A G/B F/C E/D\n12.12.2015 9. Spieltag B/A C/H D/F E/G\n19.12.2015 10. Spieltag A/C H/B G/D F/E\n23.01.2016 11. Spieltag D/A C/B E/H F/G\n30.01.2016 12. Spieltag A/E B/D H/F G/C\n20.02.2016 13. Spieltag F/A E/B D/C G/H\n28.02.2016 14. Spieltag A/G B/F C/E H/D",
     "teams_in": "A 027 1.BC Beuel 2\nB 048 1.BV Mülheim 2\nC 611 DJK VfL 19 Willich 1\nD 002 STC BW Solingen 2\nE 628 TV Refrath 2\nF 277 Bottroper BG 1\nG 324 BC Hohenlimburg 1\nH 121 TV Witzhelden 1",
     "league_name": "Regionalliga West",
@@ -24,7 +51,8 @@
     "adjournments": [],
     "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=1"
   },
-  "NRW-Oberliga Nord 2015/2016": {
+  {
+    "key": "NRW-Oberliga Nord 2015/2016",
     "dates_in": "29.08.2015 1. Spieltag A/H B/G C/F D/E\n05.09.2015 2. Spieltag G/A F/B E/C D/H\n12.09.2015 3. Spieltag A/F B/E C/D H/G\n26.09.2015 4. Spieltag E/A D/B F/H C/G\n31.10.2015 5. Spieltag A/D B/C H/E G/F\n07.11.2015 6. Spieltag C/A B/H D/G E/F\n21.11.2015 7. Spieltag A/B H/C F/D G/E\n05.12.2015 8. Spieltag H/A G/B F/C E/D\n12.12.2015 9. Spieltag B/A C/H D/F E/G\n19.12.2015 10. Spieltag A/C H/B G/D F/E\n23.01.2016 11. Spieltag D/A C/B E/H F/G\n30.01.2016 12. Spieltag A/E B/D H/F G/C\n20.02.2016 13. Spieltag F/A E/B D/C G/H\n28.02.2016 14. Spieltag A/G B/F C/E H/D",
     "teams_in": "A 177 Gladbecker FC 1\nB 122 SC Münster 08 1\nC 893 BC Phönix Hövelhof 1\nD 286 Spvgg.Sterkrade-N. 1\nE 286 Spvgg.Sterkrade-N. 2\nF 048 1.BV Mülheim 3\nG 063 BV RW Wesel 2\nH 839 1.BV Lippstadt 1",
     "league_name": "NRW-Oberliga Nord",
@@ -35,5 +63,18 @@
     "lastday_time": "11:00",
     "adjournments": [],
     "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=2"
+  },
+  {
+    "key": "NRW-Oberliga Süd 2015/2016",
+    "dates_in": "29.08.2015 1. Spieltag A/H B/G C/F D/E\n05.09.2015 2. Spieltag G/A F/B E/C D/H\n12.09.2015 3. Spieltag A/F B/E C/D H/G\n26.09.2015 4. Spieltag E/A D/B F/H C/G\n31.10.2015 5. Spieltag A/D B/C H/E G/F\n07.11.2015 6. Spieltag C/A B/H D/G E/F\n21.11.2015 7. Spieltag A/B H/C F/D G/E\n05.12.2015 8. Spieltag H/A G/B F/C E/D\n12.12.2015 9. Spieltag B/A C/H D/F E/G\n19.12.2015 10. Spieltag A/C H/B G/D F/E\n23.01.2016 11. Spieltag D/A C/B E/H F/G\n30.01.2016 12. Spieltag A/E B/D H/F G/C\n20.02.2016 13. Spieltag F/A E/B D/C G/H\n28.02.2016 14. Spieltag A/G B/F C/E H/D",
+    "teams_in": "A 283 Brühler TV 1\nB 324 BC Hohenlimburg 3\nC 33 1.CfB Köln 1\nD 628 TV Refrath 3\nE 628 TV Refrath 4\nF 034 FC Langenfeld 2\nG 324 BC Hohenlimburg 2\nH 027 1.BC Beuel 3",
+    "league_name": "NRW-Oberliga Süd",
+    "season_name": "Saison 2015/2016",
+    "abbrev": "OLS_1516",
+    "stb": "Philipp Hagemeister",
+    "default_time": "18:00",
+    "lastday_time": "11:00",
+    "adjournments": [],
+    "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=3"
   }
-}
+]

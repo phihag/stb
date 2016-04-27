@@ -1114,29 +1114,50 @@ $.get('spielplan.mustache', function(template) {
     on_change();
 });
 
-var presets = null;
-$.getJSON('presets.json', function(loaded_presets) {
-    presets = loaded_presets;
-    $('#load').css({visibility: 'visible'});
-    $('#load').on('submit', function(e) {
-        e.preventDefault();
-        var preset = presets[$('#load_preset').val()];
-        $.each(_FIELDS, function(_, f) {
-            $('#' + f).val(preset[f]);
-        });
-        current_adjournments = preset.adjournments;
-        on_change();
-        return false;
-    });
+function _find(ar, func) {
+    for (var i = 0;i < ar.length;i++) {
+        if (func(ar[i])) {
+            return ar[i];
+        }
+    }
+}
 
-    $('#load_preset').empty();
-    $.each(Object.keys(presets), function(_, preset_name) {
-        var option = $('<option>');
-        option.text(preset_name);
-        option.attr({value: preset_name});
-        $('#load_preset').append(option);
-    });
-    $('#load').submit();
+var presets = null;
+console.log('LOADING');
+$.ajax({
+    dataType: 'json',
+    url: 'presets.json',
+    success: function(loaded_presets) {
+        presets = loaded_presets;
+        $('#load').css({visibility: 'visible'});
+        $('#load').on('submit', function(e) {
+            e.preventDefault();
+            var key2load = $('#load_preset').val();
+            var preset = _find(presets, function(a_preset) {
+                console.log('cmping', a_preset.key, 'to searched', key2load);
+                return a_preset.key == key2load;
+            });
+            console.log('preset', preset);
+            $.each(_FIELDS, function(_, f) {
+                $('#' + f).val(preset[f]);
+            });
+            current_adjournments = preset.adjournments;
+            on_change();
+            return false;
+        });
+
+        $('#load_preset').empty();
+        $.each(presets, function(_, preset) {
+            console.log('initing preset: ', preset);
+            var option = $('<option>');
+            option.text(preset.key);
+            option.attr({value: preset.key});
+            $('#load_preset').append(option);
+        });
+        $('#load').submit();
+    }, error: function(e) {
+        console.log('error: ', e, arguments);
+    },
 });
 
 $(function() {
