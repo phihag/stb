@@ -1006,7 +1006,7 @@ function on_change() {
     _file_link('Alle Dateien als zip', function() {
         var zip = new JSZip();
         zip.file(overview_fn, make_overview(), {binary: false});
-        var overview_xlsx = ExcelBuilder.createFile(make_xlsx_overview(), {type: 'blob'});
+        var overview_xlsx = ExcelBuilder.createFile(make_xlsx_overview(), {type: 'base64'});
         zip.file(xlsx_overview_fn, overview_xlsx, {binary: true, base64: true});
         $.each(state.teams, function(_, team) {
             var file_name = 'Heimspiele ' + team.name + '.xlsx';
