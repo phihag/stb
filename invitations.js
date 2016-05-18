@@ -135,7 +135,7 @@ function parse_dates(v) {
 function parse_teams(v) {
     var lines = v.split(/\n/);
     return $.map(lines, function(line) {
-        var m = line.match(/^([A-Z])\s+([0-9]+)\s+(.+)$/);
+        var m = line.match(/^([A-Z])\s+(\*?[0-9]+\*?)\s+(.+)$/);
         if (!m) {
             return {};
         }
@@ -189,7 +189,7 @@ function _compare_date(d1, d2) {
 }
 
 function _unify_team_name(name) {
-    var res = name.replace(/^\s*\([0-9]+\)\s+/, '');
+    var res = name.replace(/^\s*\(\*?[0-9]+\*?\)\s+/, '');
     res = res.replace(/\s/g, '');
     res = res.replace(/\./g, '');
     res = res.toLowerCase();
@@ -1131,6 +1131,9 @@ $.ajax({
     success: function(loaded_presets) {
         presets = loaded_presets;
         $('#load').css({visibility: 'visible'});
+        $('#load_preset').on('change', function() {
+            $('#load').submit();
+        });
         $('#load').on('submit', function(e) {
             e.preventDefault();
             var key2load = $('#load_preset').val();
