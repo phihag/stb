@@ -541,7 +541,7 @@ function make_plan(team) {
         {value: '', metadata: {style: title1_format.id}},
         {value: '', metadata: {style: title1_format.id}},
         {value: '', metadata: {style: title1_format.id}},
-        {value: 'falls erforderlich:\nKenntnisnahme/Zustimmung\ndes Gastvereins liegt vor (ja/nein)', metadata: {style: longtext_format.id}},
+        {value: 'Kenntnisnahme/Zustimmung\ndes Gastvereins liegt vor', metadata: {style: longtext_format.id}},
         {value: '', metadata: {style: longtext_format.id}},
         {value: '', metadata: {style: right_top_border_format.id}},
     ]);
@@ -770,8 +770,9 @@ function make_xlsx_overview() {
     return workbook;
 }
 
-function make_overview() {
+function make_overview(altformat) {
     var state = calc(current_input);
+    state.altformat = !! altformat;
     return Mustache.render(spielplan_template, state);
 }
 
@@ -984,6 +985,12 @@ function on_change() {
         saveAs(
             new Blob([make_overview()], {type: 'text/html;charset=utf-8'}),
             overview_fn);
+    });
+    var overview_altformat_fn = 'SpielplanM_' + state.abbrev + '.html';
+    _file_link(overview_altformat_fn, function() {
+        saveAs(
+            new Blob([make_overview(true)], {type: 'text/html;charset=utf-8'}),
+            overview_altformat_fn);
     });
     var xlsx_overview_fn = 'Spielplan_' + state.abbrev + '.xlsx';
     _file_link(xlsx_overview_fn, function() {
