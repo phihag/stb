@@ -986,7 +986,7 @@ function on_change() {
             new Blob([make_overview()], {type: 'text/html;charset=utf-8'}),
             overview_fn);
     });
-    var overview_altformat_fn = 'SpielplanM_' + state.abbrev + '.html';
+    var overview_altformat_fn = 'SpielplanAlt_' + state.abbrev + '.html';
     _file_link(overview_altformat_fn, function() {
         saveAs(
             new Blob([make_overview(true)], {type: 'text/html;charset=utf-8'}),
