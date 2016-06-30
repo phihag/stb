@@ -10,7 +10,7 @@
     "default_time": "18:00",
     "sunday_time": "11:00",
     "adjournments": [],
-    "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=1"
+    "kroton_url": "http://www.turnier.de/sport/draw.aspx?id=577D385D-6DD7-49AD-B621-AABE3D56B979&draw=1"
   },
   {
     "key": "NRW-Oberliga Nord 2016/2017",
@@ -23,7 +23,7 @@
     "default_time": "18:00",
     "sunday_time": "11:00",
     "adjournments": [],
-    "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=2"
+    "kroton_url": "http://www.turnier.de/sport/draw.aspx?id=577D385D-6DD7-49AD-B621-AABE3D56B979&draw=2"
   },
   {
     "key": "NRW-Oberliga Süd 2016/2017",
@@ -36,7 +36,7 @@
     "default_time": "18:00",
     "sunday_time": "11:00",
     "adjournments": [],
-    "no_kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=3"
+    "kroton_url": "http://www.turnier.de/sport/draw.aspx?id=577D385D-6DD7-49AD-B621-AABE3D56B979&draw=3"
   },
   {
     "key": "Regionalliga West 2015/2016",
