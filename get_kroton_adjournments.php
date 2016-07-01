@@ -35,10 +35,11 @@ $gamelist_table = $m[1];
 [A-Za-z]{2,3}\s+
 (?P<date_day>[0-9]{1,2})\.\s?(?P<date_month>[0-9]{1,2})\.\s?(?P<date_year>[0-9]{4,})\s*
 <span\s+class="time">(?P<time>[0-9:]+)</span>.*?
-<a\s+class="teamname"\s+href="(?P<urlpath>[^"]*)">(?P<home_team_name>[^<]+)</a></td>
+<a\s+class="teamname"\s+href="(?P<urlpath>[^"]*)">(?P<home_team_name>[^<]+)</a>(?:</strong>)?</td>
 <td\s+align="center">-</td>.*?
-<a\s+class="teamname"\s+href="[^"]*">(?P<away_team_name>[^<]+)</a></td>
+<a\s+class="teamname"\s+href="[^"]*">(?P<away_team_name>[^<]+)</a>(?:</strong>)?</td>
 #x', $gamelist_table, $lines, \PREG_SET_ORDER);
+
 $res = \array_map(function($line) use ($url_prefix) {
 	return [
 		'date' => [
