@@ -665,7 +665,7 @@ function make_plan(team) {
     return workbook;
 }
 
-function make_xlsx_overview() {
+function make_xlsx_overview(altformat) {
     var state = calc(current_input);
 
     var workbook = ExcelBuilder.createWorkbook();
@@ -730,7 +730,8 @@ function make_xlsx_overview() {
     ws.setRowInstructions(0, {height: 20});
 
     $.each(state.rounds, function(_, round) {
-        $.each(round.sorted_games, function(_, game) {
+        var round_games = altformat ? round.games : round.sorted_games;
+        $.each(round_games, function(_, game) {
             data.push([
                 {value: ('' + game.daynum_str), metadata: {
                     style: content_format_center.id,
@@ -998,6 +999,12 @@ function on_change() {
             ExcelBuilder.createFile(make_xlsx_overview(), {type: 'blob'}),
             xlsx_overview_fn);
     });
+    var xlsx_overview_altformat_fn = 'SpielplanAlt_' + state.abbrev + '.xlsx';
+    _file_link(xlsx_overview_altformat_fn, function() {
+        saveAs(
+            ExcelBuilder.createFile(make_xlsx_overview(true), {type: 'blob'}),
+            xlsx_overview_fn);
+    });
     $.each(state.teams, function(_, team) {
         var file_name = 'Heimspiele ' + team.name + '.xlsx';
         _file_link(file_name, function() {
@@ -1014,9 +1021,12 @@ function on_change() {
     });
     _file_link('Alle Dateien als zip', function() {
         var zip = new JSZip();
-        zip.file(overview_fn, make_overview(), {binary: false});
+        zip.file(overview_fn, make_overview(false), {binary: false});
+        zip.file(overview_altformat_fn, make_overview(true), {binary: false});
         var overview_xlsx = ExcelBuilder.createFile(make_xlsx_overview(), {type: 'base64'});
         zip.file(xlsx_overview_fn, overview_xlsx, {binary: true, base64: true});
+        var overview_xlsx_alt = ExcelBuilder.createFile(make_xlsx_overview(true), {type: 'base64'});
+        zip.file(xlsx_overview_altformat_fn, overview_xlsx, {binary: true, base64: true});
         $.each(state.teams, function(_, team) {
             var file_name = 'Heimspiele ' + team.name + '.xlsx';
             var contents = ExcelBuilder.createFile(make_plan(team), {type: 'base64'});
