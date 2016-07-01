@@ -1061,6 +1061,11 @@ function _download_online(on_done, btn) {
         _remove_progress(btn);
 
         var online_games = json_doc.games;
+        if (online_games.length == 0) {
+            error('Online konnten keine Spiele gefunden werden!');
+            return;
+        }
+
         $.each(online_games, function(_, online_game) {
             var local_game = find_game(state, online_game.home_team_name, online_game.away_team_name);
             if (! local_game) {
@@ -1072,6 +1077,7 @@ function _download_online(on_done, btn) {
             local_game.online_date = online_game.date;
             local_game.online_time_str = online_game.time_str;
         });
+
         on_done(state);
     }).fail(function() {
         _remove_progress(btn);
