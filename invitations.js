@@ -2,10 +2,12 @@
 
 var WEEK_DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
-function ParseException(message) {
+function ParseError(message) {
    this.message = message;
-   this.name = 'ParseException';
+   this.name = 'ParseError';
 }
+ParseError.prototype = Error.prototype;
+
 
 function error(msg) {
     console.error(msg); // eslint-disable-line no-console
@@ -87,7 +89,7 @@ function format_date(date) {
 function parse_iso8601(s) {
     var m = s.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/);
     if (!m) {
-        throw new ParseException('Nicht ISO8601: ' + s);
+        throw new ParseError('Nicht ISO8601: ' + s);
     }
     return {
         'year': parseInt(m[1]),
@@ -111,11 +113,11 @@ function parse_date(s) {
 function parse_dates(v) {
     var lines = v.split(/\n/);
     return $.map(lines, function(line) {
-        var m = line.match(/^([0-9]{2})\.([0-9]{2})\.([0-9]{4})\s+([0-9]+)\.\s*Spieltag((\s+[A-Z]\/[A-Z])+)$/);
+        var m = line.match(/^([0-9]{2})\.([0-9]{2})\.([0-9]{4})\s+([0-9]{1,2}:[0-9]{2})\s+([0-9]+)\.\s*Spieltag((\s+[A-Z]\/[A-Z])+)$/);
         if (!m) {
-            throw new ParseException('Zeile "' + line + '" nicht richtig formatiert');
+            throw new ParseError('Zeile "' + line + '" nicht richtig formatiert');
         }
-        var matchups = $.map(m[5].trim().split(/\s+/), function(matchup_str) {
+        var matchups = $.map(m[6].trim().split(/\s+/), function(matchup_str) {
             var m = matchup_str.split('/');
             return {
                 'home_team': m[0],
@@ -126,7 +128,8 @@ function parse_dates(v) {
             'day': parseInt(m[1], 10),
             'month': parseInt(m[2], 10),
             'year': parseInt(m[3], 10),
-            'num_str': m[4],
+            'date_default_time_str': m[4],
+            'num_str': m[5],
             'matchups': matchups,
         };
     });
@@ -150,7 +153,7 @@ function parse_teams(v) {
 var current_adjournments = [];
 var _FIELDS = [
     'dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb',
-    'default_time', 'sunday_time', 'kroton_url'];
+    'kroton_url'];
 function read_input() {
     var res = {};
     $.each(_FIELDS, function(_, f) {
@@ -200,6 +203,7 @@ function _unify_team_name(name) {
 function find_game(state, home_name, away_name) {
     var home_name_search = _unify_team_name(home_name);
     var away_name_search = _unify_team_name(away_name);
+
     for (var i = 0;i < state.rounds.length;i++) {
         var games = state.rounds[i].games;
         for (var j = 0;j < games.length;j++) {
@@ -256,7 +260,7 @@ function calc(input) {
 
                     'original_date': date,
                     'original_date_str': format_date(date),
-                    'original_time_str': (is_sunday(date) ? state.sunday_time : state.default_time),
+                    'original_time_str': date.date_default_time_str,
                     'original_week_day': week_day(date),
                 };
                 var adj = adjourned_games[game.game_num];
@@ -1066,7 +1070,9 @@ function _download_online(on_done, btn) {
             return;
         }
 
-        $.each(online_games, function(_, online_game) {
+        for (var i = 0;i < online_games.length;i++) {
+            var online_game = online_games[i];
+
             var local_game = find_game(state, online_game.home_team_name, online_game.away_team_name);
             if (! local_game) {
                 error('Spiel ' + online_game.home_team_name + ' vs ' + online_game.away_team_name + ' kann lokal nicht gefunden werden!');
@@ -1076,7 +1082,7 @@ function _download_online(on_done, btn) {
             local_game.online_url = online_game.url;
             local_game.online_date = online_game.date;
             local_game.online_time_str = online_game.time_str;
-        });
+        }
 
         on_done(state);
     }).fail(function() {
@@ -1129,6 +1135,7 @@ function adjournment_import_online(e) {
         });
 
         adjournments_update_display(state);
+        on_change(state);
     }, e.target);
 }
 
@@ -1195,8 +1202,6 @@ $(function() {
     $('#season_name').on('input', on_change);
     $('#abbrev').on('input', on_change);
     $('#stb').on('input', on_change);
-    $('#default_time').on('input', on_change);
-    $('#sunday_time').on('input', on_change);
     $('#kroton_url').on('input', on_change);
     $('#adjournment_add').on('submit', adjournment_add);
     $('#adjournment_add [name="game"]').on('input', adjournment_add_on_input);
