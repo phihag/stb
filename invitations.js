@@ -881,6 +881,9 @@ function _jsxlsx_decode_date(workbook, cell) {
     }
     var date1904 = workbook.WBProps ? workbook.WBProps.date1904 : false;
     if (cell.t == 's') {
+        if (!cell.w) {
+            return null;
+        }
         return parse_date(cell.w);
     }
     var date_obj = XLSX.SSF.parse_date_code(cell.v, {date1904: date1904});
