@@ -1,76 +1,315 @@
 [
-  {
-    "key": "Regionalliga West 2016/2017",
-    "dates_in": "10.09.2016 18:00 1. Spieltag A/H B/G C/F D/E\n24.09.2016 18:00 2. Spieltag G/A F/B E/C D/H\n01.10.2016 18:00 3. Spieltag A/F B/E C/D H/G\n02.10.2016 10:00 4. Spieltag E/A D/B F/H C/G\n29.10.2016 18:00 5. Spieltag A/D B/C H/E G/F\n12.11.2016 18:00 6. Spieltag C/A B/H D/G E/F\n26.11.2016 18:00 7. Spieltag A/B H/C F/D G/E\n17.12.2016 18:00 8. Spieltag H/A G/B F/C E/D\n28.01.2017 18:00 9. Spieltag B/A C/H D/F E/G\n11.02.2017 18:00 10. Spieltag A/C H/B G/D F/E\n12.02.2017 10:00 11. Spieltag D/A C/B E/H F/G\n11.03.2017 18:00 12. Spieltag A/E B/D H/F G/C\n12.03.2017 10:00 13. Spieltag F/A E/B D/C G/H\n26.03.2017 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 324 BC Hohenlimburg 1\nB 48 1. BV Mülheim 2\nC 27 1. BC Beuel 2\nD 63 BV RW Wesel 1\nE 277 Bottroper BG 1\nF 283 Brühler TV 1\nG 121 TV Witzhelden 1\nH 177 Gladbecker FC 1",
-    "league_name": "Regionalliga West",
-    "season_name": "Saison 2016/2017",
-    "abbrev": "RL_1617",
-    "stb": "Michael Pütz",
-    "adjournments": [],
-    "hrts": [],
-    "kroton_url": "http://www.turnier.de/sport/draw.aspx?id=577D385D-6DD7-49AD-B621-AABE3D56B979&draw=1"
-  },
-  {
-    "key": "NRW-Oberliga Nord 2016/2017",
-    "dates_in": "10.09.2016 18:00 1. Spieltag A/H B/G C/F D/E\n24.09.2016 18:00 2. Spieltag G/A F/B E/C D/H\n01.10.2016 18:00 3. Spieltag A/F B/E C/D H/G\n02.10.2016 10:00 4. Spieltag E/A D/B F/H C/G\n29.10.2016 18:00 5. Spieltag A/D B/C H/E G/F\n12.11.2016 18:00 6. Spieltag C/A B/H D/G E/F\n26.11.2016 18:00 7. Spieltag A/B H/C F/D G/E\n17.12.2016 18:00 8. Spieltag H/A G/B F/C E/D\n28.01.2017 18:00 9. Spieltag B/A C/H D/F E/G\n11.02.2017 18:00 10. Spieltag A/C H/B G/D F/E\n12.02.2017 10:00 11. Spieltag D/A C/B E/H F/G\n11.03.2017 18:00 12. Spieltag A/E B/D H/F G/C\n12.03.2017 10:00 13. Spieltag F/A E/B D/C G/H\n26.03.2017 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 286 Spvgg.Sterkrade-N. 1\nB 461 GSV Fröndenberg 1\nC 893 BC Phönix Hövelhof 1\nD 63 BV RW Wesel 2\nE 48 1. BV Mülheim 3\nF 146 Union Lüdinghausen 2\nG 286 Spvgg.Sterkrade-N. 2\nH 286 Spvgg.Sterkrade-N. 3",
-    "league_name": "NRW-Oberliga Nord",
-    "season_name": "Saison 2016/2017",
-    "abbrev": "OLN_1617",
-    "stb": "Helmut Wieneke",
-    "adjournments": [],
-    "hrts": [],
-    "kroton_url": "http://www.turnier.de/sport/draw.aspx?id=577D385D-6DD7-49AD-B621-AABE3D56B979&draw=2"
-  },
-  {
-    "key": "NRW-Oberliga Süd 2016/2017",
-    "dates_in": "10.09.2016 18:00 1. Spieltag A/H B/G C/F D/E\n24.09.2016 18:00 2. Spieltag G/A F/B E/C D/H\n01.10.2016 18:00 3. Spieltag A/F B/E C/D H/G\n02.10.2016 10:00 4. Spieltag E/A D/B F/H C/G\n29.10.2016 18:00 5. Spieltag A/D B/C H/E G/F\n12.11.2016 18:00 6. Spieltag C/A B/H D/G E/F\n26.11.2016 18:00 7. Spieltag A/B H/C F/D G/E\n17.12.2016 18:00 8. Spieltag H/A G/B F/C E/D\n28.01.2017 18:00 9. Spieltag B/A C/H D/F E/G\n11.02.2017 18:00 10. Spieltag A/C H/B G/D F/E\n12.02.2017 10:00 11. Spieltag D/A C/B E/H F/G\n11.03.2017 18:00 12. Spieltag A/E B/D H/F G/C\n12.03.2017 10:00 13. Spieltag F/A E/B D/C G/H\n26.03.2017 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 628 TV Refrath 3\nB 33 1.CfB Köln 1\nC 611 DJK VfL 19 Willich 1\nD 942 1. BC Siegen 1\nE 324 BC Hohenlimburg 2\nF 671 DJK Teut. St. Tönis 1\nG 2 STC BW Solingen 2\nH 628 TV Refrath 4",
-    "league_name": "NRW-Oberliga Süd",
-    "season_name": "Saison 2016/2017",
-    "abbrev": "OLS_1617",
-    "stb": "Philipp Hagemeister",
-    "adjournments": [],
-    "hrts": [],
-    "kroton_url": "http://www.turnier.de/sport/draw.aspx?id=577D385D-6DD7-49AD-B621-AABE3D56B979&draw=3"
-  },
-  {
-    "key": "Regionalliga West 2015/2016",
-    "dates_in": "10.09.2016 18:00 1. Spieltag A/H B/G C/F D/E\n24.09.2016 18:00 2. Spieltag G/A F/B E/C D/H\n01.10.2016 18:00 3. Spieltag A/F B/E C/D H/G\n02.10.2016 18:00 4. Spieltag E/A D/B F/H C/G\n29.10.2016 18:00 5. Spieltag A/D B/C H/E G/F\n12.11.2016 18:00 6. Spieltag C/A B/H D/G E/F\n26.11.2016 18:00 7. Spieltag A/B H/C F/D G/E\n17.12.2016 18:00 8. Spieltag H/A G/B F/C E/D\n28.01.2017 18:00 9. Spieltag B/A C/H D/F E/G\n11.02.2017 18:00 10. Spieltag A/C H/B G/D F/E\n12.02.2017 18:00 11. Spieltag D/A C/B E/H F/G\n11.03.2017 18:00 12. Spieltag A/E B/D H/F G/C\n12.03.2017 18:00 13. Spieltag F/A E/B D/C G/H\n26.03.2017 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 027 1.BC Beuel 2\nB 048 1.BV Mülheim 2\nC 611 DJK VfL 19 Willich 1\nD 002 STC BW Solingen 2\nE 628 TV Refrath 2\nF 277 Bottroper BG 1\nG 324 BC Hohenlimburg 1\nH 121 TV Witzhelden 1",
-    "league_name": "Regionalliga West",
-    "season_name": "Saison 2015/2016",
-    "abbrev": "RL_1516",
-    "stb": "Michael Pütz",
-    "adjournments": [],
-    "hrts": [],
-    "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=1"
-  },
-  {
-    "key": "NRW-Oberliga Nord 2015/2016",
-    "dates_in": "10.09.2016 18:00 1. Spieltag A/H B/G C/F D/E\n24.09.2016 18:00 2. Spieltag G/A F/B E/C D/H\n01.10.2016 18:00 3. Spieltag A/F B/E C/D H/G\n02.10.2016 18:00 4. Spieltag E/A D/B F/H C/G\n29.10.2016 18:00 5. Spieltag A/D B/C H/E G/F\n12.11.2016 18:00 6. Spieltag C/A B/H D/G E/F\n26.11.2016 18:00 7. Spieltag A/B H/C F/D G/E\n17.12.2016 18:00 8. Spieltag H/A G/B F/C E/D\n28.01.2017 18:00 9. Spieltag B/A C/H D/F E/G\n11.02.2017 18:00 10. Spieltag A/C H/B G/D F/E\n12.02.2017 18:00 11. Spieltag D/A C/B E/H F/G\n11.03.2017 18:00 12. Spieltag A/E B/D H/F G/C\n12.03.2017 18:00 13. Spieltag F/A E/B D/C G/H\n26.03.2017 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 177 Gladbecker FC 1\nB 122 SC Münster 08 1\nC 893 BC Phönix Hövelhof 1\nD 286 Spvgg.Sterkrade-N. 1\nE 286 Spvgg.Sterkrade-N. 2\nF 048 1.BV Mülheim 3\nG 063 BV RW Wesel 2\nH 839 1.BV Lippstadt 1",
-    "league_name": "NRW-Oberliga Nord",
-    "season_name": "Saison 2015/2016",
-    "abbrev": "OLN_1516",
-    "stb": "Helmut Wieneke",
-    "default_time": "18:00",
-    "sunday_time": "11:00",
-    "adjournments": [],
-    "hrts": [],
-    "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=2"
-  },
-  {
-    "key": "NRW-Oberliga Süd 2015/2016",
-    "dates_in": "10.09.2016 18:00 1. Spieltag A/H B/G C/F D/E\n24.09.2016 18:00 2. Spieltag G/A F/B E/C D/H\n01.10.2016 18:00 3. Spieltag A/F B/E C/D H/G\n02.10.2016 18:00 4. Spieltag E/A D/B F/H C/G\n29.10.2016 18:00 5. Spieltag A/D B/C H/E G/F\n12.11.2016 18:00 6. Spieltag C/A B/H D/G E/F\n26.11.2016 18:00 7. Spieltag A/B H/C F/D G/E\n17.12.2016 18:00 8. Spieltag H/A G/B F/C E/D\n28.01.2017 18:00 9. Spieltag B/A C/H D/F E/G\n11.02.2017 18:00 10. Spieltag A/C H/B G/D F/E\n12.02.2017 18:00 11. Spieltag D/A C/B E/H F/G\n11.03.2017 18:00 12. Spieltag A/E B/D H/F G/C\n12.03.2017 18:00 13. Spieltag F/A E/B D/C G/H\n26.03.2017 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 283 Brühler TV 1\nB 324 BC Hohenlimburg 3\nC 33 1.CfB Köln 1\nD 628 TV Refrath 3\nE 628 TV Refrath 4\nF 034 FC Langenfeld 2\nG 324 BC Hohenlimburg 2\nH 027 1.BC Beuel 3",
-    "league_name": "NRW-Oberliga Süd",
-    "season_name": "Saison 2015/2016",
-    "abbrev": "OLS_1516",
-    "stb": "Philipp Hagemeister",
-    "adjournments": [],
-    "hrts": [],
-    "kroton_url": "http://turnier.de/sport/draw.aspx?id=41E9BCF7-0D36-4313-903D-54DDFD361D05&draw=3"
-  }
+{
+  "dates_in": "10.09.2016 18:00 1. Spieltag A/H B/G C/F D/E\n24.09.2016 18:00 2. Spieltag G/A F/B E/C D/H\n01.10.2016 18:00 3. Spieltag A/F B/E C/D H/G\n02.10.2016 10:00 4. Spieltag E/A D/B F/H C/G\n29.10.2016 18:00 5. Spieltag A/D B/C H/E G/F\n12.11.2016 18:00 6. Spieltag C/A B/H D/G E/F\n26.11.2016 18:00 7. Spieltag A/B H/C F/D G/E\n17.12.2016 18:00 8. Spieltag H/A G/B F/C E/D\n28.01.2017 18:00 9. Spieltag B/A C/H D/F E/G\n11.02.2017 18:00 10. Spieltag A/C H/B G/D F/E\n12.02.2017 10:00 11. Spieltag D/A C/B E/H F/G\n11.03.2017 18:00 12. Spieltag A/E B/D H/F G/C\n12.03.2017 10:00 13. Spieltag F/A E/B D/C G/H\n26.03.2017 11:00 14. Spieltag A/G B/F C/E H/D",
+  "teams_in": "A 628 TV Refrath 3\nB 33 1.CfB Köln 1\nC 611 DJK VfL 19 Willich 1\nD 942 1. BC Siegen 1\nE 324 BC Hohenlimburg 2\nF 671 DJK Teut. St. Tönis 1\nG 2 STC BW Solingen 2\nH 628 TV Refrath 4",
+  "league_name": "NRW-Oberliga Süd",
+  "season_name": "Saison 2016/2017",
+  "abbrev": "OLS_1617",
+  "stb": "Philipp Hagemeister",
+  "kroton_url": "http://www.turnier.de/sport/draw.aspx?id=577D385D-6DD7-49AD-B621-AABE3D56B979&draw=3",
+  "adjournments": [
+    {
+      "game_num": 0,
+      "date": {
+        "day": 10,
+        "month": 9,
+        "year": 2016
+      },
+      "time": "20:00"
+    },
+    {
+      "game_num": 1,
+      "date": {
+        "day": 10,
+        "month": 9,
+        "year": 2016
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 3,
+      "date": {
+        "day": 18,
+        "month": 9,
+        "year": 2016
+      },
+      "time": "11:30"
+    },
+    {
+      "game_num": 9,
+      "date": {
+        "day": 1,
+        "month": 10,
+        "year": 2016
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 13,
+      "date": {
+        "day": 15,
+        "month": 10,
+        "year": 2016
+      },
+      "time": "18:00"
+    },
+    {
+      "game_num": 15,
+      "date": {
+        "day": 2,
+        "month": 10,
+        "year": 2016
+      },
+      "time": "11:00"
+    },
+    {
+      "game_num": 16,
+      "date": {
+        "day": 29,
+        "month": 10,
+        "year": 2016
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 17,
+      "date": {
+        "day": 29,
+        "month": 10,
+        "year": 2016
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 18,
+      "date": {
+        "day": 13,
+        "month": 11,
+        "year": 2016
+      },
+      "time": "13:00"
+    },
+    {
+      "game_num": 19,
+      "date": {
+        "day": 29,
+        "month": 10,
+        "year": 2016
+      },
+      "time": "18:30"
+    },
+    {
+      "game_num": 21,
+      "date": {
+        "day": 12,
+        "month": 11,
+        "year": 2016
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 22,
+      "date": {
+        "day": 13,
+        "month": 11,
+        "year": 2016
+      },
+      "time": "13:30"
+    },
+    {
+      "game_num": 23,
+      "date": {
+        "day": 20,
+        "month": 11,
+        "year": 2016
+      },
+      "time": "14:00"
+    },
+    {
+      "game_num": 27,
+      "date": {
+        "day": 26,
+        "month": 11,
+        "year": 2016
+      },
+      "time": "19:30"
+    },
+    {
+      "game_num": 28,
+      "date": {
+        "day": 21,
+        "month": 12,
+        "year": 2016
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 29,
+      "date": {
+        "day": 17,
+        "month": 12,
+        "year": 2016
+      },
+      "time": "18:30"
+    },
+    {
+      "game_num": 31,
+      "date": {
+        "day": 18,
+        "month": 12,
+        "year": 2016
+      },
+      "time": "10:30"
+    },
+    {
+      "game_num": 32,
+      "date": {
+        "day": 28,
+        "month": 1,
+        "year": 2017
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 34,
+      "date": {
+        "day": 29,
+        "month": 1,
+        "year": 2017
+      },
+      "time": "11:30"
+    },
+    {
+      "game_num": 35,
+      "date": {
+        "day": 29,
+        "month": 1,
+        "year": 2017
+      },
+      "time": "10:30"
+    },
+    {
+      "game_num": 36,
+      "date": {
+        "day": 11,
+        "month": 2,
+        "year": 2017
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 37,
+      "date": {
+        "day": 18,
+        "month": 2,
+        "year": 2017
+      },
+      "time": "18:00"
+    },
+    {
+      "game_num": 38,
+      "date": {
+        "day": 11,
+        "month": 2,
+        "year": 2017
+      },
+      "time": "18:30"
+    },
+    {
+      "game_num": 41,
+      "date": {
+        "day": 12,
+        "month": 2,
+        "year": 2017
+      },
+      "time": "11:00"
+    },
+    {
+      "game_num": 44,
+      "date": {
+        "day": 11,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "17:00"
+    },
+    {
+      "game_num": 45,
+      "date": {
+        "day": 11,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "19:00"
+    },
+    {
+      "game_num": 46,
+      "date": {
+        "day": 11,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "17:00"
+    },
+    {
+      "game_num": 47,
+      "date": {
+        "day": 11,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "18:30"
+    },
+    {
+      "game_num": 49,
+      "date": {
+        "day": 19,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "10:30"
+    },
+    {
+      "game_num": 50,
+      "date": {
+        "day": 12,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "11:00"
+    },
+    {
+      "game_num": 51,
+      "date": {
+        "day": 12,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "11:00"
+    },
+    {
+      "game_num": 52,
+      "date": {
+        "day": 26,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "10:00"
+    },
+    {
+      "game_num": 55,
+      "date": {
+        "day": 26,
+        "month": 3,
+        "year": 2017
+      },
+      "time": "10:00"
+    }
+  ],
+  "hrts": [
+    13,
+    45
+  ],
+  "key": "NRW-Oberliga Süd Saison 2016/2017"
+}
 ]

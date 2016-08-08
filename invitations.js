@@ -162,6 +162,7 @@ function read_input() {
     });
     res.adjournments = current_adjournments;
     res.hrts = current_hrts;
+    res.key = res.league_name + ' ' + res.season_name;
     return res;
 }
 
@@ -739,6 +740,7 @@ function make_xlsx_overview(altformat) {
         {value: 'WT', metadata: {style: header_format.id}},
         {value: 'Datum', metadata: {style: header_format.id}},
         {value: 'Zeit', metadata: {style: header_format.id}},
+        {value: 'HRT', metadata: {style: header_format.id}},
         {value: 'Heim', metadata: {style: header_format.id}},
         {value: 'Gast', metadata: {style: header_format.id}},
     ]);
@@ -760,10 +762,11 @@ function make_xlsx_overview(altformat) {
                 {value: game.time_str, metadata: {
                     style: game.adjourned_time ? content_format_center_bold.id : content_format_center.id,
                 }},
+                {value: (game.hrt ? 'HRT' : ''), metadata: {style: content_format.id}},
                 {value: game.home_team.name, metadata: {style: content_format.id}},
                 {value: game.away_team.name, metadata: {style: content_format.id}},
             ]);
-            if (game.is_multigame_day && game.is_first_game_on_day) {
+            if (game.is_multigame_day && game.is_first_game_on_day && !altformat) {
                 ws.mergeCells('A' + data.length, 'A' + (data.length + game.game_count - 1));
             }
             ws.setRowInstructions(data.length - 1, {
@@ -777,6 +780,7 @@ function make_xlsx_overview(altformat) {
         {width: 5},
         {width: 13},
         {width: 7},
+        {width: 3},
         {width: 25},
         {width: 25},
     ]);
@@ -1254,6 +1258,7 @@ $.ajax({
                 $('#' + f).val(preset[f]);
             });
             current_adjournments = preset.adjournments;
+            current_hrts = preset.hrts;
             on_change();
             return false;
         });
