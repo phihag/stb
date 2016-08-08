@@ -265,6 +265,9 @@ function calc(input) {
                     'daynum_str': date.num_str,
                     daynum_idx: mu_index,
                     daynum_count: date.matchups.length,
+                    daynum_is_first: mu_index === 0,
+                    daynum_is_second: mu_index === 1,
+                    daynum_count_minus1: (date.matchups.length - 1),
                     'game_num': all_games.length,
 
                     'original_date': date,
