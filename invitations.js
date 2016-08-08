@@ -210,8 +210,8 @@ function find_game(state, home_name, away_name) {
         var games = state.rounds[i].games;
         for (var j = 0;j < games.length;j++) {
             var game = games[j];
-            if ((_unify_team_name(game.home_team.name) == home_name_search) &&
-                    (_unify_team_name(game.away_team.name) == away_name_search)) {
+            if ((_unify_team_name(game.original_home_team.name) == home_name_search) &&
+                    (_unify_team_name(game.original_away_team.name) == away_name_search)) {
                 return game;
             }
         }
@@ -879,7 +879,7 @@ function adjournments_update_display(state) {
     $.each(state.hrts, function(_, hrt) {
         var node = $('<li>');
         var game = games[hrt];
-        var label = game.home_team.name + ' - ' + game.away_team.name;
+        var label = 'HRT ' + game.original_home_team.name + ' - ' + game.original_away_team.name;
         node.text(label);
         lst.append(node);
     });
@@ -1142,15 +1142,18 @@ function _download_online(on_done, btn) {
         for (var i = 0;i < online_games.length;i++) {
             var online_game = online_games[i];
 
-            var local_game = find_game(state, online_game.home_team_name, online_game.away_team_name);
+            var home_team_name = online_game.hrt ? online_game.away_team_name : online_game.home_team_name;
+            var away_team_name = online_game.hrt ? online_game.home_team_name : online_game.away_team_name;
+            var local_game = find_game(state, home_team_name, away_team_name);
             if (! local_game) {
-                error('Spiel ' + online_game.home_team_name + ' vs ' + online_game.away_team_name + ' kann lokal nicht gefunden werden!');
+                error('Spiel ' + home_team_name + ' vs ' + away_team_name + ' kann lokal nicht gefunden werden!');
                 return;
             }
 
             local_game.online_url = online_game.url;
             local_game.online_date = online_game.date;
             local_game.online_time_str = online_game.time_str;
+            local_game.online_hrt = online_game.hrt;
         }
 
         on_done(state);
@@ -1186,12 +1189,15 @@ function adjournment_import_online(e) {
         // Empty all current adjournments
         current_adjournments.splice(0, current_adjournments.length);
         state.adjournments = current_adjournments;
+        current_hrts.splice(0, current_hrts.length);
+        state.hrts = current_hrts;
 
         var games = calc_games(state);
         $.each(games, function(_, g) {
             var is_online_different = (
                 (_compare_date(g.online_date, g.original_date) != 0) ||
-                (g.online_time_str != g.original_time_str)
+                (g.online_time_str != g.original_time_str) ||
+                g.online_hrt
             );
 
             if (is_online_different) {
@@ -1200,6 +1206,11 @@ function adjournment_import_online(e) {
                     date: g.online_date,
                     time: g.online_time_str,
                 });
+            }
+
+            g.hrt = g.online_hrt;
+            if (g.hrt) {
+                state.hrts.push(g.game_num);
             }
         });
 
