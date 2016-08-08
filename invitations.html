@@ -40,10 +40,13 @@
 </fieldset>
 
 <fieldset>
-<form class="inline_form" action="#" method="post" id="adjournment_add"><select size="1" name="game" required="required"><option value="">Loading..</option></select> <input type="date" name="date" style="width: 10em;" required="required" /> <input type="text" name="time" size="2" pattern="^[0-9]{1,2}:(?:00|15|30|45)$" required="required" /><button>Hinzufügen</button></form>
+<form class="inline_form" action="#" method="post" id="adjournment_add"><select size="1" name="game" required="required"><option value="">Loading..</option></select> <input type="date" name="date" style="width: 10em;" required="required" /> <input type="text" name="time" size="2" pattern="^[0-9]{1,2}:(?:00|15|30|45)$" required="required" /><button>Verlegung hinzufügen</button></form>
+<form class="inline_form" action="#" method="post" id="hrt_add"><select size="1" name="game" required="required"><option value="">Loading..</option></select><button role="submit">HRT hinzufügen</button></form>
 <div id="adjournment_list_container">
 <span class="adjournment_list_empty">Bisher keine Verlegungen</span>
 <ul class="adjournment_list"></ul>
+<ul class="hrt_list"></ul>
+
 <button id="adjournment_compare_online">Mit turnier.de vergleichen</button>
 <button id="adjournment_import_online">Von turnier.de importieren</button>
 

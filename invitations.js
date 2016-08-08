@@ -151,6 +151,7 @@ function parse_teams(v) {
 }
 
 var current_adjournments = [];
+var current_hrts = [];
 var _FIELDS = [
     'dates_in', 'teams_in', 'league_name', 'season_name', 'abbrev', 'stb',
     'kroton_url'];
@@ -160,6 +161,7 @@ function read_input() {
         res[f] = $('#' + f).val();
     });
     res.adjournments = current_adjournments;
+    res.hrts = current_hrts;
     return res;
 }
 
@@ -218,12 +220,16 @@ function find_game(state, home_name, away_name) {
 }
 
 function calc(input) {
+    if (!input.hrts) {
+        throw new Error('missing hrts!');
+    }
     var now = new Date();
     var state = $.extend({
         'today': (now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear()),
         'dates': parse_dates(input.dates_in),
         'teams': parse_teams(input.teams_in),
         'adjournments': input.adjournments,
+        'hrts': input.hrts,
     }, input);
 
     state.input_base64 = btoa(JSON.stringify(input));
@@ -253,8 +259,8 @@ function calc(input) {
         $.each(dates, function(date_index, date) {
             $.each(date.matchups, function (mu_index, matchup) {
                 var game = {
-                    'home_team': teams_by_char[matchup.home_team],
-                    'away_team': teams_by_char[matchup.away_team],
+                    'original_home_team': teams_by_char[matchup.home_team],
+                    'original_away_team': teams_by_char[matchup.away_team],
                     'daynum_str': date.num_str,
                     'game_num': all_games.length,
 
@@ -263,6 +269,11 @@ function calc(input) {
                     'original_time_str': date.date_default_time_str,
                     'original_week_day': week_day(date),
                 };
+
+                game.hrt = (state.hrts.indexOf(game.game_num) > -1);
+                game.home_team = game.hrt ? game.original_away_team : game.original_home_team;
+                game.away_team = game.hrt ? game.original_home_team : game.original_away_team;
+
                 var adj = adjourned_games[game.game_num];
                 if (adj) {
                     game.adjourned = true;
@@ -789,7 +800,7 @@ function adjournments_update_display(state) {
         adjourned_games[a.game_num] = a;
     });
 
-    // Update "add" display
+    // Update "add" input
     var list_node = $('#adjournment_add [name="game"]');
     list_node.empty();
     $.each(games, function(_, game) {
@@ -802,6 +813,23 @@ function adjournments_update_display(state) {
             game.home_team.name + ' - ' + game.away_team.name +
             ' (' + game.original_date_str + ' ' + game.original_time_str + ')');
         list_node.append(n);
+    });
+
+    // Update "hrt" input
+    var hrt_list_node = $('#hrt_add [name="game"]');
+    hrt_list_node.empty();
+    var teams = state.teams;
+    $.each(games, function(_, game) {
+        var is_hrt = state.hrts.indexOf(game.game_num) > -1;
+        if (is_hrt) {
+            return;
+        }
+
+        var n = document.createElement('option');
+        n.setAttribute('value', game.game_num);
+        $(n).text(
+            game.home_team.name + ' - ' + game.away_team.name);
+        hrt_list_node.append(n);
     });
 
     var none = $('#adjournment_list_container .adjournment_list_empty');
@@ -846,6 +874,16 @@ function adjournments_update_display(state) {
         node.append(remove_btn);
     });
 
+    var hrt_lst = $('#adjournment_list_container .hrt_list');
+    hrt_lst.empty();
+    $.each(state.hrts, function(_, hrt) {
+        var node = $('<li>');
+        var game = games[hrt];
+        var label = game.home_team.name + ' - ' + game.away_team.name;
+        node.text(label);
+        lst.append(node);
+    });
+
     adjournment_add_on_input();
 }
 
@@ -862,6 +900,34 @@ function adjournment_add_on_input() {
     var g = games[parseInt(game_num_str)];
     $('#adjournment_add [name="date"]').val(iso8601(g.original_date));
     $('#adjournment_add [name="time"]').val(g.time_str);
+}
+
+function rematch(games, game) {
+    for (var i = 0;i < games.length;i++) {
+        var g = games[i];
+        if ((g.home_team.character === game.away_team.character) && (g.away_team.character === game.home_team.character)) {
+            return g;
+        }
+    }
+    throw new Error('Cannot find rematch of ' + JSON.stringify(game));
+}
+
+function hrt_add(e) {
+    e.preventDefault();
+
+    var game_str = $('#hrt_add [name="game"]').val();
+    var game_num = parseInt(game_str, 10);
+
+    var state = calc(current_input);
+    var games = calc_games(state);
+
+    var g = games[game_num];
+    var reg = rematch(games, g);
+    current_hrts.push(g.game_num);
+    current_hrts.push(reg.game_num);
+
+    on_change();
+    return false;
 }
 
 function adjournment_add(e) {
@@ -1208,6 +1274,7 @@ $(function() {
     $('#kroton_url').on('input', on_change);
     $('#adjournment_add').on('submit', adjournment_add);
     $('#adjournment_add [name="game"]').on('input', adjournment_add_on_input);
+    $('#hrt_add').on('submit', hrt_add);
     $('#adjournment_import [name="files"]').on('change', adjournment_import);
     $('#import_button').on('click', function() {
         $('#adjournment_import [name="files"]').click();
