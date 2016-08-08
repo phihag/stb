@@ -114,10 +114,12 @@ th.day div.is_all_games {
 }
 .altformat_origdate>div>div {
 	position: absolute;
-	left: 0.75em;
-	top: 1.8em;
+	left: 0.5em;
+	top: 1.96em;
 	transform: rotate(-90deg);
-    transform-origin:0 50%;
+	-webkit-transform: rotate(-90deg);
+	transform-origin: 0 50%;
+	-webkit-transform-origin: 0 50%;
 }
 th.altformat_firstcol {
 	padding-left: 0;
@@ -219,9 +221,9 @@ body {
 <td class="weekday {{#adjourned_weekday}}adjourned{{/adjourned_weekday}}">{{week_day}}</td>
 <td class="date_str {{#adjourned_date}}adjourned{{/adjourned_date}}">{{date_str}}</td>
 <td class="time_str {{#adjourned_time}}adjourned{{/adjourned_time}}">{{time_str}}</td>
-<td class="home_team{{#hrt}} hrt{{/hrt}}">{{#home_team}}{{name}}{{/home_team}}</td>
+<td class="home_team{{#hrt}} hrt_team{{/hrt}}">{{#home_team}}{{name}}{{/home_team}}</td>
 <td class="versus">:</td>
-<td class="away_team{{#hrt}} hrt{{/hrt}}">{{#away_team}}{{name}}{{/away_team}}</td>
+<td class="away_team{{#hrt}} hrt_team{{/hrt}}">{{#away_team}}{{name}}{{/away_team}}</td>
 </tr>
 {{/sorted_games}}
 {{/altformat}}
