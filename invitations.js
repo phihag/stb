@@ -696,7 +696,7 @@ function make_xlsx_overview(altformat) {
     var header_format = stylesheet.createFormat({
         font: {
             fontName: 'Arial',
-            size: 12,
+            size: 10,
             bold: true,
         },
         alignment: {
@@ -712,19 +712,21 @@ function make_xlsx_overview(altformat) {
             top: {color: 'FF000000', style: 'thin'},
             right: {color: 'FF000000', style: 'thin'},
             bottom: {color: 'FF000000', style: 'thin'},
+            left: {color: 'FF000000', style: 'thin'},
         },
     });
 
     var content_format_dict = {
         font: {
             fontName: 'Arial',
-            size: 12,
+            size: 10,
         },
         alignment: {
             vertical: 'center',
             horizontal: 'left',
         },
         border: {
+            left: {color: 'FF000000', style: 'thin'},
             top: {color: 'FF000000', style: 'thin'},
             right: {color: 'FF000000', style: 'thin'},
             bottom: {color: 'FF000000', style: 'thin'},
@@ -794,8 +796,6 @@ function make_xlsx_overview(altformat) {
 
         ws.mergeCells('A' + (data.length - 1), 'B' + data.length);
 
-        data.push([]);
-        ws.setRowInstructions(data.length - 1, {height: 20});
         data.push([
             {value: 'Spt', metadata: {style: header_format.id}},
             {value: 'WT', metadata: {style: header_format.id}},
@@ -857,7 +857,7 @@ function make_xlsx_overview(altformat) {
                 ws.mergeCells('A' + data.length, 'A' + (data.length + game.game_count - 1));
             }
             ws.setRowInstructions(data.length - 1, {
-                height: 25,
+                height: 20,
             });
         });
     });
