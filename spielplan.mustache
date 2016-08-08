@@ -151,9 +151,9 @@ body {
 <td class="weekday {{#adjourned_weekday}}adjourned{{/adjourned_weekday}}">{{week_day}}</td>
 <td class="date_str {{#adjourned_date}}adjourned{{/adjourned_date}}">{{date_str}}</td>
 <td class="time_str {{#adjourned_time}}adjourned{{/adjourned_time}}">{{time_str}}</td>
-<td class="home_team">{{#home_team}}{{name}}{{/home_team}}</td>
+<td class="home_team{{#hrt}} hrt{{/hrt}}">{{#home_team}}{{name}}{{/home_team}}</td>
 <td class="versus">:</td>
-<td class="away_team">{{#away_team}}{{name}}{{/away_team}}</td>
+<td class="away_team{{#hrt}} hrt{{/hrt}}">{{#away_team}}{{name}}{{/away_team}}</td>
 </tr>
 {{/games}}
 {{/altformat}}

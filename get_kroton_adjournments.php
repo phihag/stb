@@ -38,6 +38,10 @@ $gamelist_table = $m[1];
 <a\s+class="teamname"\s+href="(?P<urlpath>[^"]*)">(?P<home_team_name>[^<]+)</a>(?:</strong>)?</td>
 <td\s+align="center">-</td>.*?
 <a\s+class="teamname"\s+href="[^"]*">(?P<away_team_name>[^<]+)</a>(?:</strong>)?</td>
+<td>[^<]*</td>
+<td><a.*?>[^<]*</a></td>
+<td>[^<]*</td>
+<td>(?P<hrt><img\s+id="[^"]*"\s+class="icon_homeawayreversed".*?)?</td>
 #x', $gamelist_table, $lines, \PREG_SET_ORDER);
 
 $res = \array_map(function($line) use ($url_prefix) {
@@ -50,6 +54,7 @@ $res = \array_map(function($line) use ($url_prefix) {
 		'time_str' => $line['time'],
 		'home_team_name' => $line['home_team_name'],
 		'away_team_name' => $line['away_team_name'],
+		'hrt' => \array_key_exists('hrt', $line),
 		'url' => $url_prefix . $line['urlpath']
 	];
 }, $lines);
@@ -57,5 +62,5 @@ $res = \array_map(function($line) use ($url_prefix) {
 header("Content-Type: application/json");
 echo \json_encode([
 	'status' => 'ok',
-	'games' => $res
+	'games' => $res,
 ], \JSON_PRETTY_PRINT);
