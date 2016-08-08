@@ -263,6 +263,8 @@ function calc(input) {
                     'original_home_team': teams_by_char[matchup.home_team],
                     'original_away_team': teams_by_char[matchup.away_team],
                     'daynum_str': date.num_str,
+                    daynum_idx: mu_index,
+                    daynum_count: date.matchups.length,
                     'game_num': all_games.length,
 
                     'original_date': date,
@@ -707,10 +709,12 @@ function make_xlsx_overview(altformat) {
             fgColor: 'FFCCFFCC',
         },
         border: {
+            top: {color: 'FF000000', style: 'thin'},
             right: {color: 'FF000000', style: 'thin'},
             bottom: {color: 'FF000000', style: 'thin'},
         },
     });
+
     var content_format_dict = {
         font: {
             fontName: 'Arial',
@@ -721,51 +725,134 @@ function make_xlsx_overview(altformat) {
             horizontal: 'left',
         },
         border: {
+            top: {color: 'FF000000', style: 'thin'},
             right: {color: 'FF000000', style: 'thin'},
             bottom: {color: 'FF000000', style: 'thin'},
         },
     };
     var content_format = _xlsx_make_style(stylesheet, content_format_dict);
-    var content_format_center = _xlsx_make_style(stylesheet, content_format_dict, {
-        alignment: {horizontal: 'center'},
-    });
-    var content_format_center_bold = _xlsx_make_style(stylesheet, content_format_dict, {
-        font: {bold: true},
-        alignment: {horizontal: 'center'},
-    });
 
+    var ASPECT_ATTRS = {
+        'center': {alignment: {horizontal: 'center'}},
+        'bold': {font: {bold: true}},
+        'last': {
+            border: {
+                bottom: {color: 'FF000000', style: 'thick'},
+            }
+        },
+        'alt_origday': {
+            alignment: {horizontal: 'center', vertical: 'center', textRotation: 90},
+            fill: {
+                type: 'pattern',
+                patternType: 'solid',
+                fgColor: 'FFFFFF99',
+            },
+        },
+    };
+    var _styles = {};
+    function _refstyle(aspects_str) {
+        if (!_styles[aspects_str]) {
+            var attrs = {};
+            var aspects = aspects_str.split(' ');
+            for (var i = 0;i < aspects.length;i++) {
+                $.extend(true, attrs, ASPECT_ATTRS[aspects[i]]);
+            }
+            _styles[aspects_str] = _xlsx_make_style(stylesheet, content_format_dict, attrs);
+        }
+        return {style: _styles[aspects_str].id};
+    }
 
-    data.push([
-        {value: 'Spt', metadata: {style: header_format.id}},
-        {value: 'WT', metadata: {style: header_format.id}},
-        {value: 'Datum', metadata: {style: header_format.id}},
-        {value: 'Zeit', metadata: {style: header_format.id}},
-        {value: 'HRT', metadata: {style: header_format.id}},
-        {value: 'Heim', metadata: {style: header_format.id}},
-        {value: 'Gast', metadata: {style: header_format.id}},
-    ]);
-    ws.setRowInstructions(0, {height: 20});
+    function _write_header() {
+        data.push([
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: state.league_name, metadata: _refstyle('bold center')},
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: state.stb, metadata: _refstyle('center')},
+        ]);
+        ws.mergeCells('C' + data.length, 'H' + data.length);
+        ws.setRowInstructions(data.length - 1, {height: 20});
+
+        var now = new Date();
+        data.push([
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: state.season_name, metadata: _refstyle('center')},
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: '', metadata: _refstyle('')},
+            {value: (now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear()), metadata: _refstyle('center')},
+        ]);
+        ws.mergeCells('C' + data.length, 'H' + data.length);
+        ws.setRowInstructions(data.length - 1, {height: 20});
+
+        ws.mergeCells('A' + (data.length - 1), 'B' + data.length);
+
+        data.push([]);
+        ws.setRowInstructions(data.length - 1, {height: 20});
+        data.push([
+            {value: 'Spt', metadata: {style: header_format.id}},
+            {value: 'WT', metadata: {style: header_format.id}},
+            {value: 'Datum', metadata: {style: header_format.id}},
+            {value: 'Zeit', metadata: {style: header_format.id}},
+            {value: 'HRT', metadata: {style: header_format.id}},
+            {value: 'Heim', metadata: {style: header_format.id}},
+            {value: '', metadata: {style: header_format.id}},
+            {value: 'Gast', metadata: {style: header_format.id}},
+            {value: '', metadata: {style: header_format.id}},
+        ]);
+        ws.setRowInstructions(data.length - 1, {height: 20});
+        ws.mergeCells('F' + data.length, 'G' + data.length);
+        ws.mergeCells('H' + data.length, 'I' + data.length);
+    }
+
+    if (!altformat) {
+        _write_header();
+    }
 
     $.each(state.rounds, function(_, round) {
+        if (altformat) {
+            _write_header();
+        }
+
         var round_games = altformat ? round.games : round.sorted_games;
         $.each(round_games, function(_, game) {
-            data.push([
-                {value: ('' + game.daynum_str), metadata: {
-                    style: content_format_center.id,
-                }},
-                {value: game.week_day, metadata: {
-                    style: game.adjourned_weekday ? content_format_center_bold.id : content_format_center.id,
-                }},
-                {value: game.date_str, metadata: {
-                    style: game.adjourned_date ? content_format_center_bold.id : content_format_center.id,
-                }},
-                {value: game.time_str, metadata: {
-                    style: game.adjourned_time ? content_format_center_bold.id : content_format_center.id,
-                }},
-                {value: (game.hrt ? 'HRT' : ''), metadata: {style: content_format.id}},
-                {value: game.home_team.name, metadata: {style: content_format.id}},
-                {value: game.away_team.name, metadata: {style: content_format.id}},
-            ]);
+            var first_cell = {value: ('' + game.daynum_str), _refstyle: 'center'};
+            if (altformat) {
+                if (game.daynum_idx === 1) {
+                    first_cell = {value: game.original_date_str, _refstyle: ('alt_origday')};
+                    ws.mergeCells('A' + (data.length + 1), 'A' + (data.length + game.daynum_count - 1));
+                } else if (game.daynum_idx > 1) {
+                    first_cell.value = '';
+                }
+            }
+            var row = [
+                first_cell,
+                {value: game.week_day, _refstyle: (game.adjourned_weekday ? 'bold center' : 'center')},
+                {value: game.date_str, _refstyle: (game.adjourned_date ? 'bold center' : 'center')},
+                {value: game.time_str, _refstyle: (game.adjourned_time ? 'bold center' : 'center')},
+                {value: (game.hrt ? 'HRT' : ''), _refstyle: 'center'},
+                {value: game.home_team.character, _refstyle: 'center'},
+                {value: game.home_team.name, _refstyle: ''},
+                {value: game.away_team.character, _refstyle: 'center'},
+                {value: game.away_team.name, _refstyle: ''},
+            ];
+
+            var is_last_row = game.daynum_idx === game.daynum_count - 1;
+            row.forEach(function(cell) {
+                if (is_last_row) {
+                    cell._refstyle += ' last';
+                }
+                cell.metadata = _refstyle(cell._refstyle);
+            });
+
+            data.push(row);
             if (game.is_multigame_day && game.is_first_game_on_day && !altformat) {
                 ws.mergeCells('A' + data.length, 'A' + (data.length + game.game_count - 1));
             }
@@ -780,8 +867,10 @@ function make_xlsx_overview(altformat) {
         {width: 5},
         {width: 13},
         {width: 7},
+        {width: 4.8},
         {width: 3},
         {width: 25},
+        {width: 3},
         {width: 25},
     ]);
 
