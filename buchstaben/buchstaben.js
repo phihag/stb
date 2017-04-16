@@ -24,14 +24,16 @@ function parse_input(input_str) {
 }
 
 function recalc() {
+	const output = uiu.qs('#output');
+	uiu.empty(output);
+	uiu.text(output, 'Suche Lösungen ...');
+
 	const input_str = uiu.qs('#input').value;
 	const teams = parse_input(input_str);
 	const best = optimize.calc_best(teams, SOLUTION_COUNT).filter(solution => solution);
 
-	const wish_count = Math.max(...teams.map(p => p.wishes.length));
-
-	const output = uiu.qs('#output');
 	uiu.empty(output);
+	const wish_count = Math.max(...teams.map(p => p.wishes.length));
 
 	const table = uiu.el(output, 'table');
 	const thead = uiu.el(table, 'thead');
@@ -73,9 +75,6 @@ function recalc() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-	uiu.qs('#inputform').addEventListener('submit', function(e) {
-		e.preventDefault();
-		recalc();
-	});
+	uiu.qs('#input').addEventListener('input', recalc);
 	recalc();
 });
