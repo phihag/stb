@@ -18,3 +18,11 @@ button#recalc {
 .buf {
 	width: 2em;
 }
+.cost_label {
+	text-align: right;
+}
+.solution_val,
+.cost_val {
+	min-width: 4ch;
+	text-align: center;
+}

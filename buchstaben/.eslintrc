@@ -19,25 +19,14 @@
         ],
     },
     "env": {
+        "browser": true,
         "node": true,
-        "browser": true
+        "es6": true
     },
     "globals": {
-        " (workaround for old eslint version) ": true,
-        "Uint8Array": true,
-
-        " (library names) ": true,
-        "$": true,
-        "jsPDF": true,
-        "Mousetrap": true,
-        "pdfform": true,
-        "saveAs": true,
-        "FastClick": true,
-        "JSZip": true,
-
-        " (global variables) ": true,
-        "state": true,
-        "bup_version": true
+        " (libraries) ": true,
+        "optimize": true,
+        "uiu": true
     },
     "extends": "eslint:recommended"
 }

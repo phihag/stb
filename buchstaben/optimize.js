@@ -84,7 +84,7 @@ function calc_best(teams, n) {
 				}
 				res[i] = {
 					cost,
-					letters: letters.slice(),
+					letters: p.slice(),
 				};
 				break;
 			}

@@ -2,25 +2,6 @@
 var uiu = (function() {
 'use strict';
 
-var esc_stack = [];
-function esc_stack_push(cancel) {
-	esc_stack.push(cancel);
-	Mousetrap.bind('escape', function() {
-		cancel();
-	});
-}
-
-function esc_stack_pop() {
-	esc_stack.pop();
-	Mousetrap.unbind('escape');
-	var cancel = esc_stack[esc_stack.length - 1];
-	if (esc_stack.length > 0) {
-		Mousetrap.bind('escape', function() {
-			cancel();
-		});
-	}
-}
-
 function qsEach(selector, func, container) {
 	if (!container) {
 		container = document;
@@ -28,15 +9,6 @@ function qsEach(selector, func, container) {
 	var nodes = container.querySelectorAll(selector);
 	for (var i = 0;i < nodes.length;i++) {
 		func(nodes[i], i);
-	}
-}
-
-function visible(node, val) {
-	// TODO test adding/removing invisible class here
-	if (val) {
-		$(node).show();
-	} else {
-		$(node).hide();
 	}
 }
 
@@ -58,47 +30,6 @@ function qs(selector, container) {
 		return;
 	}
 	return node;
-}
-
-function visible_qsa(selector, val) {
-	var nodes = document.querySelectorAll(selector);
-	for (var i = 0;i < nodes.length;i++) {
-		visible(nodes[i], val);
-	}
-}
-
-function visible_qs(selector, val) {
-	visible(qs(selector), val);
-}
-
-function hide_qs(selector) {
-	visible_qs(selector, false);
-}
-
-function show_qs(selector) {
-	visible_qs(selector, true);
-}
-
-function hide(node) {
-	visible(node, false);
-}
-
-function show(node) {
-	visible(node, true);
-}
-
-function disabled_qsa(qs, val) {
-	var nodes = document.querySelectorAll(qs);
-	for (var i = 0;i < nodes.length;i++) {
-		var n = nodes[i];
-		if (val) {
-			n.setAttribute('disabled', 'disabled');
-			addClass(n, 'half-invisible');
-		} else {
-			n.removeAttribute('disabled');
-			removeClass(n, 'half-invisible');
-		}
-	}
 }
 
 function empty(node) {
@@ -230,14 +161,9 @@ return {
 	addClass_qs: addClass_qs,
 	closest: closest,
 	closest_class: closest_class,
-	disabled_qsa: disabled_qsa,
 	empty: empty,
 	el: el,
-	esc_stack_pop: esc_stack_pop,
-	esc_stack_push: esc_stack_push,
 	hasClass: hasClass,
-	hide: hide,
-	hide_qs: hide_qs,
 	ns_el: ns_el,
 	qs: qs,
 	qsEach: qsEach,
@@ -246,13 +172,8 @@ return {
 	removeClass: removeClass,
 	removeClass_qs: removeClass_qs,
 	setClass: setClass,
-	show: show,
-	show_qs: show_qs,
 	text: text,
 	text_qs: text_qs,
-	visible: visible,
-	visible_qs: visible_qs,
-	visible_qsa: visible_qsa,
 };
 
 })();

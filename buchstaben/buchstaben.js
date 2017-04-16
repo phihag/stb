@@ -1,5 +1,7 @@
 'use strict';
 
+const SOLUTION_COUNT = 5;
+
 function parse_input(input_str) {
 	const lines = input_str.split(/\n+/).filter(s => s).map(s => s.trim());
 	return lines.map(line => {
@@ -24,7 +26,7 @@ function parse_input(input_str) {
 function recalc() {
 	const input_str = uiu.qs('#input').value;
 	const teams = parse_input(input_str);
-	const best = optimize.calc_best(teams, 3).filter(solution => solution);
+	const best = optimize.calc_best(teams, SOLUTION_COUNT).filter(solution => solution);
 
 	const wish_count = Math.max(...teams.map(p => p.wishes.length));
 
@@ -57,14 +59,16 @@ function recalc() {
 		}
 		uiu.el(tr, 'td', 'buf');
 		best.forEach(function(b) {
-			uiu.el(tr, 'td', {}, b.letters[team_idx]);
+			uiu.el(tr, 'td', 'solution_val', b.letters[team_idx]);
 		});
 	});
 	const cost_tr = uiu.el(tbody, 'tr');
-	uiu.el(cost_tr, 'th', {colspan: (1 + wish_count)}, 'Kosten:');
-	uiu.el(cost_tr, 'td', 'buf');
+	uiu.el(cost_tr, 'th', {
+		'class': 'cost_label',
+		colspan: (1 + wish_count + 1),
+	}, 'Kosten:');
 	best.forEach(function(b) {
-		uiu.el(cost_tr, 'td', {}, b.cost);
+		uiu.el(cost_tr, 'td', 'cost_val', b.cost);
 	});
 }
 
