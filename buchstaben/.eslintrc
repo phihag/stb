@@ -1,0 +1,43 @@
+{
+    "rules": {
+        "indent": 0,
+        "quotes": [
+            2,
+            "single"
+        ],
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "semi": [
+            2,
+            "always"
+        ],
+        "comma-dangle": [
+            2,
+            "always-multiline"
+        ],
+    },
+    "env": {
+        "node": true,
+        "browser": true
+    },
+    "globals": {
+        " (workaround for old eslint version) ": true,
+        "Uint8Array": true,
+
+        " (library names) ": true,
+        "$": true,
+        "jsPDF": true,
+        "Mousetrap": true,
+        "pdfform": true,
+        "saveAs": true,
+        "FastClick": true,
+        "JSZip": true,
+
+        " (global variables) ": true,
+        "state": true,
+        "bup_version": true
+    },
+    "extends": "eslint:recommended"
+}
