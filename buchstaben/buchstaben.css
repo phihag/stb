@@ -21,3 +21,7 @@ table {
 	min-width: 4ch;
 	text-align: center;
 }
+
+.unfulfilled {
+	font-weight: bold;
+}

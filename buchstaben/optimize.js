@@ -61,12 +61,12 @@ function evaluate(teams, letters) {
 			const w = wishes[j];
 			if (w === l) {
 				found = true;
-				res += j;
+				res += 10 * j;
 				break;
 			}
 		}
 		if (!found) {
-			res += 10;
+			res += 100 + wishes.length;
 		}
 	}
 	return res;

@@ -61,7 +61,9 @@ function recalc() {
 		}
 		uiu.el(tr, 'td', 'buf');
 		best.forEach(function(b) {
-			uiu.el(tr, 'td', 'solution_val', b.letters[team_idx]);
+			const l = b.letters[team_idx];
+			const fulfilled = (team.wishes.length === 0) || (team.wishes[0] === l);
+			uiu.el(tr, 'td', 'solution_val' + (fulfilled ? '' : ' unfulfilled'), l);
 		});
 	});
 	const cost_tr = uiu.el(tbody, 'tr');
