@@ -1061,6 +1061,7 @@ function _jsxlsx_decode_time(cell) {
         return null;
     }
     var res = ('' + cell.w);
+    res = res.trim();
     res = res.replace(/^([0-9]{2})\.([0-9]{2})$/, function(_, h, m) {
         return h + ':' + m;
     });
