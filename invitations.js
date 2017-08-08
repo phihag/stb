@@ -118,10 +118,11 @@ function parse_dates(v) {
             throw new ParseError('Zeile "' + line + '" nicht richtig formatiert');
         }
         var matchups = $.map(m[6].trim().split(/\s+/), function(matchup_str) {
-            var m = matchup_str.split('/');
+            var mum = matchup_str.split('/');
             return {
-                'home_team': m[0],
-                'away_team': m[1],
+                'home_team': mum[0],
+                'away_team': mum[1],
+                'num_str': m[5],
             };
         });
         return {
@@ -258,15 +259,15 @@ function calc(input) {
         var games = [];
 
         $.each(dates, function(date_index, date) {
-            $.each(date.matchups, function (mu_index, matchup) {
+            $.each(date.matchups, function(mu_index, matchup) {
                 var game = {
                     'original_home_team': teams_by_char[matchup.home_team],
                     'original_away_team': teams_by_char[matchup.away_team],
-                    'daynum_str': date.num_str,
+                    'daynum_str': matchup.num_str,
                     daynum_idx: mu_index,
                     daynum_count: date.matchups.length,
-                    daynum_is_first: mu_index === 0,
-                    daynum_is_second: mu_index === 1,
+                    daynum_is_first: (mu_index === 0),
+                    daynum_is_second: (mu_index === 1),
                     daynum_count_minus1: (date.matchups.length - 1),
                     'game_num': all_games.length,
 
@@ -332,13 +333,17 @@ function calc(input) {
         var today = null;
         var games_today = [];
         var endofday = function() {
+            var separate_daynums = !games_today.every(function(g) {
+                return g.daynum_str === games_today[0].daynum_str;
+            });
             $.each(games_today, function(idx, game) {
+                var game_count = separate_daynums  ? 1 : games_today.length;
                 game.is_all_games = parseInt(state.teams.length / 2) == games_today.length;
-                game.is_multigame_day = games_today.length > 1;
-                game.is_first_game_on_day = idx == 0;
-                game.is_second_game_on_day = idx == 1;
-                game.game_count = games_today.length;
-                game.game_count_minus_one = games_today.length - 1;
+                game.is_multigame_day = (game_count > 1) && !separate_daynums;
+                game.is_first_game_on_day = ((idx == 0) || separate_daynums);
+                game.is_second_game_on_day = ((idx == 1) && !separate_daynums);
+                game.game_count = game_count;
+                game.game_count_minus_one = game_count - 1;
             });
         };
         $.each(sorted_games, function(_, game) {
