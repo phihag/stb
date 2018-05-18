@@ -1,0 +1,11 @@
+{
+  "remotes": [
+    {
+      "host": "phihag.de",
+      "port": 622,
+      "dir": "/hosts/aufschlagwechsel.de/stb/",
+      "username": "phihag",
+      "php_baseurl": "https://aufschlagwechsel.de/stb/"
+    }
+  ]
+}
