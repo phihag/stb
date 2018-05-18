@@ -1207,8 +1207,9 @@ function on_change() {
             var contents = ExcelBuilder.createFile(make_plan(team), {type: 'base64'});
             zip.file(file_name, contents, {binary: true, base64: true});
         });
-        var zip_content = zip.generate({type: 'blob'});
-        saveAs(zip_content, 'Spielpläne ' + state.abbrev + '.zip');
+        var zip_content = zip.generateAsync({type: 'blob'}).then(function(zip_content) {
+            saveAs(zip_content, 'Spielpläne ' + state.abbrev + '.zip');
+        });
     });
 
     if (spielplan_template) {
