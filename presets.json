@@ -1,6 +1,6 @@
 [
   {
-    "dates_in": "08.09.2018 18:00 1. Spieltag A/H B/G C/F D/E\n09.09.2018 18:00 2. Spieltag G/A F/B E/C D/H\n29.09.2018 18:00 3. Spieltag A/F B/E C/D H/G\n13.10.2018 18:00 4. Spieltag E/A D/B F/H C/G\n10.11.2018 18:00 5. Spieltag A/D B/C H/E G/F\n11.11.2018 18:00 6. Spieltag C/A B/H D/G E/F\n24.11.2018 18:00 7. Spieltag A/B H/C F/D G/E\n08.12.2018 18:00 8. Spieltag H/A G/B F/C E/D\n15.12.2018 10:00 9. Spieltag B/A C/H D/F E/G\n12.01.2019 18:00 10. Spieltag A/C H/B G/D F/E\n19.01.2019 18:00 11. Spieltag D/A C/B E/H F/G\n09.02.2019 18:00 12. Spieltag A/E B/D H/F G/C\n23.02.2019 10:00 13. Spieltag F/A E/B D/C G/H\n16.03.2019 11:00 14. Spieltag A/G B/F C/E H/D",
+    "dates_in": "08.09.2018 18:00 1. Spieltag A/H B/G C/F D/E\n09.09.2018 10:00 2. Spieltag G/A F/B E/C D/H\n29.09.2018 18:00 3. Spieltag A/F B/E C/D H/G\n13.10.2018 18:00 4. Spieltag E/A D/B F/H C/G\n10.11.2018 18:00 5. Spieltag A/D B/C H/E G/F\n11.11.2018 10:00 6. Spieltag C/A B/H D/G E/F\n24.11.2018 18:00 7. Spieltag A/B H/C F/D G/E\n08.12.2018 18:00 8. Spieltag H/A G/B F/C E/D\n15.12.2018 18:00 9. Spieltag B/A C/H D/F E/G\n12.01.2019 18:00 10. Spieltag A/C H/B G/D F/E\n19.01.2019 18:00 11. Spieltag D/A C/B E/H F/G\n09.02.2019 18:00 12. Spieltag A/E B/D H/F G/C\n23.02.2019 18:00 13. Spieltag F/A E/B D/C G/H\n17.03.2019 11:00 14. Spieltag A/G B/F C/E H/D",
     "teams_in": "A 10324 BC Hohenlimburg 2\nB 10887 SC BW Ostenland 1\nC 10033 1.CfB Köln 1\nD 10177 Gladbecker FC 1\nE 10671 DJK Teut. St.Tönis 1\nF 10002 STC BW Solingen 1\nG 10283 Brühler TV 1\nH 10893 BC Phönix Hövelhof 1",
     "league_name": "Regionalliga West",
     "season_name": "Saison 2018/2019",
@@ -12,7 +12,7 @@
     "key": "Regionalliga West Saison 2018/2019"
   },
   {
-    "dates_in": "08.09.2018 18:00 1. Spieltag A/H B/G C/F D/E\n09.09.2018 18:00 2. Spieltag G/A F/B E/C D/H\n29.09.2018 18:00 3. Spieltag A/F B/E C/D H/G\n13.10.2018 18:00 4. Spieltag E/A D/B F/H C/G\n10.11.2018 18:00 5. Spieltag A/D B/C H/E G/F\n11.11.2018 18:00 6. Spieltag C/A B/H D/G E/F\n24.11.2018 18:00 7. Spieltag A/B H/C F/D G/E\n08.12.2018 18:00 8. Spieltag H/A G/B F/C E/D\n15.12.2018 10:00 9. Spieltag B/A C/H D/F E/G\n12.01.2019 18:00 10. Spieltag A/C H/B G/D F/E\n19.01.2019 18:00 11. Spieltag D/A C/B E/H F/G\n09.02.2019 18:00 12. Spieltag A/E B/D H/F G/C\n23.02.2019 10:00 13. Spieltag F/A E/B D/C G/H\n16.03.2019 11:00 14. Spieltag A/G B/F C/E H/D",
+    "dates_in": "08.09.2018 18:00 1. Spieltag A/H B/G C/F D/E\n09.09.2018 10:00 2. Spieltag G/A F/B E/C D/H\n29.09.2018 18:00 3. Spieltag A/F B/E C/D H/G\n13.10.2018 18:00 4. Spieltag E/A D/B F/H C/G\n10.11.2018 18:00 5. Spieltag A/D B/C H/E G/F\n11.11.2018 10:00 6. Spieltag C/A B/H D/G E/F\n24.11.2018 18:00 7. Spieltag A/B H/C F/D G/E\n08.12.2018 18:00 8. Spieltag H/A G/B F/C E/D\n15.12.2018 18:00 9. Spieltag B/A C/H D/F E/G\n12.01.2019 18:00 10. Spieltag A/C H/B G/D F/E\n19.01.2019 18:00 11. Spieltag D/A C/B E/H F/G\n09.02.2019 18:00 12. Spieltag A/E B/D H/F G/C\n23.02.2019 18:00 13. Spieltag F/A E/B D/C G/H\n17.03.2019 11:00 14. Spieltag A/G B/F C/E H/D",
     "teams_in": "A 10048 1.BV Mülheim 3\nB 10286 Spvgg.Sterkrade-N. 2\nC 10063 BV RW Wesel 2\nD 10839 1.BV Lippstadt 1\nE 10177 Gladbecker FC 2\nF 10122 SC Münster 08 1\nG 10277 Bottroper BG 1\nH 10146 Union Lüdinghausen 2",
     "league_name": "NRW-Oberliga Nord",
     "season_name": "Saison 2018/2019",
@@ -24,7 +24,7 @@
     "key": "NRW-Oberliga Nord Saison 2018/2019"
   },
   {
-    "dates_in": "08.09.2018 18:00 1. Spieltag A/H B/G C/F D/E\n09.09.2018 18:00 2. Spieltag G/A F/B E/C D/H\n29.09.2018 18:00 3. Spieltag A/F B/E C/D H/G\n13.10.2018 18:00 4. Spieltag E/A D/B F/H C/G\n10.11.2018 18:00 5. Spieltag A/D B/C H/E G/F\n11.11.2018 18:00 6. Spieltag C/A B/H D/G E/F\n24.11.2018 18:00 7. Spieltag A/B H/C F/D G/E\n08.12.2018 18:00 8. Spieltag H/A G/B F/C E/D\n15.12.2018 10:00 9. Spieltag B/A C/H D/F E/G\n12.01.2019 18:00 10. Spieltag A/C H/B G/D F/E\n19.01.2019 18:00 11. Spieltag D/A C/B E/H F/G\n09.02.2019 18:00 12. Spieltag A/E B/D H/F G/C\n23.02.2019 10:00 13. Spieltag F/A E/B D/C G/H\n16.03.2019 11:00 14. Spieltag A/G B/F C/E H/D",
+    "dates_in": "08.09.2018 18:00 1. Spieltag A/H B/G C/F D/E\n09.09.2018 10:00 2. Spieltag G/A F/B E/C D/H\n29.09.2018 18:00 3. Spieltag A/F B/E C/D H/G\n13.10.2018 18:00 4. Spieltag E/A D/B F/H C/G\n10.11.2018 18:00 5. Spieltag A/D B/C H/E G/F\n11.11.2018 10:00 6. Spieltag C/A B/H D/G E/F\n24.11.2018 18:00 7. Spieltag A/B H/C F/D G/E\n08.12.2018 18:00 8. Spieltag H/A G/B F/C E/D\n15.12.2018 18:00 9. Spieltag B/A C/H D/F E/G\n12.01.2019 18:00 10. Spieltag A/C H/B G/D F/E\n19.01.2019 18:00 11. Spieltag D/A C/B E/H F/G\n09.02.2019 18:00 12. Spieltag A/E B/D H/F G/C\n23.02.2019 18:00 13. Spieltag F/A E/B D/C G/H\n17.03.2019 11:00 14. Spieltag A/G B/F C/E H/D",
     "teams_in": "A 10034 FC Langenfeld 1\nB 10628 TV Refrath 3\nC 10002 STC BW Solingen 3\nD 10121 TV Witzhelden 1\nE 10590 TuS Scharnhorst 1\nF 10002 STC BW Solingen 2\nG 10042 Kölner FC BG 1\nH 10027 1.BC Beuel 3",
     "league_name": "NRW-Oberliga Süd",
     "season_name": "Saison 2018/2019",
