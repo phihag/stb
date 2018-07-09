@@ -637,6 +637,14 @@ function make_plan(team) {
         border: {right: {color: 'FF000000', style: 'thin'}},
         format: str_numfmt.id,
     });
+    var content_format_hrt_row = _xlsx_make_style(stylesheet, content_format_dict, {
+        protection: {'locked': false},
+        border: {
+            top: {style: 'none'},
+            bottom: {style: 'none'},
+        },
+        format: str_numfmt.id,
+    });
 
     var content_formatdict_right = $.extend(true, {}, content_format_dict);
     content_formatdict_right.border.right = {color: 'FF000000', style: 'thin'};
@@ -653,21 +661,27 @@ function make_plan(team) {
 
     var home_games = calc_home_games(team, state);
     $.each(home_games, function(game_index, home_game) {
+        var date_changed = (
+            (home_game.original_week_day !== home_game.week_day) ||
+            (home_game.original_date_str !== home_game.date_str) ||
+            (home_game.original_time_str !== home_game.time_str)
+        );
         var row_index = 8 + game_index;
-        data.push([
+            data.push([
             {value: home_game.daynum_str, metadata: {style: content_format_right.id}},
             {value: home_game.original_week_day, metadata: {style: content_format_left.id}},
             {value: home_game.original_date_str, metadata: {style: content_format.id}},
             {value: home_game.original_time_str, metadata: {style: content_format_right.id}},
-            {value: (home_game.adjourned ? home_game.week_day : ''), metadata: {style: content_format_changeable.id}},
-            {value: (home_game.adjourned ? home_game.date_str : ''), metadata: {style: content_format_changeable.id}},
-            {value: (home_game.adjourned ? home_game.time_str : ''), metadata: {style: content_format_changeable_right.id}},
+            {value: (date_changed ? home_game.week_day : ''), metadata: {style: content_format_changeable.id}},
+            {value: (date_changed ? home_game.date_str : ''), metadata: {style: content_format_changeable.id}},
+            {value: (date_changed ? home_game.time_str : ''), metadata: {style: content_format_changeable_right.id}},
             {value: format_team_name(home_game.home_team), metadata: {style: home_team_format.id}},
             {value: '-', metadata: {style: content_format.id}},
             {value: format_team_name(home_game.away_team), metadata: {style: away_team_format.id}},
             {value: '', metadata: {style: content_format_changeable.id}},
             {value: '', metadata: {style: content_format_changeable.id}},
             {value: '', metadata: {style: content_format_changeable_right.id}},
+            {value: (home_game.hrt ? 'HRT' : ''), metadata: {style: content_format_hrt_row.id}},
         ]);
         ws.setRowInstructions(row_index, {height: 30});
         ws.mergeCells('K' + (row_index + 1), 'M' + (row_index + 1));
