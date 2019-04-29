@@ -76,3 +76,7 @@ button .progress {
 	margin-top: -16px;
 	margin-left: -16px;
 }
+
+a:visited {
+	color: #0000ee;
+}
