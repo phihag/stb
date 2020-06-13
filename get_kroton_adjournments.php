@@ -15,14 +15,22 @@ if (! isset($_GET['base_url'])) {
 }
 
 $base_url = $_GET['base_url'];
-$matched = \preg_match('#^(?P<prefix>https?://(?:www\.)?turnier\.de/sport/)draw\.aspx\?id=(?P<id>[A-F0-9-]+)&draw=(?P<draw>[0-9]+)$#', $base_url, $m);
+$matched = \preg_match('#^(?P<prefix>https?://(?:www\.)?turnier\.de/sport/)league/draw\?id=(?P<id>[A-F0-9-]+)&draw=(?P<draw>[0-9]+)$#', $base_url, $m);
 if (! $matched) {
 	error('Invalid base_url', 400);
 }
 $url_prefix = $m['prefix'];
 
+$http_opts = [
+    'http' => [
+        'method' => 'GET',
+        'header' => 'Cookie: st=s=2&m=0&c=1&cp=20\r\n',
+    ]
+];
+$context = stream_context_create($http_opts);
+
 $gamelist_url = $url_prefix . 'drawmatches.aspx?id=' . $m['id'] . '&draw=' . $m['draw'];
-$gamelist_html = \file_get_contents($gamelist_url);
+$gamelist_html = \file_get_contents($gamelist_url, false, $context);
 
 $matched = \preg_match('#<table class="ruler matches">(.*?)</table>#s', $gamelist_html, $m);
 if (! $matched) {
