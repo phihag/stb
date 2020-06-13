@@ -139,7 +139,7 @@ function parse_dates(v) {
 function parse_teams(v) {
     var lines = v.split(/\n/);
     return $.map(lines, function(line) {
-        var m = line.match(/^([A-Z])\s+(\*?[0-9]+\*?)\s+(.+)$/);
+        var m = line.match(/^([A-Z])\s+(\*?[-0-9]+\*?)\s+(.+)$/);
         if (!m) {
             return {};
         }
