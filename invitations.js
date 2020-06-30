@@ -196,13 +196,12 @@ function _compare_date(d1, d2) {
 }
 
 function _unify_team_name(name) {
-    var res = name.replace(/^\s*\(\*?[0-9]+\*?\)\s+/, '');
+    var res = name.replace(/^\s*\(\*?[-0-9]+\*?\)\s+/, '');
     res = res.replace(/\s/g, '');
     res = res.replace(/\./g, '');
     res = res.toLowerCase();
     return res;
 }
-
 
 function find_game(state, home_name, away_name) {
     var home_name_search = _unify_team_name(home_name);
