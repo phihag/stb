@@ -5,7 +5,7 @@ const SOLUTION_COUNT = 5;
 function parse_input(input_str) {
 	const lines = input_str.split(/\n+/).filter(s => s).map(s => s.trim());
 	return lines.map(line => {
-		const m = /^(.+[0-9]+)((?:\s+[A-Z])*)$/.exec(line);
+		const m = /^(.+?)((?:\s+[A-Z])*)$/.exec(line);
 		if (!m) { // No wishes
 			return {
 				name: line,
