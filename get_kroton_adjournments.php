@@ -15,12 +15,11 @@ if (! isset($_GET['base_url'])) {
 }
 
 $base_url = $_GET['base_url'];
-$matched = \preg_match('#^(?P<prefix>https?://(?:www\.)?turnier\.de/sport/)league/draw\?id=(?P<id>[A-F0-9-]+)&draw=(?P<draw>[0-9]+)$#', $base_url, $m);
+$matched = \preg_match('#^(?P<prefix>https?://(?:www\.|dbv\.)?turnier\.de/sport/)league/draw\?id=(?P<id>[A-F0-9-]+)&draw=(?P<draw>[0-9]+)$#', $base_url, $m);
 if (! $matched) {
 	error('Invalid base_url', 400);
 }
 $url_prefix = $m['prefix'];
-
 $http_opts = [
     'http' => [
         'method' => 'GET',
@@ -31,6 +30,7 @@ $context = stream_context_create($http_opts);
 
 $gamelist_url = $url_prefix . 'drawmatches.aspx?id=' . $m['id'] . '&draw=' . $m['draw'];
 $gamelist_html = \file_get_contents($gamelist_url, false, $context);
+
 
 $matched = \preg_match('#<table class="ruler matches">(.*?)</table>#s', $gamelist_html, $m);
 if (! $matched) {
@@ -47,8 +47,8 @@ $gamelist_table = $m[1];
 <td\s+align="center">-</td>.*?
 <a\s+class="teamname"\s+href="[^"]*">(?P<away_team_name>[^<]+)</a>(?:</strong>)?</td>
 <td>[^<]*</td>
-<td><a.*?>[^<]*</a></td>
-<td>[^<]*</td>
+(?:<td><a.*?>[^<]*</a></td>)?
+(?:<td>[^<]*</td>)?
 <td>(?P<hrt><img\s+id="[^"]*"\s+class="icon_homeawayreversed".*?)?</td>
 #x', $gamelist_table, $lines, \PREG_SET_ORDER);
 
