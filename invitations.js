@@ -1353,7 +1353,7 @@ function _find(ar, func) {
 var presets = null;
 $.ajax({
     dataType: 'json',
-    url: 'presets.json',
+    url: `presets.json?ts=${Date.now()}`,
     success: function(loaded_presets) {
         presets = loaded_presets;
         $('#load').css({visibility: 'visible'});
