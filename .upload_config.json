@@ -1,11 +1,14 @@
 {
   "remotes": [
     {
-      "host": "phihag.de",
+      "host": "aufschlagwechsel.de",
       "port": 622,
       "dir": "/hosts/aufschlagwechsel.de/stb/",
       "username": "phihag",
-      "php_baseurl": "https://aufschlagwechsel.de/stb/"
+      "php_baseurl": "https://aufschlagwechsel.de/stb/",
+      "disabled_algorithms": {
+        "pubkeys": ["rsa-sha2-512", "rsa-sha2-256"]
+      }
     }
   ]
 }
