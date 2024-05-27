@@ -1,39 +1,39 @@
 [
 
   {
-    "dates_in": "27.08.2022 18:00 1. Spieltag A/H B/G C/F D/E\n03.09.2022 18:00 2. Spieltag G/A F/B E/C D/H\n10.09.2022 18:00 3. Spieltag A/F B/E C/D H/G\n24.09.2022 18:00 4. Spieltag E/A D/B F/H C/G\n29.10.2022 18:00 5. Spieltag A/D B/C H/E G/F\n05.11.2022 18:00 6. Spieltag C/A B/H D/G E/F\n19.11.2022 18:00 7. Spieltag A/B H/C F/D G/E\n10.12.2022 18:00 8. Spieltag H/A G/B F/C E/D\n17.12.2022 10:00 9. Spieltag B/A C/H D/F E/G\n14.01.2023 18:00 10. Spieltag A/C H/B G/D F/E\n21.01.2023 18:00 11. Spieltag D/A C/B E/H F/G\n28.01.2023 18:00 12. Spieltag A/E B/D H/F G/C\n25.02.2023 18:00 13. Spieltag F/A E/B D/C G/H\n19.03.2023 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 10324 BC Hohenlimburg 2\nB 10510 TuS Friedrichsdorf 1\nC 10887 SC BW Ostenland 1\nD 10628 TV Refrath 3\nE 10027 1.BC Beuel 3\nF 10048 1.BV Mülheim 2\nG 10177 Gladbecker FC 1\nH 10893 BC Phönix Hövelhof 1",
+    "dates_in": "26.08.2023 18:00 1. Spieltag A/H B/G C/F D/E\n02.09.2023 18:00 2. Spieltag G/A F/B E/C D/H\n09.09.2023 18:00 3. Spieltag A/F B/E C/D H/G\n10.09.2023 10:00 4. Spieltag E/A D/B F/H C/G\n23.09.2023 18:00 5. Spieltag A/D B/C H/E G/F\n21.10.2023 18:00 6. Spieltag C/A B/H D/G E/F\n04.11.2023 18:00 7. Spieltag A/B H/C F/D G/E\n25.11.2023 18:00 8. Spieltag H/A G/B F/C E/D\n09.12.2023 18:00 9. Spieltag B/A C/H D/F E/G\n13.01.2024 18:00 10. Spieltag A/C H/B G/D F/E\n27.01.2024 18:00 11. Spieltag D/A C/B E/H F/G\n17.02.2024 18:00 12. Spieltag A/E B/D H/F G/C\n24.02.2024 18:00 13. Spieltag F/A E/B D/C G/H\n17.03.2024 11:00 14. Spieltag A/G B/F C/E H/D",
+    "teams_in": "A 10628 TV Refrath 3\nB 10324 BC Hohenlimburg 1\nC 10033 1.CfB Köln 2\nD 10027 1.BC Beuel 3\nE 10048 1.BV Mülheim 2\nF 10286 Spvgg.Sterkrade-N. 1\nG 10146 Union Lüdinghausen 2\nH 10893 BC Phönix Hövelhof 1",
     "league_name": "Regionalliga West",
-    "season_name": "Saison 2023/2023",
-    "abbrev": "RL_2022",
+    "season_name": "Saison 2023/2024",
+    "abbrev": "RL_2023",
     "stb": "Helmut Wieneke",
-    "kroton_url": "https://dbv.turnier.de/sport/league/draw?id=7E329B44-7FFF-4C2E-99FB-094A8C017026&draw=3",
+    "kroton_url": "https://dbv.turnier.de/sport/league/draw?id=EF2527AC-3040-4220-B35F-AFD7D24332D6&draw=3",
     "adjournments": [],
     "hrts": [],
-    "key": "Regionalliga West Saison 2023/2023"
+    "key": "Regionalliga West Saison 2023/2024"
   },
   {
-    "dates_in": "27.08.2022 18:00 1. Spieltag A/H B/G C/F D/E\n03.09.2022 18:00 2. Spieltag G/A F/B E/C D/H\n10.09.2022 18:00 3. Spieltag A/F B/E C/D H/G\n24.09.2022 18:00 4. Spieltag E/A D/B F/H C/G\n29.10.2022 18:00 5. Spieltag A/D B/C H/E G/F\n05.11.2022 18:00 6. Spieltag C/A B/H D/G E/F\n19.11.2022 18:00 7. Spieltag A/B H/C F/D G/E\n10.12.2022 18:00 8. Spieltag H/A G/B F/C E/D\n17.12.2022 10:00 9. Spieltag B/A C/H D/F E/G\n14.01.2023 18:00 10. Spieltag A/C H/B G/D F/E\n21.01.2023 18:00 11. Spieltag D/A C/B E/H F/G\n28.01.2023 18:00 12. Spieltag A/E B/D H/F G/C\n25.02.2023 18:00 13. Spieltag F/A E/B D/C G/H\n19.03.2023 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 10347 BC Recklinghausen 1\nB 10063 BV RW Wesel 1\nC 10896 BC Ajax Bielefeld 1\nD 10146 Union Lüdinghausen 2\nE 10122 SC Münster 08 1\nF 10286 Spvgg.Sterkrade-N. 1\nG 10048 1.BV Mülheim 3\nH 10177 Gladbecker FC 2",
+    "dates_in": "26.08.2023 18:00 1. Spieltag A/H B/G C/F D/E\n02.09.2023 18:00 2. Spieltag G/A F/B E/C D/H\n09.09.2023 18:00 3. Spieltag A/F B/E C/D H/G\n10.09.2023 10:00 4. Spieltag E/A D/B F/H C/G\n23.09.2023 18:00 5. Spieltag A/D B/C H/E G/F\n21.10.2023 18:00 6. Spieltag C/A B/H D/G E/F\n04.11.2023 18:00 7. Spieltag A/B H/C F/D G/E\n25.11.2023 18:00 8. Spieltag H/A G/B F/C E/D\n09.12.2023 18:00 9. Spieltag B/A C/H D/F E/G\n13.01.2024 18:00 10. Spieltag A/C H/B G/D F/E\n27.01.2024 18:00 11. Spieltag D/A C/B E/H F/G\n17.02.2024 18:00 12. Spieltag A/E B/D H/F G/C\n24.02.2024 18:00 13. Spieltag F/A E/B D/C G/H\n17.03.2024 11:00 14. Spieltag A/G B/F C/E H/D",
+    "teams_in": "A 10510 TuS Friedrichsdorf 1\nB 10887 SC BW Ostenland 1\nC 10193 BC Herringen 1\nD 10133 Tbd. Osterfeld 1\nE 10063 BV RW Wesel 1\nF 10347 BC Recklinghausen 1\nG 10177 Gladbecker FC 2\nH 10510 TuS Friedrichsdorf 2",
     "league_name": "NRW-Oberliga Nord",
-    "season_name": "Saison 2023/2023",
-    "abbrev": "OLN_2022",
+    "season_name": "Saison 2023/2024",
+    "abbrev": "OLN_2023",
     "stb": "Helmut Wieneke",
-    "kroton_url": "https://dbv.turnier.de/sport/league/draw?id=7E329B44-7FFF-4C2E-99FB-094A8C017026&draw=4",
+    "kroton_url": "https://dbv.turnier.de/sport/league/draw?id=EF2527AC-3040-4220-B35F-AFD7D24332D6&draw=4",
     "adjournments": [],
     "hrts": [],
-    "key": "NRW-Oberliga Nord Saison 2023/2023"
+    "key": "NRW-Oberliga Nord Saison 2023/2024"
   },
   {
-    "dates_in": "27.08.2022 18:00 1. Spieltag A/H B/G C/F D/E\n03.09.2022 18:00 2. Spieltag G/A F/B E/C D/H\n10.09.2022 18:00 3. Spieltag A/F B/E C/D H/G\n24.09.2022 18:00 4. Spieltag E/A D/B F/H C/G\n29.10.2022 18:00 5. Spieltag A/D B/C H/E G/F\n05.11.2022 18:00 6. Spieltag C/A B/H D/G E/F\n19.11.2022 18:00 7. Spieltag A/B H/C F/D G/E\n10.12.2022 18:00 8. Spieltag H/A G/B F/C E/D\n17.12.2022 10:00 9. Spieltag B/A C/H D/F E/G\n14.01.2023 18:00 10. Spieltag A/C H/B G/D F/E\n21.01.2023 18:00 11. Spieltag D/A C/B E/H F/G\n28.01.2023 18:00 12. Spieltag A/E B/D H/F G/C\n25.02.2023 18:00 13. Spieltag F/A E/B D/C G/H\n19.03.2023 11:00 14. Spieltag A/G B/F C/E H/D",
-    "teams_in": "A 10002 STC BW Solingen 2\nB 10069 WMTV Solingen 1\nC 10718 SSV WBG Bochum 1\nD 10628 TV Refrath 4\nE 10033 1.CfB Köln 2\nF 10121 TV Witzhelden 1\nG 10671 DJK Teut. St.Tönis 1\nH 10138 TuS RW Wuppertal 1",
+    "dates_in": "26.08.2023 18:00 1. Spieltag A/H B/G C/F D/E\n02.09.2023 18:00 2. Spieltag G/A F/B E/C D/H\n09.09.2023 18:00 3. Spieltag A/F B/E C/D H/G\n10.09.2023 10:00 4. Spieltag E/A D/B F/H C/G\n23.09.2023 18:00 5. Spieltag A/D B/C H/E G/F\n21.10.2023 18:00 6. Spieltag C/A B/H D/G E/F\n04.11.2023 18:00 7. Spieltag A/B H/C F/D G/E\n25.11.2023 18:00 8. Spieltag H/A G/B F/C E/D\n09.12.2023 18:00 9. Spieltag B/A C/H D/F E/G\n13.01.2024 18:00 10. Spieltag A/C H/B G/D F/E\n27.01.2024 18:00 11. Spieltag D/A C/B E/H F/G\n17.02.2024 18:00 12. Spieltag A/E B/D H/F G/C\n24.02.2024 18:00 13. Spieltag F/A E/B D/C G/H\n17.03.2024 11:00 14. Spieltag A/G B/F C/E H/D",
+    "teams_in": "A 10628 TV Refrath 4\nB 10324 BC Hohenlimburg 3\nC 10163 SV Bergfried Lev. 1\nD 10718 SSV WBG Bochum 1\nE 10002 STC BW Solingen 2\nF 10671 SC St. Tönis 1\nG 10324 BC Hohenlimburg 2\nH 10121 TV Witzhelden 1",
     "league_name": "NRW-Oberliga Süd",
-    "season_name": "Saison 2023/2023",
-    "abbrev": "OLS_2022",
+    "season_name": "Saison 2023/2024",
+    "abbrev": "OLS_2023",
     "stb": "Helmut Wieneke",
-    "kroton_url": "https://dbv.turnier.de/sport/league/draw?id=7E329B44-7FFF-4C2E-99FB-094A8C017026&draw=5",
+    "kroton_url": "https://dbv.turnier.de/sport/league/draw?id=EF2527AC-3040-4220-B35F-AFD7D24332D6&draw=5",
     "adjournments": [],
     "hrts": [],
-    "key": "NRW-Oberliga Süd Saison 2023/2023"
+    "key": "NRW-Oberliga Süd Saison 2023/2024"
   }
 ]
