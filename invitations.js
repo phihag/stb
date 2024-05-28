@@ -704,7 +704,7 @@ function make_plan(team) {
     return workbook;
 }
 
-function make_xlsx_overview(altformat) {
+function make_xlsx_overview() {
     var state = calc(current_input);
 
     var workbook = ExcelBuilder.createWorkbook();
@@ -833,26 +833,12 @@ function make_xlsx_overview(altformat) {
         ws.mergeCells('H' + data.length, 'I' + data.length);
     }
 
-    if (!altformat) {
-        _write_header();
-    }
+    _write_header();
 
     $.each(state.rounds, function(_, round) {
-        if (altformat) {
-            _write_header();
-        }
-
-        var round_games = altformat ? round.games : round.sorted_games;
+        var round_games = round.sorted_games;
         $.each(round_games, function(_, game) {
             var first_cell = {value: ('' + game.daynum_str), _refstyle: 'center'};
-            if (altformat) {
-                if (game.daynum_idx === 1) {
-                    first_cell = {value: game.original_date_str, _refstyle: ('alt_origday')};
-                    ws.mergeCells('A' + (data.length + 1), 'A' + (data.length + game.daynum_count - 1));
-                } else if (game.daynum_idx > 1) {
-                    first_cell.value = '';
-                }
-            }
             var row = [
                 first_cell,
                 {value: game.week_day, _refstyle: (game.adjourned_weekday ? 'bold center' : 'center')},
@@ -874,7 +860,7 @@ function make_xlsx_overview(altformat) {
             });
 
             data.push(row);
-            if (game.is_multigame_day && game.is_first_game_on_day && !altformat) {
+            if (game.is_multigame_day && game.is_first_game_on_day) {
                 ws.mergeCells('A' + data.length, 'A' + (data.length + game.game_count - 1));
             }
             ws.setRowInstructions(data.length - 1, {
@@ -900,9 +886,8 @@ function make_xlsx_overview(altformat) {
     return workbook;
 }
 
-function make_overview(altformat) {
+function make_overview() {
     var state = calc(current_input);
-    state.altformat = !! altformat;
     return Mustache.render(spielplan_template, state);
 }
 
@@ -1175,22 +1160,10 @@ function on_change() {
             new Blob([make_overview()], {type: 'text/html;charset=utf-8'}),
             overview_fn);
     });
-    var overview_altformat_fn = 'SpielplanAlt_' + state.abbrev + '.html';
-    _file_link(overview_altformat_fn, function() {
-        saveAs(
-            new Blob([make_overview(true)], {type: 'text/html;charset=utf-8'}),
-            overview_altformat_fn);
-    });
     var xlsx_overview_fn = 'Spielplan_' + state.abbrev + '.xlsx';
     _file_link(xlsx_overview_fn, function() {
         saveAs(
             ExcelBuilder.createFile(make_xlsx_overview(), {type: 'blob'}),
-            xlsx_overview_fn);
-    });
-    var xlsx_overview_altformat_fn = 'SpielplanAlt_' + state.abbrev + '.xlsx';
-    _file_link(xlsx_overview_altformat_fn, function() {
-        saveAs(
-            ExcelBuilder.createFile(make_xlsx_overview(true), {type: 'blob'}),
             xlsx_overview_fn);
     });
     $.each(state.teams, function(_, team) {
@@ -1210,11 +1183,8 @@ function on_change() {
     _file_link('Alle Dateien als zip', function() {
         var zip = new JSZip();
         zip.file(overview_fn, make_overview(false), {binary: false});
-        zip.file(overview_altformat_fn, make_overview(true), {binary: false});
         var overview_xlsx = ExcelBuilder.createFile(make_xlsx_overview(), {type: 'base64'});
         zip.file(xlsx_overview_fn, overview_xlsx, {binary: true, base64: true});
-        var overview_xlsx_alt = ExcelBuilder.createFile(make_xlsx_overview(true), {type: 'base64'});
-        zip.file(xlsx_overview_altformat_fn, overview_xlsx, {binary: true, base64: true});
         $.each(state.teams, function(_, team) {
             var file_name = 'Heimspiele ' + team.name + '.xlsx';
             var contents = ExcelBuilder.createFile(make_plan(team), {type: 'base64'});
