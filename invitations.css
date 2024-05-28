@@ -80,3 +80,12 @@ button .progress {
 a:visited {
 	color: #0000ee;
 }
+
+
+@media print {
+	#load, .inputs, #output-files { display: none;}
+	html, body {
+		margin: 0;
+		padding: 0;
+	}
+}
