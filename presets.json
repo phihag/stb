@@ -1,7 +1,7 @@
 [
 
   {
-    "dates_in": "06.09.2025 18:00 1. Spieltag A/H B/G C/F D/E\n20.09.2025 18:00 2. Spieltag G/A F/B E/C D/H\n21.09.2025 18:00 3. Spieltag A/F B/E C/D H/G\n04.10.2025 18:00 4. Spieltag E/A D/B F/H C/G\n15.11.2025 18:00 5. Spieltag A/D B/C H/E G/F\n22.11.2025 18:00 6. Spieltag C/A B/H D/G E/F\n06.12.2025 18:00 7. Spieltag A/B H/C F/D G/E\n17.01.2026 18:00 8. Spieltag H/A G/B F/C E/D\n24.01.2026 18:00 9. Spieltag B/A C/H D/F E/G\n07.02.2026 18:00 10. Spieltag A/C H/B G/D F/E\n21.02.2026 18:00 11. Spieltag D/A C/B E/H F/G\n28.02.2026 18:00 12. Spieltag A/E B/D H/F G/C\n07.03.2026 18:00 13. Spieltag F/A E/B D/C G/H\n22.03.2026 11:00 14. Spieltag A/G B/F C/E H/D",
+    "dates_in": "06.09.2025 18:00 1. Spieltag A/H B/G C/F D/E\n20.09.2025 18:00 2. Spieltag G/A F/B E/C D/H\n21.09.2025 10:00 3. Spieltag A/F B/E C/D H/G\n04.10.2025 18:00 4. Spieltag E/A D/B F/H C/G\n15.11.2025 18:00 5. Spieltag A/D B/C H/E G/F\n22.11.2025 18:00 6. Spieltag C/A B/H D/G E/F\n06.12.2025 18:00 7. Spieltag A/B H/C F/D G/E\n17.01.2026 18:00 8. Spieltag H/A G/B F/C E/D\n24.01.2026 18:00 9. Spieltag B/A C/H D/F E/G\n07.02.2026 18:00 10. Spieltag A/C H/B G/D F/E\n21.02.2026 18:00 11. Spieltag D/A C/B E/H F/G\n28.02.2026 18:00 12. Spieltag A/E B/D H/F G/C\n07.03.2026 18:00 13. Spieltag F/A E/B D/C G/H\n22.03.2026 11:00 14. Spieltag A/G B/F C/E H/D",
     "teams_in": "A 10962 1.BC Wipperfeld 3\nB 10033 1.CfB Köln 1\nC 10063 BV RW Wesel 1\nD 10324 BC Hohenlimburg 1\nE 10048 1.BV Mülheim 2\nF 10027 1.BC Beuel 2\nG 10177 Gladbecker FC 2\nH 10628 TV Refrath 3",
     "league_name": "Regionalliga West",
     "season_name": "Saison 2025/2026",
@@ -13,7 +13,7 @@
     "key": "Regionalliga West Saison 2025/2026"
   },
   {
-    "dates_in": "06.09.2025 18:00 1. Spieltag A/H B/G C/F D/E\n20.09.2025 18:00 2. Spieltag G/A F/B E/C D/H\n21.09.2025 18:00 3. Spieltag A/F B/E C/D H/G\n04.10.2025 18:00 4. Spieltag E/A D/B F/H C/G\n15.11.2025 18:00 5. Spieltag A/D B/C H/E G/F\n22.11.2025 18:00 6. Spieltag C/A B/H D/G E/F\n06.12.2025 18:00 7. Spieltag A/B H/C F/D G/E\n17.01.2026 18:00 8. Spieltag H/A G/B F/C E/D\n24.01.2026 18:00 9. Spieltag B/A C/H D/F E/G\n07.02.2026 18:00 10. Spieltag A/C H/B G/D F/E\n21.02.2026 18:00 11. Spieltag D/A C/B E/H F/G\n28.02.2026 18:00 12. Spieltag A/E B/D H/F G/C\n07.03.2026 18:00 13. Spieltag F/A E/B D/C G/H\n22.03.2026 11:00 14. Spieltag A/G B/F C/E H/D",
+    "dates_in": "06.09.2025 18:00 1. Spieltag A/H B/G C/F D/E\n20.09.2025 18:00 2. Spieltag G/A F/B E/C D/H\n21.09.2025 10:00 3. Spieltag A/F B/E C/D H/G\n04.10.2025 18:00 4. Spieltag E/A D/B F/H C/G\n15.11.2025 18:00 5. Spieltag A/D B/C H/E G/F\n22.11.2025 18:00 6. Spieltag C/A B/H D/G E/F\n06.12.2025 18:00 7. Spieltag A/B H/C F/D G/E\n17.01.2026 18:00 8. Spieltag H/A G/B F/C E/D\n24.01.2026 18:00 9. Spieltag B/A C/H D/F E/G\n07.02.2026 18:00 10. Spieltag A/C H/B G/D F/E\n21.02.2026 18:00 11. Spieltag D/A C/B E/H F/G\n28.02.2026 18:00 12. Spieltag A/E B/D H/F G/C\n07.03.2026 18:00 13. Spieltag F/A E/B D/C G/H\n22.03.2026 11:00 14. Spieltag A/G B/F C/E H/D",
     "teams_in": "A 10893 BC Phönix Hövelhof 2\nB 10372 TV Datteln 2\nC 10887 SC BW Ostenland 1\nD 10510 TuS Friedrichsdorf 1\nE 10510 TuS Friedrichsdorf 2\nF 10286 Spvgg.Sterkrade-N. 2\nG 10146 Union Lüdinghausen 3\nH 10193 BC Herringen 1",
     "league_name": "NRW-Oberliga Nord",
     "season_name": "Saison 2025/2026",
@@ -25,7 +25,7 @@
     "key": "NRW-Oberliga Nord Saison 2025/2026"
   },
   {
-    "dates_in": "06.09.2025 18:00 1. Spieltag A/H B/G C/F D/E\n20.09.2025 18:00 2. Spieltag G/A F/B E/C D/H\n21.09.2025 18:00 3. Spieltag A/F B/E C/D H/G\n04.10.2025 18:00 4. Spieltag E/A D/B F/H C/G\n15.11.2025 18:00 5. Spieltag A/D B/C H/E G/F\n22.11.2025 18:00 6. Spieltag C/A B/H D/G E/F\n06.12.2025 18:00 7. Spieltag A/B H/C F/D G/E\n17.01.2026 18:00 8. Spieltag H/A G/B F/C E/D\n24.01.2026 18:00 9. Spieltag B/A C/H D/F E/G\n07.02.2026 18:00 10. Spieltag A/C H/B G/D F/E\n21.02.2026 18:00 11. Spieltag D/A C/B E/H F/G\n28.02.2026 18:00 12. Spieltag A/E B/D H/F G/C\n07.03.2026 18:00 13. Spieltag F/A E/B D/C G/H\n22.03.2026 11:00 14. Spieltag A/G B/F C/E H/D",
+    "dates_in": "06.09.2025 18:00 1. Spieltag A/H B/G C/F D/E\n20.09.2025 18:00 2. Spieltag G/A F/B E/C D/H\n21.09.2025 10:00 3. Spieltag A/F B/E C/D H/G\n04.10.2025 18:00 4. Spieltag E/A D/B F/H C/G\n15.11.2025 18:00 5. Spieltag A/D B/C H/E G/F\n22.11.2025 18:00 6. Spieltag C/A B/H D/G E/F\n06.12.2025 18:00 7. Spieltag A/B H/C F/D G/E\n17.01.2026 18:00 8. Spieltag H/A G/B F/C E/D\n24.01.2026 18:00 9. Spieltag B/A C/H D/F E/G\n07.02.2026 18:00 10. Spieltag A/C H/B G/D F/E\n21.02.2026 18:00 11. Spieltag D/A C/B E/H F/G\n28.02.2026 18:00 12. Spieltag A/E B/D H/F G/C\n07.03.2026 18:00 13. Spieltag F/A E/B D/C G/H\n22.03.2026 11:00 14. Spieltag A/G B/F C/E H/D",
     "teams_in": "A 10027 1.BC Beuel 3\nB 10033 1.CfB Köln 2\nC 10671 SC St. Tönis 1\nD 10042 Kölner FC BG 1\nE 10163 SV Bergfried Lev. 1 \nF 10317 TV Hoffn.Littfeld 1\nG 10628 TV Refrath 4\nH 10324 BC Hohenlimburg 2",
     "league_name": "NRW-Oberliga Süd",
     "season_name": "Saison 2025/2026",
