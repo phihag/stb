@@ -196,10 +196,16 @@ function _compare_date(d1, d2) {
 }
 
 function _unify_team_name(name) {
-    var res = name.replace(/^\s*\(\*?[-0-9]+\*?\)\s+/, '');
-    res = res.replace(/\s/g, '');
-    res = res.replace(/\./g, '');
-    res = res.toLowerCase();
+    var res = (
+        name
+        .replace('Sterkrade-N.', 'Sterkrade-Nord')
+        .replace('SC Union 08 Lüdinghausen', 'Union Lüdinghausen')
+        .replace('SV Bergfried Leverkusen', 'SV Bergfried Lev.')
+        .replace(/^\s*\(\*?[-0-9]+\*?\)\s+/, '')
+        .replace(/\s/g, '')
+        .replace(/\./g, '')
+        .toLowerCase());
+
     return res;
 }
 
@@ -211,8 +217,9 @@ function find_game(state, home_name, away_name) {
         var games = state.rounds[i].games;
         for (var j = 0;j < games.length;j++) {
             var game = games[j];
-            if ((_unify_team_name(game.original_home_team.name) == home_name_search) &&
-                    (_unify_team_name(game.original_away_team.name) == away_name_search)) {
+            var home_eq = _unify_team_name(game.original_home_team.name) == home_name_search;
+            var away_eq = _unify_team_name(game.original_away_team.name) == away_name_search;
+            if (home_eq && away_eq) {
                 return game;
             }
         }
